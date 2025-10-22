@@ -1,24 +1,37 @@
-# Database
+# Supabase Configuration
 
-This folder contains database schemas, migrations, and configurations for Supabase integration.
+## Project Setup
+This directory contains database schema, migrations, and configuration for Supabase integration.
 
-## Technology Stack
-- **Database**: Supabase (PostgreSQL)
-- **Migrations**: SQL-based schema management
-- **Integration**: Automated via GitHub Actions
+## Structure
+- `migrations/` - Database migration files
+- `schema/` - Database schema definitions
+- `types/` - Generated TypeScript types
+- `config.toml` - Supabase project configuration
 
-## Configuration
-- Database schemas and table definitions
-- Migration scripts
-- Environment variables for connection
+## Getting Started
 
-## Development
-1. Define database schema
-2. Create migration scripts
-3. Set up connection configuration
-4. Deploy automatically via GitHub Actions
+1. Install Supabase CLI:
+   ```bash
+   npm install -g supabase
+   ```
 
-## Deployment
-- Automatic schema updates on changes to `database/` folder
-- Backup and recovery procedures
-- Production deployment on main branch
+2. Link to your Supabase project:
+   ```bash
+   supabase link --project-ref YOUR_PROJECT_REF
+   ```
+
+3. Run migrations:
+   ```bash
+   supabase db push
+   ```
+
+4. Generate types:
+   ```bash
+   supabase gen types typescript --local > types/supabase.ts
+   ```
+
+## Environment Variables
+- `SUPABASE_URL` - Your Supabase project URL
+- `SUPABASE_ANON_KEY` - Your Supabase anonymous key
+- `SUPABASE_SERVICE_ROLE_KEY` - Your Supabase service role key (server-side only)

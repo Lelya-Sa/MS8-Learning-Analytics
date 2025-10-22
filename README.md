@@ -1,47 +1,28 @@
-# 🚀 MS8-Learning-Analytics
+# MS8-Learning-Analytics
 
-**Framework**: Automated GitHub Actions CI/CD pipeline and multi-service deployment setup for MS8-Learning-Analytics repository.
+A comprehensive learning analytics platform with automated CI/CD pipeline and multi-service deployment infrastructure.
 
-**Architecture**: Monorepo with folder-based deployments
+## Architecture
+
+This is a monorepo with folder-based deployments:
 - `frontend/` → Vercel deployment
 - `backend/` → Railway deployment  
 - `database/` → Supabase integration
 
-**Stack**: Technology-agnostic - works with any frontend/backend/database stack
+## Technology Stack
 
-## 📋 Project Structure
+Technology-agnostic infrastructure supporting any frontend/backend/database stack.
 
-```
-MS8-Learning-Analytics/
-├── frontend/          # Frontend application (Vercel deployment)
-├── backend/           # Backend API (Railway deployment)
-├── database/          # Database schemas and migrations (Supabase)
-├── .github/
-│   └── workflows/    # GitHub Actions CI/CD workflows
-└── README.md
-```
+## Getting Started
 
-## 🚀 Quick Start
+1. Clone the repository
+2. Follow the infrastructure setup documentation
+3. Deploy services using the automated CI/CD pipeline
 
-1. **Development**: Each folder contains its respective application
-2. **Deployment**: Automated via GitHub Actions on folder changes
-3. **Services**: Integrated with Vercel, Railway, and Supabase
+## Contributing
 
-## 🔧 Infrastructure
+Please read our contribution guidelines and follow the established workflows.
 
-- **CI/CD**: GitHub Actions with folder-based triggers
-- **Frontend**: Vercel deployment
-- **Backend**: Railway deployment
-- **Database**: Supabase integration
-- **Security**: Security-first approach with automated scanning
+## License
 
-## 📚 Documentation
-
-- [Infrastructure Setup Guide](./docs/infrastructure-setup.md)
-- [Deployment Guide](./docs/deployment.md)
-- [Security Policies](./docs/security.md)
-
----
-
-**Status**: Infrastructure setup in progress
-**Last Updated**: $(Get-Date -Format "yyyy-MM-dd")
+[License information to be added]

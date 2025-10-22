@@ -1,3 +1,4 @@
+---
 name: Feature Request
 about: Suggest an idea for this project
 title: '[FEATURE] '
@@ -6,25 +7,14 @@ assignees: ''
 
 ---
 
-## 🚀 Feature Description
-A clear and concise description of what the feature is.
+**Is your feature request related to a problem? Please describe.**
+A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
-## 💡 Motivation
-Why is this feature needed? What problem does it solve?
+**Describe the solution you'd like**
+A clear and concise description of what you want to happen.
 
-## 📋 Detailed Description
-A detailed description of the feature and how it should work.
+**Describe alternatives you've considered**
+A clear and concise description of any alternative solutions or features you've considered.
 
-## 🎯 Acceptance Criteria
-- [ ] Criteria 1
-- [ ] Criteria 2
-- [ ] Criteria 3
-
-## 🔄 Alternatives Considered
-Describe any alternative solutions or features you've considered.
-
-## 📸 Mockups/Examples
-If applicable, add mockups or examples to help explain the feature.
-
-## 📝 Additional Context
+**Additional context**
 Add any other context or screenshots about the feature request here.

@@ -1,32 +1,64 @@
 # Contributing to MS8-Learning-Analytics
 
-Thank you for your interest in contributing to MS8-Learning-Analytics! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to MS8-Learning-Analytics! This document provides guidelines for contributing to our project.
 
-## 🚀 Getting Started
+## Code of Conduct
 
-### Prerequisites
-- Git
-- Node.js (if working on frontend/backend)
-- Access to development environment
+This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code.
 
-### Setup
+## Getting Started
+
 1. Fork the repository
 2. Clone your fork locally
-3. Create a feature branch
+3. Create a new branch for your feature or bugfix
 4. Make your changes
-5. Test your changes
+5. Test your changes thoroughly
 6. Submit a pull request
 
-## 📋 Development Guidelines
+## Development Setup
 
-### Code Style
-- Follow existing code style and patterns
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Git
+
+### Local Development
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   cd frontend && npm install
+   cd ../backend && npm install
+   ```
+3. Set up environment variables (see `.env.example` files)
+4. Start development servers:
+   ```bash
+   # Terminal 1 - Backend
+   cd backend && npm run dev
+   
+   # Terminal 2 - Frontend
+   cd frontend && npm run dev
+   ```
+
+## Pull Request Process
+
+1. Ensure your code follows our style guidelines
+2. Add tests for new functionality
+3. Ensure all tests pass
+4. Update documentation as needed
+5. Submit your pull request with a clear description
+
+## Coding Standards
+
 - Use meaningful variable and function names
-- Add comments for complex logic
+- Write clear, concise comments
+- Follow the existing code style
+- Write tests for new features
 - Keep functions small and focused
 
-### Commit Messages
-Use conventional commit format:
+## Commit Message Format
+
+Use conventional commits format:
 - `feat:` for new features
 - `fix:` for bug fixes
 - `docs:` for documentation changes
@@ -35,73 +67,20 @@ Use conventional commit format:
 - `test:` for adding tests
 - `chore:` for maintenance tasks
 
-### Testing
-- Write tests for new functionality
-- Ensure all tests pass before submitting
-- Test across different environments when possible
+## Testing
 
-## 🏗️ Project Structure
+- Write unit tests for new features
+- Ensure integration tests pass
+- Test your changes across different browsers/devices
 
-```
-MS8-Learning-Analytics/
-├── frontend/          # Frontend application
-├── backend/           # Backend API
-├── database/          # Database schemas
-├── .github/
-│   └── workflows/    # CI/CD workflows
-└── docs/             # Documentation
-```
+## Reporting Issues
 
-## 🔄 Pull Request Process
-
-1. **Create Issue**: Discuss major changes in an issue first
-2. **Fork & Branch**: Create a feature branch from main
-3. **Develop**: Make your changes following guidelines
-4. **Test**: Ensure all tests pass
-5. **Submit**: Create pull request with clear description
-6. **Review**: Address feedback from reviewers
-7. **Merge**: Once approved, changes will be merged
-
-## 🐛 Bug Reports
-
-When reporting bugs, please include:
-- Clear description of the issue
+When reporting issues, please include:
+- Clear description of the problem
 - Steps to reproduce
 - Expected vs actual behavior
-- Environment details
-- Screenshots if applicable
+- Environment details (OS, browser, etc.)
 
-## 💡 Feature Requests
+## Questions?
 
-When requesting features, please include:
-- Clear description of the feature
-- Use case and motivation
-- Acceptance criteria
-- Mockups or examples if applicable
-
-## 📚 Documentation
-
-- Update documentation for any changes
-- Follow existing documentation style
-- Include examples where helpful
-- Keep documentation up to date
-
-## 🔒 Security
-
-- Report security vulnerabilities privately
-- Follow responsible disclosure practices
-- Do not include sensitive information in issues/PRs
-
-## 📞 Support
-
-- Check existing issues before creating new ones
-- Use appropriate labels for issues
-- Be respectful and constructive in discussions
-
-## 📄 License
-
-By contributing, you agree that your contributions will be licensed under the same license as the project.
-
----
-
-Thank you for contributing to MS8-Learning-Analytics! 🎉
+If you have questions, please open an issue or reach out to the maintainers.
