@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MS8 Learning Analytics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <h1 class="logo">📊 MS8 Learning Analytics</h1>
+                <nav class="nav">
+                    <a href="#dashboard" class="nav-link">Dashboard</a>
+                    <a href="#analytics" class="nav-link">Analytics</a>
+                    <a href="#reports" class="nav-link">Reports</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                <section class="hero">
+                    <h2 class="hero-title">Welcome to Learning Analytics Platform</h2>
+                    <p class="hero-description">
+                        Comprehensive analytics and insights for educational data management and student performance tracking.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary">Get Started</button>
+                        <button class="btn btn-secondary">Learn More</button>
+                    </div>
+                </section>
+
+                <section class="features">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📈</div>
+                            <h3>Performance Analytics</h3>
+                            <p>Track student performance and learning outcomes with detailed analytics.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Goal Tracking</h3>
+                            <p>Set and monitor educational goals with progress tracking.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Data Visualization</h3>
+                            <p>Interactive charts and graphs for comprehensive data insights.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="status">
+                    <div class="status-card">
+                        <h3>🚀 Infrastructure Status</h3>
+                        <div class="status-items">
+                            <div class="status-item">
+                                <span class="status-label">Frontend:</span>
+                                <span class="status-value status-success">✅ Vercel Ready</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Backend:</span>
+                                <span class="status-value status-pending">⏳ Railway Setup</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Database:</span>
+                                <span class="status-value status-pending">⏳ Supabase Setup</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 MS8 Learning Analytics. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Basic JavaScript functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('MS8 Learning Analytics Frontend Loaded');
+            
+            // Add click handlers for buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    console.log('Button clicked:', this.textContent);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

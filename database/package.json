@@ -1,0 +1,32 @@
+{
+  "name": "ms8-learning-analytics-database",
+  "version": "1.0.0",
+  "description": "Database configuration and migrations for MS8 Learning Analytics platform",
+  "main": "index.js",
+  "scripts": {
+    "migrate": "supabase db push",
+    "reset": "supabase db reset",
+    "seed": "supabase db seed",
+    "generate-types": "supabase gen types typescript --local > types/database.types.ts"
+  },
+  "keywords": [
+    "learning-analytics",
+    "education",
+    "database",
+    "supabase",
+    "postgresql"
+  ],
+  "author": "MS8 Learning Analytics Team",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.21.0",
+    "postgres": "^3.3.0"
+  },
+  "devDependencies": {
+    "supabase": "^1.95.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
