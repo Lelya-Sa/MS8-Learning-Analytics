@@ -5,96 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MS8 Learning Analytics</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 </head>
 <body>
-    <div id="app">
+    <div class="container">
         <header class="header">
-            <div class="container">
-                <h1 class="logo">📊 MS8 Learning Analytics</h1>
-                <nav class="nav">
-                    <a href="#dashboard" class="nav-link">Dashboard</a>
-                    <a href="#analytics" class="nav-link">Analytics</a>
-                    <a href="#reports" class="nav-link">Reports</a>
-                </nav>
-            </div>
+            <h1>📊 MS8 Learning Analytics</h1>
+            <p class="subtitle">Comprehensive Learning Analytics Platform</p>
         </header>
-
+        
         <main class="main">
-            <div class="container">
-                <section class="hero">
-                    <h2 class="hero-title">Welcome to Learning Analytics Platform</h2>
-                    <p class="hero-description">
-                        Comprehensive analytics and insights for educational data management and student performance tracking.
-                    </p>
-                    <div class="hero-actions">
-                        <button class="btn btn-primary">Get Started</button>
-                        <button class="btn btn-secondary">Learn More</button>
+            <div class="status-card">
+                <h2>🚀 Infrastructure Status</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="status-icon">✅</span>
+                        <span class="status-text">Frontend (Vercel)</span>
+                        <span class="status-badge success">Connected</span>
                     </div>
-                </section>
-
-                <section class="features">
-                    <div class="feature-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">📈</div>
-                            <h3>Performance Analytics</h3>
-                            <p>Track student performance and learning outcomes with detailed analytics.</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">🎯</div>
-                            <h3>Goal Tracking</h3>
-                            <p>Set and monitor educational goals with progress tracking.</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">📊</div>
-                            <h3>Data Visualization</h3>
-                            <p>Interactive charts and graphs for comprehensive data insights.</p>
-                        </div>
+                    <div class="status-item">
+                        <span class="status-icon">⚙️</span>
+                        <span class="status-text">Backend (Railway)</span>
+                        <span class="status-badge pending">Connecting</span>
                     </div>
-                </section>
-
-                <section class="status">
-                    <div class="status-card">
-                        <h3>🚀 Infrastructure Status</h3>
-                        <div class="status-items">
-                            <div class="status-item">
-                                <span class="status-label">Frontend:</span>
-                                <span class="status-value status-success">✅ Vercel Ready</span>
-                            </div>
-                            <div class="status-item">
-                                <span class="status-label">Backend:</span>
-                                <span class="status-value status-pending">⏳ Railway Setup</span>
-                            </div>
-                            <div class="status-item">
-                                <span class="status-label">Database:</span>
-                                <span class="status-value status-pending">⏳ Supabase Setup</span>
-                            </div>
-                        </div>
+                    <div class="status-item">
+                        <span class="status-icon">🗄️</span>
+                        <span class="status-text">Database (Supabase)</span>
+                        <span class="status-badge pending">Connecting</span>
                     </div>
-                </section>
+                </div>
+            </div>
+            
+            <div class="features-card">
+                <h2>🎯 Key Features</h2>
+                <ul class="features-list">
+                    <li>📈 Real-time Learning Analytics</li>
+                    <li>📊 Interactive Data Visualization</li>
+                    <li>🎓 Student Progress Tracking</li>
+                    <li>📋 Performance Metrics Dashboard</li>
+                    <li>🔍 Advanced Reporting Tools</li>
+                </ul>
+            </div>
+            
+            <div class="tech-card">
+                <h2>🛠️ Technology Stack</h2>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <strong>Frontend:</strong> Vite + Vanilla JS
+                    </div>
+                    <div class="tech-item">
+                        <strong>Backend:</strong> Node.js/Python
+                    </div>
+                    <div class="tech-item">
+                        <strong>Database:</strong> Supabase (PostgreSQL)
+                    </div>
+                    <div class="tech-item">
+                        <strong>Deployment:</strong> Vercel + Railway
+                    </div>
+                </div>
             </div>
         </main>
-
+        
         <footer class="footer">
-            <div class="container">
-                <p>&copy; 2024 MS8 Learning Analytics. All rights reserved.</p>
-            </div>
+            <p>MS8 Learning Analytics Platform - Infrastructure Setup Complete</p>
         </footer>
     </div>
-
-    <script>
-        // Basic JavaScript functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('MS8 Learning Analytics Frontend Loaded');
-            
-            // Add click handlers for buttons
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    console.log('Button clicked:', this.textContent);
-                });
-            });
-        });
-    </script>
+    
+    <script src="app.js"></script>
 </body>
 </html>
