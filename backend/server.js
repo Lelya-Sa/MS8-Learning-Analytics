@@ -34,6 +34,14 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Import route modules
+const authRoutes = require('./routes/auth');
+const analyticsRoutes = require('./routes/analytics');
+const reportsRoutes = require('./routes/reports');
+const dataCollectionRoutes = require('./routes/data-collection');
+const bffRoutes = require('./routes/bff');
+const integrationRoutes = require('./routes/integration');
+
 // API routes
 app.get('/api/status', (req, res) => {
     res.json({
@@ -48,7 +56,15 @@ app.get('/api/status', (req, res) => {
     });
 });
 
-// Learning Analytics API endpoints
+// Mount API routes
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/analytics', analyticsRoutes);
+app.use('/api/v1/reports', reportsRoutes);
+app.use('/api/v1/data-collection', dataCollectionRoutes);
+app.use('/api/v1/bff', bffRoutes);
+app.use('/api/v1/integration', integrationRoutes);
+
+// Legacy Learning Analytics API endpoints (for backward compatibility)
 app.get('/api/analytics/overview', (req, res) => {
     res.json({
         totalStudents: 1250,
@@ -101,11 +117,13 @@ app.use('*', (req, res) => {
     });
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 MS8 Learning Analytics Backend running on port ${PORT}`);
-    console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🔗 Health check: http://localhost:${PORT}/api/health`);
-});
+// Start server only if not in test environment
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {
+        console.log(`🚀 MS8 Learning Analytics Backend running on port ${PORT}`);
+        console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+        console.log(`🔗 Health check: ${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${PORT}`}/api/health`);
+    });
+}
 
 module.exports = app;

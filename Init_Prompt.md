@@ -61,45 +61,48 @@ Each phase produces Enhanced Semantic Markdown output with actionable next steps
 #### **PHASE 1A: Requirements Gathering**
 **Roles**: TL, RE, SA, SE, IE, PE, DA
 **Steps**:
-1. **🎯 Gather**: Technical requirements, functional requirements, non-functional requirements
-2. **🤔 Strategic**: Use multi-role mediated debate for requirements decisions (15 rounds until consensus, TL, RE, PM participate, integrate decision into phase execution)
-3. **📊 Analyze**: Project complexity based on scope, security, integration needs
-4. **📋 Document**: Requirements specification, acceptance criteria
-5. **✅ Validate**: Requirements confirmed, complexity assessed
-6. **📋 CONFIRM**: Present subphase summary, show deliverables, explain Phase 1B scope
-7. **✅ PROCEED**: Continue to Phase 1B
+1. **🎯 Gather**: Project overview, technical requirements, functional requirements, non-functional requirements
+2. **❓ Clarify**: Ask essential clarifying questions for project scope, technology stack, performance requirements, security needs, integration requirements
+3. **🤔 Strategic**: Use multi-role mediated debate for requirements decisions (15 rounds until consensus, TL, RE, PM participate, integrate decision into phase execution)
+4. **📊 Analyze**: Project complexity based on scope, security, integration needs
+5. **📋 Document**: Requirements specification, acceptance criteria
+6. **✅ Validate**: Requirements confirmed, complexity assessed
+7. **📋 CONFIRM**: Present subphase summary, show deliverables, explain Phase 1B scope
+8. **✅ PROCEED**: Continue to Phase 1B
 
 #### **PHASE 1B: Scope Definition**
 **Roles**: TL, PM, SA, SE, IE, PE, DA
 **Steps**:
 1. **🎯 Define**: Project scope, boundaries, constraints, success criteria
-2. **🤔 Strategic**: Use multi-role mediated debate for scope decisions (15 rounds until consensus, TL, PM, RE participate, integrate decision into phase execution)
-3. **📊 Assess**: Technical feasibility, resource requirements
-4. **📋 Plan**: Project scope definition, technical constraints
-5. **✅ Validate**: Scope defined, constraints established
-6. **📋 CONFIRM**: Present subphase summary, show deliverables, explain Phase 1C scope
-7. **✅ PROCEED**: Continue to Phase 1C
+2. **❓ Clarify**: Ask detailed clarifying questions for functional requirements, user workflows, business rules, quality standards
+3. **🤔 Strategic**: Use multi-role mediated debate for scope decisions (15 rounds until consensus, TL, PM, RE participate, integrate decision into phase execution)
+4. **📊 Assess**: Technical feasibility, resource requirements
+5. **📋 Plan**: Project scope definition, technical constraints
+6. **✅ Validate**: Scope defined, constraints established
+7. **📋 CONFIRM**: Present subphase summary, show deliverables, explain Phase 1C scope
+8. **✅ PROCEED**: Continue to Phase 1C
 
 #### **PHASE 1C: Planning**
 **Roles**: TL, PM, QA, SA, SE, IE, PE, DA
 **Steps**:
 1. **🎯 Plan**: Project roadmap, timeline, resource allocation
-2. **🤔 Strategic**: Use multi-role mediated debate for planning decisions (15 rounds until consensus, TL, PM, RE, QA participate, integrate decision into phase execution)
-3. **📊 Assess**: Technical roadmap, implementation timeline
-4. **📋 Generate**: Project roadmap, technical milestones
-5. **🧪 QA Strategy**: Test strategy, test pyramid (70% unit, 20% integration, 10% e2e), coverage requirements (85%+), test data strategy, test automation strategy
-6. **🏗️ Implementation Patterns**: Coding standards, design patterns, architectural patterns, component interfaces, state management patterns
-7. **📊 Database Implementation**: ORM patterns, query optimization strategies, migration patterns, data model patterns
-8. **🔗 Integration Patterns**: API testing patterns, mock strategies, integration testing patterns, deployment patterns
-9. **⚡ Performance Guidelines**: Caching strategies, optimization patterns
-10. **🔒 Security Implementation**: Authentication patterns, authorization patterns, security control implementation patterns
-11. **📄 Generate**: `requirements_specification.md` with executive summary, functional requirements, non-functional requirements, traceability matrix, acceptance criteria
-12. **✅ Validate**: Roadmap established, timeline defined, QA strategy confirmed, implementation patterns defined, requirements specification documented
-13. **📄 Output**: `phase_1_requirements_planning.md` with actionable next steps
-14. **📋 CONFIRM**: Present phase summary, show deliverables, explain Phase 2 scope
-15. **✅ PROCEED**: Continue to Phase 2
+2. **❓ Clarify**: Ask final clarifying questions for testing requirements, quality gates, acceptance criteria, performance benchmarks
+3. **🤔 Strategic**: Use multi-role mediated debate for planning decisions (15 rounds until consensus, TL, PM, RE, QA participate, integrate decision into phase execution)
+4. **📊 Assess**: Technical roadmap, implementation timeline
+5. **📋 Generate**: Project roadmap, technical milestones
+6. **🧪 QA Strategy**: Test strategy, test pyramid (70% unit, 20% integration, 10% e2e), coverage requirements (85%+), test data strategy, test automation strategy
+7. **🏗️ Implementation Patterns**: Coding standards, design patterns, architectural patterns, component interfaces, state management patterns
+8. **📊 Database Implementation**: ORM patterns, query optimization strategies, migration patterns, data model patterns
+9. **🔗 Integration Patterns**: API testing patterns, mock strategies, integration testing patterns, deployment patterns
+10. **⚡ Performance Guidelines**: Caching strategies, optimization patterns
+11. **🔒 Security Implementation**: Authentication patterns, authorization patterns, security control implementation patterns
+12. **📄 Generate**: `requirements_specification.md` with executive summary, functional requirements, non-functional requirements, traceability matrix, acceptance criteria
+13. **✅ Validate**: Roadmap established, timeline defined, QA strategy confirmed, implementation patterns defined, requirements specification documented
+14. **📄 Output**: `phase_1_requirements_planning.md` with actionable next steps
+15. **📋 CONFIRM**: Present phase summary, show deliverables, explain Phase 2 scope
+16. **✅ PROCEED**: Continue to Phase 2
 
-**Topics**: Technical requirements, functional requirements, non-functional requirements, project scope, technical constraints, project roadmap, technical milestones, QA strategy, test pyramid, coverage requirements, implementation patterns, coding standards, design patterns, architectural patterns, component interfaces, state management patterns, database implementation patterns, ORM patterns, query optimization, migration patterns, data model patterns, integration patterns, API testing patterns, mock strategies, deployment patterns, performance guidelines, caching strategies, optimization patterns, security implementation patterns, authentication patterns, authorization patterns, security control implementation
+**Topics**: Project overview, technical requirements, functional requirements, non-functional requirements, project scope, technical constraints, technology stack preferences, performance requirements, security needs, integration requirements, user workflows, business rules, quality standards, testing requirements, quality gates, acceptance criteria, performance benchmarks, project roadmap, technical milestones, QA strategy, test pyramid, coverage requirements, implementation patterns, coding standards, design patterns, architectural patterns, component interfaces, state management patterns, database implementation patterns, ORM patterns, query optimization, migration patterns, data model patterns, integration patterns, API testing patterns, mock strategies, deployment patterns, performance guidelines, caching strategies, optimization patterns, security implementation patterns, authentication patterns, authorization patterns, security control implementation
 
 ---
 
