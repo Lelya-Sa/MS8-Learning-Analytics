@@ -36,7 +36,7 @@ jobs:
     - name: Run frontend tests against cloud deployment
       env:
         # Cloud environment variables (these should be set in GitHub Secrets)
-        RAILWAY_API_URL: ${{ secrets.RAILWAY_API_URL }}  # Just the Railway URL, /api will be added automatically
+        RAILWAY_API_URL: ${{ secrets.RAILWAY_URL }}  # Just the Railway URL, /api will be added automatically
         VERCEL_URL: ${{ secrets.VERCEL_URL }}
         TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
         TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
@@ -60,7 +60,7 @@ jobs:
         
     - name: Run E2E tests against cloud deployment
       env:
-        RAILWAY_API_URL: ${{ secrets.RAILWAY_API_URL }}
+        RAILWAY_API_URL: ${{ secrets.RAILWAY_URL }}
         VERCEL_URL: ${{ secrets.VERCEL_URL }}
         TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
         TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
