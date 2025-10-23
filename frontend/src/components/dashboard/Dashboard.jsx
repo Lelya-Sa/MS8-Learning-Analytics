@@ -17,7 +17,6 @@ const Dashboard = ({ user }) => {
   const renderLearnerDashboard = () => (
     <div className="space-y-6">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">My Learning Analytics</h2>
         <LearnerAnalytics userId={user.id} />
       </div>
     </div>
