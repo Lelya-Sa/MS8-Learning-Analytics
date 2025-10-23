@@ -1,0 +1,13 @@
+backend
+database
+docs
+scripts
+tests
+shared
+config
+*.md
+.env*
+node_modules
+coverage
+*.log
+.DS_Store
