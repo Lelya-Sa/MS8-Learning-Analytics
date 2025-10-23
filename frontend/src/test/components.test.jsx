@@ -2,15 +2,25 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+// Mock the API module
+vi.mock('../services/api', () => ({
+  login: vi.fn(),
+  logout: vi.fn(),
+  refreshToken: vi.fn()
+}))
+
 // Import components to test (these will fail initially - RED phase)
-import { AuthProvider } from '../components/auth/AuthProvider'
-import { Dashboard } from '../components/dashboard/Dashboard'
-import { LearnerAnalytics } from '../components/analytics/LearnerAnalytics'
-import { TrainerAnalytics } from '../components/analytics/TrainerAnalytics'
-import { OrganizationAnalytics } from '../components/analytics/OrganizationAnalytics'
-import { AnalyticsChart } from '../components/charts/AnalyticsChart'
-import { DataTable } from '../components/tables/DataTable'
-import { ReportGenerator } from '../components/reports/ReportGenerator'
+import AuthProvider from '../components/auth/AuthProvider'
+import Dashboard from '../components/dashboard/Dashboard'
+import LearnerAnalytics from '../components/analytics/LearnerAnalytics'
+import TrainerAnalytics from '../components/analytics/TrainerAnalytics'
+import OrganizationAnalytics from '../components/analytics/OrganizationAnalytics'
+import AnalyticsChart from '../components/charts/AnalyticsChart'
+import DataTable from '../components/tables/DataTable'
+import ReportGenerator from '../components/reports/ReportGenerator'
+
+// Import the mocked API
+import * as api from '../services/api'
 
 describe('AuthProvider Component', () => {
   beforeEach(() => {
@@ -31,17 +41,14 @@ describe('AuthProvider Component', () => {
     const user = userEvent.setup()
     
     // Mock successful authentication
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({
-        token: 'mock-jwt-token',
-        user: {
-          id: 'user-123',
-          email: 'test@example.com',
-          role: 'learner',
-          organization_id: 'org-123'
-        }
-      })
+    api.login.mockResolvedValueOnce({
+      token: 'mock-jwt-token',
+      user: {
+        id: 'user-123',
+        email: 'test@example.com',
+        role: 'learner',
+        organization_id: 'org-123'
+      }
     })
 
     render(<AuthProvider />)
@@ -59,11 +66,7 @@ describe('AuthProvider Component', () => {
     const user = userEvent.setup()
     
     // Mock failed authentication
-    global.fetch.mockResolvedValueOnce({
-      ok: false,
-      status: 401,
-      json: async () => ({ error: 'Invalid credentials' })
-    })
+    api.login.mockRejectedValueOnce(new Error('Invalid credentials'))
 
     render(<AuthProvider />)
     
