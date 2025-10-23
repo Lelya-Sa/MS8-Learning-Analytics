@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "MS8-Learning-Analytics-Frontend",
   "builds": [
     {
       "src": "package.json",
@@ -12,12 +11,12 @@
   ],
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "regions": ["iad1"]
+  ]
 }
