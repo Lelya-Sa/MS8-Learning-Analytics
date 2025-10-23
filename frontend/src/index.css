@@ -22,6 +22,32 @@ body {
 .space-y-6 > * + * { margin-top: 1.5rem; }
 .space-x-4 > * + * { margin-left: 1rem; }
 
+/* Grid utilities */
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.gap-6 { gap: 1.5rem; }
+.gap-4 { gap: 1rem; }
+.max-w-4xl { max-width: 56rem; }
+.px-8 { padding-left: 2rem; padding-right: 2rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.p-8 { padding: 2rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-12 { margin-bottom: 3rem; }
+.gap-8 { gap: 2rem; }
+.text-5xl { font-size: 3rem; line-height: 1; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.font-semibold { font-weight: 600; }
+.inline-block { display: inline-block; }
+.transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+
+/* Responsive grid */
+@media (min-width: 768px) {
+  .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .md\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 /* Colors */
 .bg-gray-50 { background-color: #f9fafb; }
 .bg-white { background-color: #ffffff; }
@@ -35,7 +61,9 @@ body {
 .text-white { color: #ffffff; }
 
 /* Typography */
-.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.text-6xl { font-size: 3.75rem; line-height: 1; }
+.text-5xl { font-size: 3rem; line-height: 1; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
 .text-2xl { font-size: 1.5rem; line-height: 2rem; }
 .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
 .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
