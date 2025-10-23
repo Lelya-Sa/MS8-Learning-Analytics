@@ -10,7 +10,11 @@ const isLocalEnvironment = process.env.NODE_ENV === 'development' || process.env
 // Cloud API endpoints (these should be set in your CI/CD environment)
 const CLOUD_CONFIG = {
   // Railway backend URL (set this in your CI/CD environment variables)
-  API_BASE_URL: process.env.RAILWAY_API_URL || process.env.BACKEND_URL || 'https://your-railway-app.railway.app/api',
+  // Automatically adds /api if not present
+  API_BASE_URL: (() => {
+    const railwayUrl = process.env.RAILWAY_API_URL || process.env.BACKEND_URL || 'https://your-railway-app.railway.app'
+    return railwayUrl.endsWith('/api') ? railwayUrl : `${railwayUrl}/api`
+  })(),
   
   // Vercel frontend URL (for E2E tests)
   FRONTEND_URL: process.env.VERCEL_URL || 'https://ms8-learning-analytics-k1c9h6yt3-lelya-salmans-projects.vercel.app',

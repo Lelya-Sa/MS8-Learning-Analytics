@@ -28,13 +28,15 @@ This guide explains how to configure tests to run against your cloud deployment 
 Go to your GitHub repository → Settings → Secrets and variables → Actions, and add these secrets:
 
 ```
-RAILWAY_API_URL=https://your-railway-app.railway.app/api
+RAILWAY_API_URL=https://your-railway-app.railway.app
 VERCEL_URL=https://ms8-learning-analytics-k1c9h6yt3-lelya-salmans-projects.vercel.app
 TEST_EMAIL=test@example.com
 TEST_PASSWORD=test-password-123
 DATABASE_URL=postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres
 JWT_SECRET=your-jwt-secret-from-railway
 ```
+
+**Note**: Use just the Railway URL (without `/api`) - the test configuration will automatically add `/api` to create the correct API endpoint.
 
 ### 3. Test Configuration
 
