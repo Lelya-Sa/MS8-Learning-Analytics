@@ -4,8 +4,8 @@
  */
 
 // Environment detection
-const isCloudEnvironment = process.env.NODE_ENV === 'test' && process.env.CI === 'true'
-const isLocalEnvironment = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+const isCloudEnvironment = process.env.CI === 'true' || process.env.RAILWAY_API_URL || process.env.VERCEL_URL
+const isLocalEnvironment = !isCloudEnvironment
 
 // Cloud API endpoints (these should be set in your CI/CD environment)
 const CLOUD_CONFIG = {
