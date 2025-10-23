@@ -2,8 +2,8 @@ import axios from 'axios'
 
 // Create axios instance with default config
 const apiClient = axios.create({
-  baseURL: process.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
-  timeout: parseInt(process.env.VITE_API_TIMEOUT) || 10000,
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+  timeout: parseInt(import.meta.env.VITE_API_TIMEOUT) || 10000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -18,7 +18,7 @@ apiClient.interceptors.request.use(
     }
     
     // Log request in development
-    if (process.env.NODE_ENV === 'development' || process.env.VITE_DEBUG_MODE === 'true') {
+    if (import.meta.env.DEV || import.meta.env.VITE_DEBUG_MODE === 'true') {
       console.log('API Request:', config)
     }
     
@@ -36,7 +36,7 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     // Log error in development
-    if (process.env.NODE_ENV === 'development' || process.env.VITE_DEBUG_MODE === 'true') {
+    if (import.meta.env.DEV || import.meta.env.VITE_DEBUG_MODE === 'true') {
       console.error('API Error:', error.response?.data || error.message)
     }
     
