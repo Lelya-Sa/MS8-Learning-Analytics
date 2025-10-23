@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "test:cloud": "CI=true vitest --run src/test/api-integration.test.js",
+    "test:local": "vitest --run src/test/api-integration.test.js"
   },
   "keywords": [
     "learning-analytics",

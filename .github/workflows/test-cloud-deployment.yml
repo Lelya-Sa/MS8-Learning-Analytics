@@ -1,0 +1,78 @@
+name: Test Cloud Deployment
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test-cloud-deployment:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm ci
+        
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        npm ci
+        
+    - name: Run frontend tests against cloud deployment
+      env:
+        # Cloud environment variables (these should be set in GitHub Secrets)
+        RAILWAY_API_URL: ${{ secrets.RAILWAY_API_URL }}
+        VERCEL_URL: ${{ secrets.VERCEL_URL }}
+        TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+        TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        NODE_ENV: test
+        CI: true
+      run: |
+        cd frontend
+        npm test -- --run src/test/api-integration.test.js
+        
+    - name: Run backend tests
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        TEST_USER_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        NODE_ENV: test
+      run: |
+        cd backend
+        npm test
+        
+    - name: Run E2E tests against cloud deployment
+      env:
+        RAILWAY_API_URL: ${{ secrets.RAILWAY_API_URL }}
+        VERCEL_URL: ${{ secrets.VERCEL_URL }}
+        TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+        TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        NODE_ENV: test
+        CI: true
+      run: |
+        cd frontend
+        npm run test:e2e
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: |
+          frontend/coverage/
+          backend/coverage/
+        retention-days: 30

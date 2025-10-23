@@ -1,8 +1,14 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
+import TEST_CONFIG, { getEnvironmentInfo } from './config'
 
 // Set environment variables before importing API
-process.env.NODE_ENV = 'development'
-process.env.VITE_API_BASE_URL = 'http://localhost:3000/api'
+process.env.NODE_ENV = 'test'
+process.env.VITE_API_BASE_URL = TEST_CONFIG.API_BASE_URL
+
+// Log environment info
+const envInfo = getEnvironmentInfo()
+console.log('🧪 Running tests against:', envInfo.isCloud ? 'CLOUD' : 'LOCAL', 'environment')
+console.log('🔗 API URL:', envInfo.apiUrl)
 
 // Import API functions to test
 import * as api from '../services/api'
@@ -15,11 +21,12 @@ describe('API Integration Tests (Real Backend)', () => {
 
   describe('Authentication API', () => {
     it('should login user successfully with real backend', async () => {
-      const result = await api.login('test@example.com', 'test-password-123')
+      const { email, password } = TEST_CONFIG
+      const result = await api.login(email, password)
       
       expect(result).toHaveProperty('token')
       expect(result).toHaveProperty('user')
-      expect(result.user.email).toBe('test@example.com')
+      expect(result.user.email).toBe(email)
       expect(result.user.role).toBe('learner')
       
       // Store token for subsequent tests
