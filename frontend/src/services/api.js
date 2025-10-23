@@ -90,6 +90,15 @@ export const getAnalytics = async (userId) => {
   }
 }
 
+export const getLearnerAnalytics = async (userId) => {
+  try {
+    const response = await apiClient.get(`/v1/analytics/learner/${userId}`)
+    return response.data
+  } catch (error) {
+    throw new Error(error.response?.data?.error || 'Failed to fetch learner analytics')
+  }
+}
+
 export const getTrainerAnalytics = async (userId) => {
   try {
     const response = await apiClient.get(`/v1/analytics/trainer/${userId}`)
@@ -201,6 +210,16 @@ export const cancelCollection = async (collectionId) => {
     return response.data
   } catch (error) {
     throw new Error(error.response?.data?.error || 'Failed to cancel collection')
+  }
+}
+
+// Privacy API
+export const deleteUserData = async (userId) => {
+  try {
+    const response = await apiClient.delete(`/v1/privacy/user/${userId}`)
+    return response.data
+  } catch (error) {
+    throw new Error(error.response?.data?.error || 'Failed to delete user data')
   }
 }
 

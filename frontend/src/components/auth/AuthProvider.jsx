@@ -13,7 +13,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
   const isAuthenticated = !!user
@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
       const response = await api.login(email, password)
       setUser(response.user)
       localStorage.setItem('auth_token', response.token)
+      return response
     } catch (err) {
       setError('Login failed')
       throw err
@@ -68,6 +69,7 @@ export const AuthProvider = ({ children }) => {
         organization_id: 'org-123'
       })
     }
+    setIsLoading(false)
   }, [])
 
   const value = {
@@ -80,61 +82,9 @@ export const AuthProvider = ({ children }) => {
     refreshToken
   }
 
-  if (!isAuthenticated) {
-    return (
-      <AuthContext.Provider value={value}>
-        <div className="auth-container">
-          <form className="login-form" role="form" onSubmit={(e) => {
-            e.preventDefault()
-            const formData = new FormData(e.target)
-            login(formData.get('email'), formData.get('password'))
-          }}>
-            <h2>Sign In</h2>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                required 
-                aria-label="email"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input 
-                type="password" 
-                id="password" 
-                name="password" 
-                required 
-                aria-label="password"
-              />
-            </div>
-            {error && <div className="error-message">{error}</div>}
-            <button type="submit" disabled={isLoading}>
-              {isLoading ? 'Signing in...' : 'Sign In'}
-            </button>
-          </form>
-        </div>
-      </AuthContext.Provider>
-    )
-  }
-
   return (
     <AuthContext.Provider value={value}>
-      <div>
-        <div className="welcome-message">
-          Welcome, {user.email}!
-        </div>
-        <button 
-          onClick={logout}
-          className="logout-button"
-          aria-label="Logout"
-        >
-          Logout
-        </button>
-        {children}
-      </div>
+      {children}
     </AuthContext.Provider>
   )
 }
