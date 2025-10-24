@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../components/auth/AuthProvider'
 
 export const LoginPage = () => {
+  const navigate = useNavigate()
   const { login, error, isLoading } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
@@ -10,7 +12,14 @@ export const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await login(formData.email, formData.password)
+    try {
+      await login(formData.email, formData.password)
+      // Redirect to analytics page after successful login
+      navigate('/analytics')
+    } catch (err) {
+      // Error is handled by AuthProvider
+      console.error('Login error:', err)
+    }
   }
 
   const handleChange = (e) => {
