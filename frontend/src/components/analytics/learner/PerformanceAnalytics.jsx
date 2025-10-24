@@ -5,8 +5,16 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useLearnerPerformance } from '../../../hooks/useAnalytics'
 
-const PerformanceAnalytics = ({ userId, data, isLoading = false, error = null }) => {
+const PerformanceAnalytics = ({ userId, data: propData, isLoading: propIsLoading, error: propError }) => {
+  // Use hook to fetch data if not provided as prop (for testing)
+  const hookResult = useLearnerPerformance(userId)
+  
+  // Use prop data if provided (for testing), otherwise use hook data
+  const data = propData || hookResult.data?.data
+  const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult.isLoading
+  const error = propError || hookResult.error
   // Loading state
   if (isLoading) {
     return <div className="performance-analytics-card animate-pulse">

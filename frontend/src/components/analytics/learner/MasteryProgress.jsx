@@ -5,9 +5,18 @@
 
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useLearnerMastery } from '../../../hooks/useAnalytics'
 
-const MasteryProgress = ({ userId, data, isLoading = false, error = null }) => {
+const MasteryProgress = ({ userId, data: propData, isLoading: propIsLoading, error: propError }) => {
   const [expandedTopic, setExpandedTopic] = useState(null)
+  
+  // Use hook to fetch data if not provided as prop (for testing)
+  const hookResult = useLearnerMastery(userId)
+  
+  // Use prop data if provided (for testing), otherwise use hook data
+  const data = propData || hookResult.data?.data?.masteryTracking
+  const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult.isLoading
+  const error = propError || hookResult.error
 
   // Loading state
   if (isLoading) {

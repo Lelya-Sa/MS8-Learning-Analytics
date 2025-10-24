@@ -5,8 +5,16 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useLearnerContentEffectiveness } from '../../../hooks/useAnalytics'
 
-const ContentEffectiveness = ({ userId, data, isLoading = false, error = null }) => {
+const ContentEffectiveness = ({ userId, data: propData, isLoading: propIsLoading, error: propError }) => {
+  // Use hook to fetch data if not provided as prop (for testing)
+  const hookResult = useLearnerContentEffectiveness(userId)
+  
+  // Use prop data if provided (for testing), otherwise use hook data
+  const data = propData || hookResult.data?.data
+  const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult.isLoading
+  const error = propError || hookResult.error
   // Loading state
   if (isLoading) {
     return <div className="content-effectiveness-card animate-pulse">

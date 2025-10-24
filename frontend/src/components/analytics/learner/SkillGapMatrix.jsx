@@ -5,9 +5,18 @@
 
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useLearnerSkillGaps } from '../../../hooks/useAnalytics'
 
-const SkillGapMatrix = ({ userId, data, isLoading = false, error = null }) => {
+const SkillGapMatrix = ({ userId, data: propData, isLoading: propIsLoading, error: propError }) => {
   const [expandedGap, setExpandedGap] = useState(null)
+  
+  // Use hook to fetch data if not provided as prop (for testing)
+  const hookResult = useLearnerSkillGaps(userId)
+  
+  // Use prop data if provided (for testing), otherwise use hook data
+  const data = propData || hookResult.data?.data?.skillGapMatrix
+  const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult.isLoading
+  const error = propError || hookResult.error
 
   // Loading state
   if (isLoading) {
