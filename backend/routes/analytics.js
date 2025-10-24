@@ -139,4 +139,221 @@ router.post('/refresh', authenticateToken, [
     }
 });
 
+/**
+ * ========================================
+ * AS-001: LEARNER ANALYTICS ENDPOINTS
+ * ========================================
+ */
+
+/**
+ * AS-001 #1: Learning Velocity & Momentum
+ * GET /api/v1/analytics/learner/:userId/velocity
+ */
+router.get('/learner/:userId/velocity', authenticateToken, [
+    param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
+], handleValidationErrors, (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        // Check if user can access this resource
+        if (!canAccessResource(userId, req.user, ['trainer', 'org_admin'])) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const analytics = analyticsService.getLearnerVelocity(userId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-001 #2: Skill Gap Matrix with Prioritization
+ * GET /api/v1/analytics/learner/:userId/skill-gaps
+ */
+router.get('/learner/:userId/skill-gaps', authenticateToken, [
+    param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
+], handleValidationErrors, (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        // Check if user can access this resource
+        if (!canAccessResource(userId, req.user, ['trainer', 'org_admin'])) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const analytics = analyticsService.getLearnerSkillGaps(userId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-001 #3: Engagement Score with Behavioral Insights
+ * GET /api/v1/analytics/learner/:userId/engagement
+ */
+router.get('/learner/:userId/engagement', authenticateToken, [
+    param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
+], handleValidationErrors, (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        // Check if user can access this resource
+        if (!canAccessResource(userId, req.user, ['trainer', 'org_admin'])) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const analytics = analyticsService.getLearnerEngagement(userId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-001 #4: Mastery Progress Tracking
+ * GET /api/v1/analytics/learner/:userId/mastery
+ */
+router.get('/learner/:userId/mastery', authenticateToken, [
+    param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
+], handleValidationErrors, (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        // Check if user can access this resource
+        if (!canAccessResource(userId, req.user, ['trainer', 'org_admin'])) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const analytics = analyticsService.getLearnerMastery(userId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-001 #5: Performance & Assessment Analytics
+ * GET /api/v1/analytics/learner/:userId/performance
+ */
+router.get('/learner/:userId/performance', authenticateToken, [
+    param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
+], handleValidationErrors, (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        // Check if user can access this resource
+        if (!canAccessResource(userId, req.user, ['trainer', 'org_admin'])) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const analytics = analyticsService.getLearnerPerformance(userId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-001 #6: Course & Content Effectiveness
+ * GET /api/v1/analytics/learner/:userId/content-effectiveness
+ */
+router.get('/learner/:userId/content-effectiveness', authenticateToken, [
+    param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
+], handleValidationErrors, (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        // Check if user can access this resource
+        if (!canAccessResource(userId, req.user, ['trainer', 'org_admin'])) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const filters = req.query; // Optional filters from query params
+        const analytics = analyticsService.getLearnerContentEffectiveness(userId, filters);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
 module.exports = router;
