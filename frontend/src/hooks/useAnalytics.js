@@ -26,9 +26,9 @@ const createFetcher = (serviceMethod) => {
 export const useLearnerAnalytics = (userId, filters = {}) => {
   const key = userId ? ['learner-analytics', userId, filters] : null
   
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, mutate} = useSWR(
     key,
-    createFetcher(analyticsService.getLearnerAnalytics),
+    createFetcher((...args) => analyticsService.getLearnerAnalytics(...args)),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: true,
@@ -75,7 +75,7 @@ export const useTrainerAnalytics = (userId, filters = {}) => {
   
   const { data, error, isLoading, mutate } = useSWR(
     key,
-    createFetcher(analyticsService.getTrainerAnalytics),
+    createFetcher((...args) => analyticsService.getTrainerAnalytics(...args)),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: true,
@@ -121,7 +121,7 @@ export const useOrganizationAnalytics = (organizationId, filters = {}) => {
   
   const { data, error, isLoading, mutate } = useSWR(
     key,
-    createFetcher(analyticsService.getOrganizationAnalytics),
+    createFetcher((...args) => analyticsService.getOrganizationAnalytics(...args)),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: true,
