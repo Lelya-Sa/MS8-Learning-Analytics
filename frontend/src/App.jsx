@@ -1,9 +1,9 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './components/auth/AuthProvider'
 import { AnalyticsDashboard } from './pages/AnalyticsDashboard'
 import { LoginPage } from './pages/LoginPage'
-import { ProtectedRoute } from './components/auth/ProtectedRoute'
+import ProtectedRoute from './components/auth/ProtectedRoute'
 import { Layout } from './components/layout/Layout'
 import ErrorBoundary from './components/common/ErrorBoundary'
 
@@ -76,7 +76,6 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <Router>
           <Routes>
             {/* Landing page - always accessible */}
             <Route path="/" element={<HomePage />} />
@@ -96,7 +95,6 @@ function App() {
             {/* Redirect any unknown routes to home */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </Router>
       </AuthProvider>
     </ErrorBoundary>
   )
