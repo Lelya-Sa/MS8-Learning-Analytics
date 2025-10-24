@@ -148,10 +148,14 @@ router.post('/refresh', authenticateToken, [
 /**
  * AS-001 #1: Learning Velocity & Momentum
  * GET /api/v1/analytics/learner/:userId/velocity
+ * 
+ * Data Flow:
+ * 1. Try to fetch from external microservices (not implemented yet)
+ * 2. If external API fails, return mock data as fallback
  */
 router.get('/learner/:userId/velocity', authenticateToken, [
     param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
-], handleValidationErrors, (req, res) => {
+], handleValidationErrors, async (req, res) => {
     try {
         const { userId } = req.params;
         
@@ -163,6 +167,11 @@ router.get('/learner/:userId/velocity', authenticateToken, [
             });
         }
 
+        // TODO: Try to fetch from external microservices
+        // const externalData = await fetchFromExternalMicroservices(userId);
+        // if (externalData) return res.json(externalData);
+
+        // Fallback to mock data (current implementation)
         const analytics = analyticsService.getLearnerVelocity(userId);
         if (!analytics) {
             return res.status(404).json({
@@ -173,6 +182,7 @@ router.get('/learner/:userId/velocity', authenticateToken, [
 
         res.json(analytics);
     } catch (error) {
+        console.error('Error fetching learner velocity:', error);
         res.status(500).json({
             error: 'Internal server error',
             code: 'INTERNAL_ERROR'

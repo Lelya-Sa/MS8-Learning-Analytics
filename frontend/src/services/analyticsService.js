@@ -1,10 +1,10 @@
 /**
- * Analytics Service with Mock Data Fallback
- * Implements hybrid approach: SWR caching + centralized fallback logic
+ * Analytics Service
+ * Calls backend API which returns mock data as fallback when external microservices are unavailable
+ * Backend handles the fallback logic - frontend just calls the API
  */
 
 import * as api from './api'
-import { mockLearnerAnalytics } from './mockAnalyticsData'
 
 // Mock data that matches the expected API responses
 const mockAnalyticsData = {
@@ -408,177 +408,87 @@ class AnalyticsService {
 
   /**
    * AS-001 #1: Learning Velocity & Momentum
+   * Backend returns mock data as fallback when external microservices unavailable
    */
   async getLearnerVelocity(userId) {
     try {
-      if (this.useMockData) {
-        await this.delay()
-        const data = mockLearnerAnalytics.velocity[userId] || mockLearnerAnalytics.velocity['user-123']
-        return {
-          success: true,
-          data: { learningVelocity: data },
-          source: 'mock'
-        }
-      }
-
       const response = await api.get(`/analytics/learner/${userId}/velocity`)
-      return { ...response, source: 'api' }
+      return { ...response, source: 'backend' }
     } catch (error) {
-      console.warn('API failed, using mock fallback:', error.message)
-      await this.delay()
-      const data = mockLearnerAnalytics.velocity[userId] || mockLearnerAnalytics.velocity['user-123']
-      return {
-        success: true,
-        data: { learningVelocity: data },
-        source: 'fallback'
-      }
+      console.error('Failed to fetch learner velocity:', error)
+      throw error
     }
   }
 
   /**
    * AS-001 #2: Skill Gap Matrix with Prioritization
+   * Backend returns mock data as fallback when external microservices unavailable
    */
   async getLearnerSkillGaps(userId) {
     try {
-      if (this.useMockData) {
-        await this.delay()
-        const data = mockLearnerAnalytics.skillGaps[userId] || mockLearnerAnalytics.skillGaps['user-123']
-        return {
-          success: true,
-          data: { skillGapMatrix: data },
-          source: 'mock'
-        }
-      }
-
       const response = await api.get(`/analytics/learner/${userId}/skill-gaps`)
-      return { ...response, source: 'api' }
+      return { ...response, source: 'backend' }
     } catch (error) {
-      console.warn('API failed, using mock fallback:', error.message)
-      await this.delay()
-      const data = mockLearnerAnalytics.skillGaps[userId] || mockLearnerAnalytics.skillGaps['user-123']
-      return {
-        success: true,
-        data: { skillGapMatrix: data },
-        source: 'fallback'
-      }
+      console.error('Failed to fetch learner skill gaps:', error)
+      throw error
     }
   }
 
   /**
    * AS-001 #3: Engagement Score with Behavioral Insights
+   * Backend returns mock data as fallback when external microservices unavailable
    */
   async getLearnerEngagement(userId) {
     try {
-      if (this.useMockData) {
-        await this.delay()
-        const data = mockLearnerAnalytics.engagement[userId] || mockLearnerAnalytics.engagement['user-123']
-        return {
-          success: true,
-          data: { engagementAnalytics: data },
-          source: 'mock'
-        }
-      }
-
       const response = await api.get(`/analytics/learner/${userId}/engagement`)
-      return { ...response, source: 'api' }
+      return { ...response, source: 'backend' }
     } catch (error) {
-      console.warn('API failed, using mock fallback:', error.message)
-      await this.delay()
-      const data = mockLearnerAnalytics.engagement[userId] || mockLearnerAnalytics.engagement['user-123']
-      return {
-        success: true,
-        data: { engagementAnalytics: data },
-        source: 'fallback'
-      }
+      console.error('Failed to fetch learner engagement:', error)
+      throw error
     }
   }
 
   /**
    * AS-001 #4: Mastery Progress Tracking
+   * Backend returns mock data as fallback when external microservices unavailable
    */
   async getLearnerMastery(userId) {
     try {
-      if (this.useMockData) {
-        await this.delay()
-        const data = mockLearnerAnalytics.mastery[userId] || mockLearnerAnalytics.mastery['user-123']
-        return {
-          success: true,
-          data: { masteryTracking: data },
-          source: 'mock'
-        }
-      }
-
       const response = await api.get(`/analytics/learner/${userId}/mastery`)
-      return { ...response, source: 'api' }
+      return { ...response, source: 'backend' }
     } catch (error) {
-      console.warn('API failed, using mock fallback:', error.message)
-      await this.delay()
-      const data = mockLearnerAnalytics.mastery[userId] || mockLearnerAnalytics.mastery['user-123']
-      return {
-        success: true,
-        data: { masteryTracking: data },
-        source: 'fallback'
-      }
+      console.error('Failed to fetch learner mastery:', error)
+      throw error
     }
   }
 
   /**
    * AS-001 #5: Performance & Assessment Analytics
+   * Backend returns mock data as fallback when external microservices unavailable
    */
   async getLearnerPerformance(userId) {
     try {
-      if (this.useMockData) {
-        await this.delay()
-        const data = mockLearnerAnalytics.performance[userId] || mockLearnerAnalytics.performance['user-123']
-        return {
-          success: true,
-          data: data,
-          source: 'mock'
-        }
-      }
-
       const response = await api.get(`/analytics/learner/${userId}/performance`)
-      return { ...response, source: 'api' }
+      return { ...response, source: 'backend' }
     } catch (error) {
-      console.warn('API failed, using mock fallback:', error.message)
-      await this.delay()
-      const data = mockLearnerAnalytics.performance[userId] || mockLearnerAnalytics.performance['user-123']
-      return {
-        success: true,
-        data: data,
-        source: 'fallback'
-      }
+      console.error('Failed to fetch learner performance:', error)
+      throw error
     }
   }
 
   /**
    * AS-001 #6: Course & Content Effectiveness
+   * Backend returns mock data as fallback when external microservices unavailable
    */
   async getLearnerContentEffectiveness(userId, filters = {}) {
     try {
-      if (this.useMockData) {
-        await this.delay()
-        const data = mockLearnerAnalytics.contentEffectiveness[userId] || mockLearnerAnalytics.contentEffectiveness['user-123']
-        return {
-          success: true,
-          data: data,
-          source: 'mock'
-        }
-      }
-
       const queryParams = new URLSearchParams(filters).toString()
       const url = `/analytics/learner/${userId}/content-effectiveness${queryParams ? `?${queryParams}` : ''}`
       const response = await api.get(url)
-      return { ...response, source: 'api' }
+      return { ...response, source: 'backend' }
     } catch (error) {
-      console.warn('API failed, using mock fallback:', error.message)
-      await this.delay()
-      const data = mockLearnerAnalytics.contentEffectiveness[userId] || mockLearnerAnalytics.contentEffectiveness['user-123']
-      return {
-        success: true,
-        data: data,
-        source: 'fallback'
-      }
+      console.error('Failed to fetch learner content effectiveness:', error)
+      throw error
     }
   }
 }
