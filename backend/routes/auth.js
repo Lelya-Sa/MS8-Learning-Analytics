@@ -13,6 +13,9 @@ const router = express.Router();
  * @returns {string} JWT token
  */
 const generateToken = (user) => {
+    // Use GitHub Secret in production, fallback for local development
+    const JWT_SECRET = process.env.JWT_SECRET || 'local-dev-secret-key-DO-NOT-USE-IN-PRODUCTION';
+    
     return jwt.sign(
         { 
             userId: user.id, 
@@ -20,7 +23,7 @@ const generateToken = (user) => {
             role: user.role,
             organizationId: user.organization_id 
         },
-        process.env.JWT_SECRET,
+        JWT_SECRET,
         { expiresIn: '24h' }
     );
 };
