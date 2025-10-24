@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
-import './DashboardLayout.css'
+import '../../assets/css/dashboard-layout.css'
 
 const DashboardLayout = ({ children }) => {
   return (

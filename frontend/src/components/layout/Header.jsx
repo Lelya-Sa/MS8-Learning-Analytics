@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
 import Navigation from './Navigation'
-import './Header.css'
+import '../../assets/css/header.css'
 
 const Header = () => {
   const { user, logout } = useAuth()

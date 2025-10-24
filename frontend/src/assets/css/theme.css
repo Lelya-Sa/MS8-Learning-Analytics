@@ -1,4 +1,4 @@
-/* Dark Emerald Educational Analytics Theme */
+/* MS8 Learning Analytics - Unified Dark Emerald Theme */
 
 :root {
     /* Dark Emerald Color Palette - Rich & Elegant */
@@ -98,18 +98,106 @@
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Base Styles */
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+/* Enhanced Accessibility Features */
+
+/* Color Blind Friendly Overrides */
+.colorblind-friendly {
+    --primary-blue: #065f46;
+    --primary-purple: #047857;
+    --primary-cyan: #0f766e;
+    --accent-gold: #d97706;
+    --accent-green: #047857;
+    --accent-orange: #f59e0b;
 }
 
-/* Skip Link */
+/* High Contrast Mode */
+.high-contrast {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f1f5f9;
+    --bg-tertiary: #e2e8f0;
+    --text-primary: #000000;
+    --text-secondary: #1e293b;
+    --text-muted: #b0b0b0;
+    --primary-blue: #065f46;
+    --primary-purple: #047857;
+    --primary-cyan: #0f766e;
+    --accent-gold: #d97706;
+    --accent-green: #047857;
+    --accent-orange: #f59e0b;
+}
+
+/* Large Font Mode */
+.large-font {
+    --spacing-xs: 0.75rem;
+    --spacing-sm: 1.25rem;
+    --spacing-md: 1.75rem;
+    --spacing-lg: 2.25rem;
+    --spacing-xl: 3.25rem;
+    --spacing-2xl: 4.25rem;
+}
+
+.large-font body {
+    font-size: 1.1rem;
+}
+
+.large-font h1 {
+    font-size: 4rem !important;
+}
+
+.large-font h2 {
+    font-size: 2.5rem !important;
+}
+
+.large-font h3 {
+    font-size: 1.8rem !important;
+}
+
+.large-font .btn {
+    font-size: 1.1rem;
+    padding: var(--spacing-sm) var(--spacing-lg);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .particle {
+        animation: none;
+    }
+    
+    .bg-animation {
+        animation: none;
+    }
+    
+    .floating-card {
+        animation: none;
+    }
+    
+    .xp-fill {
+        animation: none;
+    }
+    
+    .chatbot-toggle::before {
+        animation: none;
+    }
+}
+
+/* Focus Indicators */
+.btn:focus,
+.user-card:focus,
+.microservice-card:focus,
+.chatbot-toggle:focus,
+.accessibility-controls button:focus {
+    outline: 3px solid var(--primary-cyan);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.3);
+}
+
+/* Skip Links */
 .skip-link {
     position: absolute;
     top: -40px;
@@ -139,18 +227,57 @@ body {
     border: 0;
 }
 
-/* Focus Indicators */
-*:focus-visible {
-    outline: 3px solid var(--primary-cyan);
-    outline-offset: 2px;
+/* ARIA Live Regions */
+.aria-live {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+/* Keyboard Navigation */
+.keyboard-nav .btn:focus,
+.keyboard-nav .user-card:focus,
+.keyboard-nav .microservice-card:focus {
+    transform: scale(1.05);
+}
+
+/* Touch Targets */
+@media (pointer: coarse) {
+    .btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .user-card,
+    .microservice-card {
+        min-height: 44px;
+    }
+    
+    .chatbot-toggle {
+        min-height: 60px;
+        min-width: 60px;
+    }
+}
+
+/* Responsive adjustments for personalized content */
+@media (max-width: 768px) {
+    .user-info {
+        align-items: center;
+        margin-right: var(--spacing-sm);
+    }
+    
+    .user-name {
+        font-size: 0.8rem;
+    }
+    
+    .user-role {
+        font-size: 0.7rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
     }
 }
 

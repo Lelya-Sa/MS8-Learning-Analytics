@@ -1,7 +1,7 @@
 import React from 'react'
 import DashboardLayout from '../components/layout/DashboardLayout'
 import ReportGenerator from '../components/reports/ReportGenerator'
-import './ReportsPage.css'
+import '../assets/css/reports-page.css'
 
 const ReportsPage = () => {
   return (

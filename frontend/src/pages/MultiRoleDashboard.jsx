@@ -5,7 +5,7 @@ import RoleSwitcher from '../components/auth/RoleSwitcher'
 import LearnerAnalytics from '../components/analytics/LearnerAnalytics'
 import TrainerAnalytics from '../components/analytics/TrainerAnalytics'
 import OrganizationAnalytics from '../components/analytics/OrganizationAnalytics'
-import './MultiRoleDashboard.css'
+import '../assets/css/multi-role-dashboard.css'
 
 /**
  * MultiRoleDashboard Component

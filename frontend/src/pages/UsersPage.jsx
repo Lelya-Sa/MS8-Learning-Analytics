@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAuth } from '../components/auth/AuthProvider'
 import DashboardLayout from '../components/layout/DashboardLayout'
-import './CommonPage.css'
+import '../assets/css/pages-common.css'
 
 const UsersPage = () => {
   const { user } = useAuth()

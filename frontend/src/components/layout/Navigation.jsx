@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
-import './Navigation.css'
+import '../../assets/css/navigation.css'
 
 const Navigation = () => {
   const { user } = useAuth()
