@@ -66,6 +66,38 @@ const mockAnalytics = {
                 { skill: 'JavaScript', priority: 'high', gap_score: 0.3 },
                 { skill: 'React', priority: 'medium', gap_score: 0.2 }
             ]
+        },
+        'learner-456': {
+            learning_velocity: 78.2,
+            mastery_progress: 65.8,
+            engagement_score: 84.5,
+            assessment_performance: 71.3,
+            content_effectiveness: 76.9,
+            skill_gaps: [
+                { skill: 'Python', priority: 'high', gap_score: 0.4 },
+                { skill: 'Data Structures', priority: 'high', gap_score: 0.35 }
+            ]
+        },
+        'multi-role-202': {
+            learning_velocity: 92.1,
+            mastery_progress: 88.5,
+            engagement_score: 95.3,
+            assessment_performance: 89.7,
+            content_effectiveness: 91.2,
+            skill_gaps: [
+                { skill: 'Advanced Algorithms', priority: 'medium', gap_score: 0.15 },
+                { skill: 'System Design', priority: 'low', gap_score: 0.1 }
+            ]
+        },
+        'super-admin-303': {
+            learning_velocity: 96.8,
+            mastery_progress: 94.2,
+            engagement_score: 98.1,
+            assessment_performance: 95.5,
+            content_effectiveness: 97.3,
+            skill_gaps: [
+                { skill: 'Machine Learning', priority: 'low', gap_score: 0.05 }
+            ]
         }
     },
     trainer: {
@@ -77,6 +109,26 @@ const mockAnalytics = {
                 total_students: 150,
                 active_students: 120,
                 at_risk_students: 15
+            }
+        },
+        'multi-role-202': {
+            course_performance: 82.3,
+            course_health: 87.5,
+            teaching_effectiveness: 79.8,
+            student_distribution: {
+                total_students: 85,
+                active_students: 72,
+                at_risk_students: 8
+            }
+        },
+        'super-admin-303': {
+            course_performance: 95.2,
+            course_health: 98.1,
+            teaching_effectiveness: 93.5,
+            student_distribution: {
+                total_students: 250,
+                active_students: 235,
+                at_risk_students: 5
             }
         }
     },
