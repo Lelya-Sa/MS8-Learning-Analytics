@@ -4,6 +4,7 @@
  */
 
 import * as api from './api'
+import { mockLearnerAnalytics } from './mockAnalyticsData'
 
 // Mock data that matches the expected API responses
 const mockAnalyticsData = {
@@ -412,7 +413,12 @@ class AnalyticsService {
     try {
       if (this.useMockData) {
         await this.delay()
-        return { success: true, source: 'mock' }
+        const data = mockLearnerAnalytics.velocity[userId] || mockLearnerAnalytics.velocity['user-123']
+        return {
+          success: true,
+          data: { learningVelocity: data },
+          source: 'mock'
+        }
       }
 
       const response = await api.get(`/analytics/learner/${userId}/velocity`)
@@ -420,7 +426,12 @@ class AnalyticsService {
     } catch (error) {
       console.warn('API failed, using mock fallback:', error.message)
       await this.delay()
-      return { success: true, source: 'fallback' }
+      const data = mockLearnerAnalytics.velocity[userId] || mockLearnerAnalytics.velocity['user-123']
+      return {
+        success: true,
+        data: { learningVelocity: data },
+        source: 'fallback'
+      }
     }
   }
 
@@ -431,7 +442,12 @@ class AnalyticsService {
     try {
       if (this.useMockData) {
         await this.delay()
-        return { success: true, source: 'mock' }
+        const data = mockLearnerAnalytics.skillGaps[userId] || mockLearnerAnalytics.skillGaps['user-123']
+        return {
+          success: true,
+          data: { skillGapMatrix: data },
+          source: 'mock'
+        }
       }
 
       const response = await api.get(`/analytics/learner/${userId}/skill-gaps`)
@@ -439,7 +455,12 @@ class AnalyticsService {
     } catch (error) {
       console.warn('API failed, using mock fallback:', error.message)
       await this.delay()
-      return { success: true, source: 'fallback' }
+      const data = mockLearnerAnalytics.skillGaps[userId] || mockLearnerAnalytics.skillGaps['user-123']
+      return {
+        success: true,
+        data: { skillGapMatrix: data },
+        source: 'fallback'
+      }
     }
   }
 
@@ -450,7 +471,12 @@ class AnalyticsService {
     try {
       if (this.useMockData) {
         await this.delay()
-        return { success: true, source: 'mock' }
+        const data = mockLearnerAnalytics.engagement[userId] || mockLearnerAnalytics.engagement['user-123']
+        return {
+          success: true,
+          data: { engagementAnalytics: data },
+          source: 'mock'
+        }
       }
 
       const response = await api.get(`/analytics/learner/${userId}/engagement`)
@@ -458,7 +484,12 @@ class AnalyticsService {
     } catch (error) {
       console.warn('API failed, using mock fallback:', error.message)
       await this.delay()
-      return { success: true, source: 'fallback' }
+      const data = mockLearnerAnalytics.engagement[userId] || mockLearnerAnalytics.engagement['user-123']
+      return {
+        success: true,
+        data: { engagementAnalytics: data },
+        source: 'fallback'
+      }
     }
   }
 
@@ -469,7 +500,12 @@ class AnalyticsService {
     try {
       if (this.useMockData) {
         await this.delay()
-        return { success: true, source: 'mock' }
+        const data = mockLearnerAnalytics.mastery[userId] || mockLearnerAnalytics.mastery['user-123']
+        return {
+          success: true,
+          data: { masteryTracking: data },
+          source: 'mock'
+        }
       }
 
       const response = await api.get(`/analytics/learner/${userId}/mastery`)
@@ -477,7 +513,12 @@ class AnalyticsService {
     } catch (error) {
       console.warn('API failed, using mock fallback:', error.message)
       await this.delay()
-      return { success: true, source: 'fallback' }
+      const data = mockLearnerAnalytics.mastery[userId] || mockLearnerAnalytics.mastery['user-123']
+      return {
+        success: true,
+        data: { masteryTracking: data },
+        source: 'fallback'
+      }
     }
   }
 
@@ -488,7 +529,12 @@ class AnalyticsService {
     try {
       if (this.useMockData) {
         await this.delay()
-        return { success: true, source: 'mock' }
+        const data = mockLearnerAnalytics.performance[userId] || mockLearnerAnalytics.performance['user-123']
+        return {
+          success: true,
+          data: data,
+          source: 'mock'
+        }
       }
 
       const response = await api.get(`/analytics/learner/${userId}/performance`)
@@ -496,7 +542,12 @@ class AnalyticsService {
     } catch (error) {
       console.warn('API failed, using mock fallback:', error.message)
       await this.delay()
-      return { success: true, source: 'fallback' }
+      const data = mockLearnerAnalytics.performance[userId] || mockLearnerAnalytics.performance['user-123']
+      return {
+        success: true,
+        data: data,
+        source: 'fallback'
+      }
     }
   }
 
@@ -507,7 +558,12 @@ class AnalyticsService {
     try {
       if (this.useMockData) {
         await this.delay()
-        return { success: true, source: 'mock' }
+        const data = mockLearnerAnalytics.contentEffectiveness[userId] || mockLearnerAnalytics.contentEffectiveness['user-123']
+        return {
+          success: true,
+          data: data,
+          source: 'mock'
+        }
       }
 
       const queryParams = new URLSearchParams(filters).toString()
@@ -517,7 +573,12 @@ class AnalyticsService {
     } catch (error) {
       console.warn('API failed, using mock fallback:', error.message)
       await this.delay()
-      return { success: true, source: 'fallback' }
+      const data = mockLearnerAnalytics.contentEffectiveness[userId] || mockLearnerAnalytics.contentEffectiveness['user-123']
+      return {
+        success: true,
+        data: data,
+        source: 'fallback'
+      }
     }
   }
 }
