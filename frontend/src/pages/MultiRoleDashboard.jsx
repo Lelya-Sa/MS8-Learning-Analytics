@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../components/auth/AuthProvider'
+import DashboardLayout from '../components/layout/DashboardLayout'
 import RoleSwitcher from '../components/auth/RoleSwitcher'
 import LearnerAnalytics from '../components/analytics/LearnerAnalytics'
 import TrainerAnalytics from '../components/analytics/TrainerAnalytics'
 import OrganizationAnalytics from '../components/analytics/OrganizationAnalytics'
+import './MultiRoleDashboard.css'
 
 /**
  * MultiRoleDashboard Component
@@ -74,49 +76,37 @@ const MultiRoleDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900">
-                {getRoleTitle()}
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                {getRoleDescription()}
-              </p>
-            </div>
-            
-            {/* Role Switcher */}
-            <RoleSwitcher 
-              currentRole={currentRole} 
-              onRoleChange={handleRoleChange}
-            />
-          </div>
+    <DashboardLayout>
+      {/* Dashboard Header */}
+      <div className="dashboard-header">
+        <div className="dashboard-title-section">
+          <h1 className="dashboard-title">{getRoleTitle()}</h1>
+          <p className="dashboard-description">{getRoleDescription()}</p>
         </div>
+        
+        {/* Role Switcher */}
+        <RoleSwitcher 
+          currentRole={currentRole} 
+          onRoleChange={handleRoleChange}
+        />
       </div>
 
       {/* Multi-Role Badge (if user has multiple roles) */}
       {user?.roles && user.roles.length > 1 && (
-        <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-b border-purple-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-            <div className="flex items-center space-x-2">
-              <span className="text-lg">🎭</span>
-              <p className="text-sm text-purple-800">
-                <span className="font-semibold">Multi-Role Account:</span> You have access to {user.roles.length} roles.
-                Use the role switcher above to navigate between different dashboards.
-              </p>
-            </div>
-          </div>
+        <div className="multi-role-badge">
+          <span className="badge-icon">🎭</span>
+          <p className="badge-text">
+            <span className="badge-label">Multi-Role Account:</span> You have access to {user.roles.length} roles.
+            Use the role switcher above to navigate between different dashboards.
+          </p>
         </div>
       )}
 
       {/* Dashboard Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="dashboard-content">
         {renderDashboard()}
       </div>
-    </div>
+    </DashboardLayout>
   )
 }
 

@@ -1,0 +1,64 @@
+/* Dashboard Layout Styles */
+.dashboard-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-primary);
+}
+
+.main-content {
+    flex: 1;
+    padding-top: 80px; /* Account for fixed header */
+    min-height: calc(100vh - 80px);
+}
+
+.content-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .main-content {
+        padding-top: 70px;
+    }
+
+    .content-container {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+}
+
+@media (max-width: 575px) {
+    .main-content {
+        padding-top: 60px;
+        padding-bottom: 70px; /* Account for mobile navigation */
+    }
+
+    .content-container {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+}
+
+/* Loading State */
+.content-container.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid var(--primary-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
