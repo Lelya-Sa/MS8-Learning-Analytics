@@ -553,6 +553,55 @@ class AnalyticsService {
       throw error
     }
   }
+  
+  /**
+   * ========================================
+   * AS-003: ORGANIZATIONAL ANALYTICS METHODS
+   * ========================================
+   */
+  
+  async getOrgLearningVelocity(organizationId) {
+    try {
+      const response = await api.get(`/analytics/organization/${organizationId}/learning-velocity`)
+      return { ...response, source: 'backend' }
+    } catch (error) {
+      console.error('Failed to fetch org learning velocity:', error)
+      throw error
+    }
+  }
+  
+  async getStrategicAlignment(organizationId) {
+    try {
+      const response = await api.get(`/analytics/organization/${organizationId}/strategic-alignment`)
+      return { ...response, source: 'backend' }
+    } catch (error) {
+      console.error('Failed to fetch strategic alignment:', error)
+      throw error
+    }
+  }
+  
+  async getDepartmentAnalytics(organizationId, departmentFilter = null) {
+    try {
+      const url = departmentFilter
+        ? `/analytics/organization/${organizationId}/department-analytics?department=${departmentFilter}`
+        : `/analytics/organization/${organizationId}/department-analytics`
+      const response = await api.get(url)
+      return { ...response, source: 'backend' }
+    } catch (error) {
+      console.error('Failed to fetch department analytics:', error)
+      throw error
+    }
+  }
+  
+  async getLearningCulture(organizationId) {
+    try {
+      const response = await api.get(`/analytics/organization/${organizationId}/learning-culture`)
+      return { ...response, source: 'backend' }
+    } catch (error) {
+      console.error('Failed to fetch learning culture:', error)
+      throw error
+    }
+  }
 }
 
 // Export singleton instance

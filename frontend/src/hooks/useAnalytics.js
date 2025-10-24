@@ -452,3 +452,73 @@ export const useTrainerTeachingEffectiveness = (trainerId) => {
 
   return { data, error, isLoading, mutate }
 }
+
+/**
+ * ========================================
+ * AS-003: ORGANIZATIONAL ANALYTICS HOOKS
+ * ========================================
+ */
+
+export const useOrgLearningVelocity = (organizationId) => {
+  const key = organizationId ? ['org-learning-velocity', organizationId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getOrgLearningVelocity(organizationId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+export const useStrategicAlignment = (organizationId) => {
+  const key = organizationId ? ['strategic-alignment', organizationId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getStrategicAlignment(organizationId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+export const useDepartmentAnalytics = (organizationId, departmentFilter = null) => {
+  const key = organizationId ? ['department-analytics', organizationId, departmentFilter] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getDepartmentAnalytics(organizationId, departmentFilter)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+export const useLearningCulture = (organizationId) => {
+  const key = organizationId ? ['learning-culture', organizationId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getLearningCulture(organizationId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
