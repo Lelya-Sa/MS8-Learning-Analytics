@@ -524,4 +524,197 @@ router.get('/trainer/:trainerId/teaching-effectiveness', authenticateToken, [
     }
 });
 
+/**
+ * ========================================
+ * AS-003: ORGANIZATIONAL ANALYTICS ENDPOINTS
+ * ========================================
+ */
+
+/**
+ * AS-003 #11: Organizational Learning Velocity
+ * GET /api/v1/analytics/organization/:organizationId/learning-velocity
+ */
+router.get('/organization/:organizationId/learning-velocity', authenticateToken, [
+    param('organizationId').matches(/^[a-zA-Z0-9-_]+$/).withMessage('Invalid organization ID format')
+], handleValidationErrors, async (req, res) => {
+    try {
+        const { organizationId } = req.params;
+        
+        // RBAC: Only org_admin can access organizational analytics
+        if (!req.user.roles.includes('org_admin')) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED',
+                message: 'Only organization administrators can access organizational analytics'
+            });
+        }
+        
+        // Verify user belongs to this organization
+        if (req.user.organizationId !== organizationId) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED',
+                message: 'You can only access analytics for your own organization'
+            });
+        }
+        
+        // TODO: Try to fetch from external microservices
+        const analytics = analyticsService.getOrgLearningVelocity(organizationId); // Fallback to mock
+        
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        console.error('Error fetching organizational learning velocity:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-003 #12: Strategic Alignment Tracking
+ * GET /api/v1/analytics/organization/:organizationId/strategic-alignment
+ */
+router.get('/organization/:organizationId/strategic-alignment', authenticateToken, [
+    param('organizationId').matches(/^[a-zA-Z0-9-_]+$/).withMessage('Invalid organization ID format')
+], handleValidationErrors, async (req, res) => {
+    try {
+        const { organizationId } = req.params;
+        
+        // RBAC: Only org_admin can access organizational analytics
+        if (!req.user.roles.includes('org_admin')) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+        
+        // Verify user belongs to this organization
+        if (req.user.organizationId !== organizationId) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+        
+        // TODO: Try to fetch from external microservices
+        const analytics = analyticsService.getStrategicAlignment(organizationId);
+        
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        console.error('Error fetching strategic alignment:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-003 #13: Department & Team Analytics
+ * GET /api/v1/analytics/organization/:organizationId/department-analytics
+ */
+router.get('/organization/:organizationId/department-analytics', authenticateToken, [
+    param('organizationId').matches(/^[a-zA-Z0-9-_]+$/).withMessage('Invalid organization ID format')
+], handleValidationErrors, async (req, res) => {
+    try {
+        const { organizationId } = req.params;
+        const { department } = req.query;
+        
+        // RBAC: Only org_admin can access organizational analytics
+        if (!req.user.roles.includes('org_admin')) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+        
+        // Verify user belongs to this organization
+        if (req.user.organizationId !== organizationId) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+        
+        // TODO: Try to fetch from external microservices
+        const analytics = analyticsService.getDepartmentAnalytics(organizationId, department);
+        
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        console.error('Error fetching department analytics:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-003 #14: Learning Culture Metrics
+ * GET /api/v1/analytics/organization/:organizationId/learning-culture
+ */
+router.get('/organization/:organizationId/learning-culture', authenticateToken, [
+    param('organizationId').matches(/^[a-zA-Z0-9-_]+$/).withMessage('Invalid organization ID format')
+], handleValidationErrors, async (req, res) => {
+    try {
+        const { organizationId } = req.params;
+        
+        // RBAC: Only org_admin can access organizational analytics
+        if (!req.user.roles.includes('org_admin')) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+        
+        // Verify user belongs to this organization
+        if (req.user.organizationId !== organizationId) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+        
+        // TODO: Try to fetch from external microservices
+        const analytics = analyticsService.getLearningCulture(organizationId);
+        
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        console.error('Error fetching learning culture:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
 module.exports = router;

@@ -981,6 +981,247 @@ const mockTrainerAnalytics = {
     }
 };
 
+/**
+ * AS-003: Organizational Analytics Mock Data
+ * Complete mock data for all 4 organizational analytics categories
+ */
+const mockOrganizationalAnalytics = {
+    // AS-003 #11: Organizational Learning Velocity
+    learningVelocity: {
+        'org-123': {
+            organizationId: 'org-123',
+            period: 'Q4 2024',
+            overview: {
+                totalEmployees: 500,
+                activelyLearning: 450,
+                participationRate: 90,
+                averageCompletionRate: 68,
+                skillsAcquiredThisQuarter: 1247,
+                certificationsEarned: 89
+            },
+            roiMetrics: {
+                trainingInvestment: 125000,
+                productivityGains: 340000,
+                roi: '172%',
+                calculationMethod: 'Based on average salary increase and project completion velocity',
+                costPerSkillAcquired: 100.24,
+                averageTimeToSkill: '3.2 weeks'
+            },
+            departmentBreakdown: [
+                {
+                    departmentId: 'dept_engineering',
+                    departmentName: 'Engineering',
+                    totalEmployees: 120,
+                    activelyLearning: 110,
+                    participationRate: 92,
+                    completionRate: 75,
+                    skillsAcquired: 456,
+                    topSkills: [
+                        { skill: 'Python', employeesWithSkill: 85 },
+                        { skill: 'AWS', employeesWithSkill: 67 },
+                        { skill: 'Docker', employeesWithSkill: 54 }
+                    ],
+                    skillGapClosure: 65,
+                    target: 75,
+                    status: 'on_track',
+                    trend: '+10% from last quarter'
+                },
+                {
+                    departmentId: 'dept_marketing',
+                    departmentName: 'Marketing',
+                    totalEmployees: 80,
+                    activelyLearning: 72,
+                    participationRate: 90,
+                    completionRate: 70,
+                    skillsAcquired: 234,
+                    topSkills: [
+                        { skill: 'Digital Marketing', employeesWithSkill: 65 },
+                        { skill: 'Analytics', employeesWithSkill: 48 },
+                        { skill: 'SEO', employeesWithSkill: 42 }
+                    ],
+                    skillGapClosure: 70,
+                    target: 75,
+                    status: 'on_track',
+                    trend: '+8% from last quarter'
+                }
+            ],
+            trends: {
+                quarterOverQuarter: '+15%',
+                yearOverYear: '+42%',
+                peakLearningMonth: 'November 2024'
+            }
+        }
+    },
+    
+    // AS-003 #12: Strategic Alignment Tracking
+    strategicAlignment: {
+        'org-123': {
+            organizationId: 'org-123',
+            overallAlignment: 85,
+            alignmentGrade: 'Excellent',
+            strategicGoals: [
+                {
+                    goalId: 'goal_1',
+                    goalName: 'Digital Transformation',
+                    targetDate: '2025-06-30',
+                    alignmentScore: 88,
+                    progress: 72,
+                    requiredSkills: ['Cloud Computing', 'DevOps', 'Microservices'],
+                    skillsCovered: 65,
+                    employeesOnTrack: 145,
+                    totalEmployeesNeeded: 200,
+                    status: 'on_track',
+                    recommendations: [
+                        'Increase focus on Microservices training',
+                        'Consider advanced DevOps certification programs'
+                    ]
+                },
+                {
+                    goalId: 'goal_2',
+                    goalName: 'Data-Driven Culture',
+                    targetDate: '2025-09-30',
+                    alignmentScore: 82,
+                    progress: 68,
+                    requiredSkills: ['Data Analytics', 'SQL', 'Python for Data Science'],
+                    skillsCovered: 70,
+                    employeesOnTrack: 120,
+                    totalEmployeesNeeded: 150,
+                    status: 'on_track',
+                    recommendations: [
+                        'Expand Python for Data Science courses',
+                        'Create more hands-on data analytics projects'
+                    ]
+                }
+            ],
+            gapAnalysis: {
+                criticalGaps: 3,
+                mediumGaps: 7,
+                lowGaps: 12,
+                topMissingSkills: [
+                    { skill: 'Kubernetes', gap: 45, priority: 'critical' },
+                    { skill: 'Machine Learning', gap: 38, priority: 'high' },
+                    { skill: 'Cybersecurity', gap: 32, priority: 'high' }
+                ]
+            }
+        }
+    },
+    
+    // AS-003 #13: Department & Team Analytics
+    departmentAnalytics: {
+        'org-123': {
+            organizationId: 'org-123',
+            departments: [
+                {
+                    departmentId: 'dept_engineering',
+                    departmentName: 'Engineering',
+                    totalEmployees: 120,
+                    metrics: {
+                        participationRate: 92,
+                        completionRate: 75,
+                        averageScore: 82.5,
+                        skillsAcquired: 456,
+                        certificationsEarned: 34
+                    },
+                    topPerformers: [
+                        { userId: 'user-123', name: 'John Doe', skillsAcquired: 12 },
+                        { userId: 'user-456', name: 'Jane Smith', skillsAcquired: 10 }
+                    ],
+                    teamComparison: {
+                        vsOrgAverage: '+8%',
+                        ranking: 1,
+                        totalDepartments: 5
+                    },
+                    trends: {
+                        last30Days: '+5%',
+                        last90Days: '+12%'
+                    }
+                },
+                {
+                    departmentId: 'dept_marketing',
+                    departmentName: 'Marketing',
+                    totalEmployees: 80,
+                    metrics: {
+                        participationRate: 90,
+                        completionRate: 70,
+                        averageScore: 78.3,
+                        skillsAcquired: 234,
+                        certificationsEarned: 18
+                    },
+                    topPerformers: [
+                        { userId: 'user-789', name: 'Alice Johnson', skillsAcquired: 8 },
+                        { userId: 'user-101', name: 'Bob Wilson', skillsAcquired: 7 }
+                    ],
+                    teamComparison: {
+                        vsOrgAverage: '+2%',
+                        ranking: 2,
+                        totalDepartments: 5
+                    },
+                    trends: {
+                        last30Days: '+3%',
+                        last90Days: '+8%'
+                    }
+                }
+            ]
+        }
+    },
+    
+    // AS-003 #14: Learning Culture Metrics
+    learningCulture: {
+        'org-123': {
+            organizationId: 'org-123',
+            overallCultureScore: 87,
+            cultureGrade: 'Strong',
+            metrics: {
+                learningEngagement: {
+                    score: 88,
+                    activeParticipation: 90,
+                    voluntaryLearning: 65,
+                    peerCollaboration: 72
+                },
+                knowledgeSharing: {
+                    score: 85,
+                    mentorshipPrograms: 12,
+                    activeMentors: 45,
+                    knowledgeBaseSessions: 28,
+                    internalPresentations: 34
+                },
+                innovationMetrics: {
+                    score: 82,
+                    newIdeasSubmitted: 156,
+                    ideasImplemented: 42,
+                    innovationProjects: 18,
+                    crossTeamCollaboration: 68
+                },
+                continuousImprovement: {
+                    score: 90,
+                    feedbackLoops: 'strong',
+                    courseCompletionTrend: '+15%',
+                    skillApplicationRate: 78,
+                    learningPathAdherence: 85
+                }
+            },
+            culturalIndicators: {
+                managerSupport: 92,
+                learningTimeAllocation: 85,
+                recognitionPrograms: 88,
+                careerDevelopmentOpportunities: 86
+            },
+            benchmarks: {
+                industryAverage: 72,
+                vsIndustry: '+15 points',
+                topQuartile: 90,
+                standing: 'Above Average'
+            },
+            recommendations: [
+                'Increase voluntary learning incentives',
+                'Expand peer mentorship programs',
+                'Create more innovation challenges',
+                'Enhance recognition for learning achievements'
+            ]
+        }
+    }
+};
+
 const mockAnalytics = {
     learner: {
         'user-123': {
@@ -1304,6 +1545,96 @@ const analyticsService = {
             },
             meta: {
                 calculatedAt: new Date().toISOString()
+            }
+        };
+    },
+    
+    /**
+     * ========================================
+     * AS-003: ORGANIZATIONAL ANALYTICS METHODS
+     * ========================================
+     */
+    
+    /**
+     * AS-003 #11: Organizational Learning Velocity
+     */
+    getOrgLearningVelocity: (organizationId) => {
+        const data = mockOrganizationalAnalytics.learningVelocity[organizationId];
+        if (!data) return null;
+        return {
+            success: true,
+            data: {
+                orgLearningVelocity: data
+            },
+            meta: {
+                calculatedAt: new Date().toISOString(),
+                dataFreshness: '1 hour'
+            }
+        };
+    },
+    
+    /**
+     * AS-003 #12: Strategic Alignment Tracking
+     */
+    getStrategicAlignment: (organizationId) => {
+        const data = mockOrganizationalAnalytics.strategicAlignment[organizationId];
+        if (!data) return null;
+        return {
+            success: true,
+            data: {
+                strategicAlignment: data
+            },
+            meta: {
+                calculatedAt: new Date().toISOString(),
+                dataFreshness: '6 hours'
+            }
+        };
+    },
+    
+    /**
+     * AS-003 #13: Department & Team Analytics
+     */
+    getDepartmentAnalytics: (organizationId, departmentFilter = null) => {
+        const data = mockOrganizationalAnalytics.departmentAnalytics[organizationId];
+        if (!data) return null;
+        
+        let departments = data.departments;
+        if (departmentFilter) {
+            departments = departments.filter(dept => 
+                dept.departmentId.toLowerCase().includes(departmentFilter.toLowerCase()) ||
+                dept.departmentName.toLowerCase().includes(departmentFilter.toLowerCase())
+            );
+        }
+        
+        return {
+            success: true,
+            data: {
+                departmentAnalytics: {
+                    organizationId: data.organizationId,
+                    departments: departments
+                }
+            },
+            meta: {
+                calculatedAt: new Date().toISOString(),
+                dataFreshness: '2 hours'
+            }
+        };
+    },
+    
+    /**
+     * AS-003 #14: Learning Culture Metrics
+     */
+    getLearningCulture: (organizationId) => {
+        const data = mockOrganizationalAnalytics.learningCulture[organizationId];
+        if (!data) return null;
+        return {
+            success: true,
+            data: {
+                learningCulture: data
+            },
+            meta: {
+                calculatedAt: new Date().toISOString(),
+                dataFreshness: '6 hours'
             }
         };
     }

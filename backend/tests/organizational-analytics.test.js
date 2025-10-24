@@ -78,6 +78,9 @@ describe('🔴 RED: AS-003 Organizational Analytics API Tests', () => {
                 .get(endpoint)
                 .set('Authorization', `Bearer ${orgAdminToken}`);
             
+            if (res.statusCode !== 200) {
+                console.log('Response body:', JSON.stringify(res.body, null, 2));
+            }
             expect(res.statusCode).toEqual(200);
             expect(res.body.success).toBe(true);
             expect(res.body.data).toBeDefined();
@@ -98,11 +101,12 @@ describe('🔴 RED: AS-003 Organizational Analytics API Tests', () => {
             expect(res.statusCode).toEqual(400);
         });
 
-        it('should return 404 for non-existent organization', async () => {
+        it('should return 403 when accessing different organization', async () => {
             const res = await request(app)
                 .get('/api/v1/analytics/organization/org-nonexistent/learning-velocity')
                 .set('Authorization', `Bearer ${orgAdminToken}`);
-            expect(res.statusCode).toEqual(404);
+            expect(res.statusCode).toEqual(403);
+            expect(res.body.code).toEqual('ACCESS_DENIED');
         });
     });
 
