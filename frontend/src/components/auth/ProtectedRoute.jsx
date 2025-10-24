@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from './AuthProvider'
 
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute({ children, requiredRoles = [] }) {
   const { user, isLoading } = useAuth()
 
   if (isLoading) {
@@ -18,6 +18,17 @@ export default function ProtectedRoute({ children }) {
 
   if (!user) {
     return <Navigate to="/login" replace />
+  }
+
+  // Check if user has required roles
+  if (requiredRoles.length > 0) {
+    const userRoles = user.roles || [user.role]
+    const hasRequiredRole = requiredRoles.some(role => userRoles.includes(role))
+    
+    if (!hasRequiredRole) {
+      // Redirect to analytics if user doesn't have required role
+      return <Navigate to="/analytics" replace />
+    }
   }
 
   return children
