@@ -370,3 +370,85 @@ export const useLearnerContentEffectiveness = (userId, filters = {}) => {
 
   return { data, error, isLoading, mutate }
 }
+
+/**
+ * ========================================
+ * AS-002: TRAINER ANALYTICS HOOKS
+ * ========================================
+ */
+
+/**
+ * AS-002 #8: Course Health Dashboard
+ */
+export const useTrainerCourseHealth = (trainerId, courseId) => {
+  const key = trainerId && courseId ? ['trainer-course-health', trainerId, courseId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getTrainerCourseHealth(trainerId, courseId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+/**
+ * AS-002 #7: Course Performance Dashboard
+ */
+export const useTrainerCoursePerformance = (trainerId) => {
+  const key = trainerId ? ['trainer-course-performance', trainerId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getTrainerCoursePerformance(trainerId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+/**
+ * AS-002 #9: Student Performance Distribution
+ */
+export const useTrainerStudentDistribution = (trainerId, courseId) => {
+  const key = trainerId && courseId ? ['trainer-student-distribution', trainerId, courseId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getTrainerStudentDistribution(trainerId, courseId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+/**
+ * AS-002 #10: Teaching Effectiveness Metrics
+ */
+export const useTrainerTeachingEffectiveness = (trainerId) => {
+  const key = trainerId ? ['trainer-teaching-effectiveness', trainerId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getTrainerTeachingEffectiveness(trainerId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}

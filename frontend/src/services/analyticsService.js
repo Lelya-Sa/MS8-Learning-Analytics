@@ -491,6 +491,68 @@ class AnalyticsService {
       throw error
     }
   }
+
+  /**
+   * ========================================
+   * AS-002: TRAINER ANALYTICS METHODS
+   * ========================================
+   */
+
+  /**
+   * AS-002 #8: Course Health Dashboard
+   * Backend returns mock data as fallback when external microservices unavailable
+   */
+  async getTrainerCourseHealth(trainerId, courseId) {
+    try {
+      const response = await api.get(`/analytics/trainer/${trainerId}/course-health/${courseId}`)
+      return { ...response, source: 'backend' }
+    } catch (error) {
+      console.error('Failed to fetch trainer course health:', error)
+      throw error
+    }
+  }
+
+  /**
+   * AS-002 #7: Course Performance Dashboard
+   * Backend returns mock data as fallback when external microservices unavailable
+   */
+  async getTrainerCoursePerformance(trainerId) {
+    try {
+      const response = await api.get(`/analytics/trainer/${trainerId}/course-performance`)
+      return { ...response, source: 'backend' }
+    } catch (error) {
+      console.error('Failed to fetch trainer course performance:', error)
+      throw error
+    }
+  }
+
+  /**
+   * AS-002 #9: Student Performance Distribution
+   * Backend returns mock data as fallback when external microservices unavailable
+   */
+  async getTrainerStudentDistribution(trainerId, courseId) {
+    try {
+      const response = await api.get(`/analytics/trainer/${trainerId}/student-distribution/${courseId}`)
+      return { ...response, source: 'backend' }
+    } catch (error) {
+      console.error('Failed to fetch trainer student distribution:', error)
+      throw error
+    }
+  }
+
+  /**
+   * AS-002 #10: Teaching Effectiveness Metrics
+   * Backend returns mock data as fallback when external microservices unavailable
+   */
+  async getTrainerTeachingEffectiveness(trainerId) {
+    try {
+      const response = await api.get(`/analytics/trainer/${trainerId}/teaching-effectiveness`)
+      return { ...response, source: 'backend' }
+    } catch (error) {
+      console.error('Failed to fetch trainer teaching effectiveness:', error)
+      throw error
+    }
+  }
 }
 
 // Export singleton instance
