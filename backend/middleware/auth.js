@@ -35,17 +35,24 @@ const authenticateToken = (req, res, next) => {
 
 /**
  * Role-based access control middleware
- * @param {string[]} roles - Array of allowed roles
+ * Supports both single role and multiple roles per user
+ * @param {string[]} allowedRoles - Array of allowed roles
  * @returns {Function} Express middleware function
  */
-const requireRole = (roles) => {
+const requireRole = (allowedRoles) => {
     return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
+        // Get user's roles (support both single role and multiple roles)
+        const userRoles = req.user.roles || [req.user.role];
+        
+        // Check if user has at least one of the required roles
+        const hasRequiredRole = userRoles.some(role => allowedRoles.includes(role));
+        
+        if (!hasRequiredRole) {
             return res.status(403).json({ 
                 error: 'Insufficient permissions',
                 code: 'INSUFFICIENT_PERMISSIONS',
-                required: roles,
-                current: req.user.role
+                required: allowedRoles,
+                current: userRoles
             });
         }
         next();

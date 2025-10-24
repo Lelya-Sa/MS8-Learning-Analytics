@@ -20,7 +20,8 @@ const generateToken = (user) => {
         { 
             userId: user.id, 
             email: user.email, 
-            role: user.role,
+            role: user.role, // Primary role
+            roles: user.roles || [user.role], // All roles (fallback to primary role if not defined)
             organizationId: user.organization_id 
         },
         JWT_SECRET,
@@ -65,7 +66,8 @@ router.post('/login', [
             user: {
                 id: user.id,
                 email: user.email,
-                role: user.role,
+                role: user.role, // Primary role
+                roles: user.roles || [user.role], // All roles
                 organization_id: user.organization_id
             }
         });

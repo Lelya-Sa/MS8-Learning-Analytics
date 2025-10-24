@@ -8,7 +8,8 @@ const mockUsers = [
         id: 'user-123',
         email: 'test@example.com',
         password: process.env.TEST_USER_PASSWORD || 'test-password-123',
-        role: 'learner',
+        role: 'learner', // Primary role
+        roles: ['learner'], // All roles
         organization_id: 'org-123'
     },
     {
@@ -16,6 +17,7 @@ const mockUsers = [
         email: 'learner@example.com',
         password: process.env.TEST_USER_PASSWORD || 'test-password-123',
         role: 'learner',
+        roles: ['learner'],
         organization_id: 'org-123'
     },
     {
@@ -23,6 +25,7 @@ const mockUsers = [
         email: 'trainer@example.com',
         password: process.env.TEST_USER_PASSWORD || 'test-password-123',
         role: 'trainer',
+        roles: ['trainer'],
         organization_id: 'org-123'
     },
     {
@@ -30,6 +33,23 @@ const mockUsers = [
         email: 'admin@example.com',
         password: process.env.TEST_USER_PASSWORD || 'test-password-123',
         role: 'org_admin',
+        roles: ['org_admin'],
+        organization_id: 'org-123'
+    },
+    {
+        id: 'multi-role-202',
+        email: 'multi@example.com',
+        password: process.env.TEST_USER_PASSWORD || 'test-password-123',
+        role: 'learner', // Primary role
+        roles: ['learner', 'trainer'], // User with multiple roles
+        organization_id: 'org-123'
+    },
+    {
+        id: 'super-admin-303',
+        email: 'superadmin@example.com',
+        password: process.env.TEST_USER_PASSWORD || 'test-password-123',
+        role: 'org_admin', // Primary role
+        roles: ['learner', 'trainer', 'org_admin'], // User with all roles
         organization_id: 'org-123'
     }
 ];

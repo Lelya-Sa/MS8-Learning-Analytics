@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './components/auth/AuthProvider'
 import { AnalyticsDashboard } from './pages/AnalyticsDashboard'
+import MultiRoleDashboard from './pages/MultiRoleDashboard'
 import { LoginPage } from './pages/LoginPage'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import { Layout } from './components/layout/Layout'
@@ -85,6 +86,13 @@ function App() {
             
             {/* Protected routes - Full microservice frontend */}
             <Route path="/analytics" element={
+              <ProtectedRoute>
+                <MultiRoleDashboard />
+              </ProtectedRoute>
+            } />
+            
+            {/* Legacy single-role dashboard (kept for backwards compatibility) */}
+            <Route path="/analytics/legacy" element={
               <ProtectedRoute>
                 <Layout>
                   <AnalyticsDashboard />

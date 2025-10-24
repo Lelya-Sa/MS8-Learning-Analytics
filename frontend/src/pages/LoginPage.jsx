@@ -105,10 +105,41 @@ export const LoginPage = () => {
             </button>
           </div>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Demo credentials: test@example.com / test-password-123
-            </p>
+          <div className="mt-6 border-t border-gray-200 pt-6">
+            <h3 className="text-sm font-semibold text-gray-900 mb-3 text-center">
+              Demo Credentials (Password: test-password-123)
+            </h3>
+            <div className="space-y-2 text-xs">
+              <div className="bg-blue-50 p-3 rounded-md border border-blue-200">
+                <p className="font-medium text-blue-900 mb-1">👤 Learner Role</p>
+                <p className="text-blue-700">test@example.com</p>
+                <p className="text-blue-600 text-xs mt-1">Access: Learning analytics, progress tracking</p>
+              </div>
+              
+              <div className="bg-green-50 p-3 rounded-md border border-green-200">
+                <p className="font-medium text-green-900 mb-1">👨‍🏫 Trainer Role</p>
+                <p className="text-green-700">trainer@example.com</p>
+                <p className="text-green-600 text-xs mt-1">Access: Course analytics, student management</p>
+              </div>
+              
+              <div className="bg-purple-50 p-3 rounded-md border border-purple-200">
+                <p className="font-medium text-purple-900 mb-1">👔 Organization Admin</p>
+                <p className="text-purple-700">admin@example.com</p>
+                <p className="text-purple-600 text-xs mt-1">Access: Full organization analytics</p>
+              </div>
+              
+              <div className="bg-orange-50 p-3 rounded-md border border-orange-200">
+                <p className="font-medium text-orange-900 mb-1">🎭 Multi-Role User</p>
+                <p className="text-orange-700">multi@example.com</p>
+                <p className="text-orange-600 text-xs mt-1">Roles: Learner + Trainer</p>
+              </div>
+              
+              <div className="bg-red-50 p-3 rounded-md border border-red-200">
+                <p className="font-medium text-red-900 mb-1">⭐ Super Admin</p>
+                <p className="text-red-700">superadmin@example.com</p>
+                <p className="text-red-600 text-xs mt-1">Roles: All (Learner + Trainer + Org Admin)</p>
+              </div>
+            </div>
           </div>
         </form>
       </div>
