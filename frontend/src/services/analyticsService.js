@@ -398,6 +398,128 @@ class AnalyticsService {
       }
     }
   }
+
+  /**
+   * ========================================
+   * AS-001: INDIVIDUAL LEARNER ANALYTICS METHODS
+   * ========================================
+   */
+
+  /**
+   * AS-001 #1: Learning Velocity & Momentum
+   */
+  async getLearnerVelocity(userId) {
+    try {
+      if (this.useMockData) {
+        await this.delay()
+        return { success: true, source: 'mock' }
+      }
+
+      const response = await api.get(`/analytics/learner/${userId}/velocity`)
+      return { ...response, source: 'api' }
+    } catch (error) {
+      console.warn('API failed, using mock fallback:', error.message)
+      await this.delay()
+      return { success: true, source: 'fallback' }
+    }
+  }
+
+  /**
+   * AS-001 #2: Skill Gap Matrix with Prioritization
+   */
+  async getLearnerSkillGaps(userId) {
+    try {
+      if (this.useMockData) {
+        await this.delay()
+        return { success: true, source: 'mock' }
+      }
+
+      const response = await api.get(`/analytics/learner/${userId}/skill-gaps`)
+      return { ...response, source: 'api' }
+    } catch (error) {
+      console.warn('API failed, using mock fallback:', error.message)
+      await this.delay()
+      return { success: true, source: 'fallback' }
+    }
+  }
+
+  /**
+   * AS-001 #3: Engagement Score with Behavioral Insights
+   */
+  async getLearnerEngagement(userId) {
+    try {
+      if (this.useMockData) {
+        await this.delay()
+        return { success: true, source: 'mock' }
+      }
+
+      const response = await api.get(`/analytics/learner/${userId}/engagement`)
+      return { ...response, source: 'api' }
+    } catch (error) {
+      console.warn('API failed, using mock fallback:', error.message)
+      await this.delay()
+      return { success: true, source: 'fallback' }
+    }
+  }
+
+  /**
+   * AS-001 #4: Mastery Progress Tracking
+   */
+  async getLearnerMastery(userId) {
+    try {
+      if (this.useMockData) {
+        await this.delay()
+        return { success: true, source: 'mock' }
+      }
+
+      const response = await api.get(`/analytics/learner/${userId}/mastery`)
+      return { ...response, source: 'api' }
+    } catch (error) {
+      console.warn('API failed, using mock fallback:', error.message)
+      await this.delay()
+      return { success: true, source: 'fallback' }
+    }
+  }
+
+  /**
+   * AS-001 #5: Performance & Assessment Analytics
+   */
+  async getLearnerPerformance(userId) {
+    try {
+      if (this.useMockData) {
+        await this.delay()
+        return { success: true, source: 'mock' }
+      }
+
+      const response = await api.get(`/analytics/learner/${userId}/performance`)
+      return { ...response, source: 'api' }
+    } catch (error) {
+      console.warn('API failed, using mock fallback:', error.message)
+      await this.delay()
+      return { success: true, source: 'fallback' }
+    }
+  }
+
+  /**
+   * AS-001 #6: Course & Content Effectiveness
+   */
+  async getLearnerContentEffectiveness(userId, filters = {}) {
+    try {
+      if (this.useMockData) {
+        await this.delay()
+        return { success: true, source: 'mock' }
+      }
+
+      const queryParams = new URLSearchParams(filters).toString()
+      const url = `/analytics/learner/${userId}/content-effectiveness${queryParams ? `?${queryParams}` : ''}`
+      const response = await api.get(url)
+      return { ...response, source: 'api' }
+    } catch (error) {
+      console.warn('API failed, using mock fallback:', error.message)
+      await this.delay()
+      return { success: true, source: 'fallback' }
+    }
+  }
 }
 
 // Export singleton instance

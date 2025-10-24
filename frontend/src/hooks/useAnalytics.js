@@ -250,3 +250,123 @@ export const useAnalyticsService = () => {
     disableMockData: () => analyticsService.disableMockData()
   }
 }
+
+/**
+ * ========================================
+ * AS-001: INDIVIDUAL LEARNER ANALYTICS HOOKS
+ * ========================================
+ */
+
+/**
+ * AS-001 #1: Learning Velocity & Momentum
+ */
+export const useLearnerVelocity = (userId) => {
+  const key = userId ? ['learner-velocity', userId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getLearnerVelocity(userId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+/**
+ * AS-001 #2: Skill Gap Matrix with Prioritization
+ */
+export const useLearnerSkillGaps = (userId) => {
+  const key = userId ? ['learner-skill-gaps', userId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getLearnerSkillGaps(userId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+/**
+ * AS-001 #3: Engagement Score with Behavioral Insights
+ */
+export const useLearnerEngagement = (userId) => {
+  const key = userId ? ['learner-engagement', userId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getLearnerEngagement(userId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+/**
+ * AS-001 #4: Mastery Progress Tracking
+ */
+export const useLearnerMastery = (userId) => {
+  const key = userId ? ['learner-mastery', userId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getLearnerMastery(userId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+/**
+ * AS-001 #5: Performance & Assessment Analytics
+ */
+export const useLearnerPerformance = (userId) => {
+  const key = userId ? ['learner-performance', userId] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getLearnerPerformance(userId)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
+
+/**
+ * AS-001 #6: Course & Content Effectiveness
+ */
+export const useLearnerContentEffectiveness = (userId, filters = {}) => {
+  const key = userId ? ['learner-content-effectiveness', userId, filters] : null
+  
+  const { data, error, isLoading, mutate } = useSWR(
+    key,
+    createFetcher(() => analyticsService.getLearnerContentEffectiveness(userId, filters)),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+      fallbackData: null
+    }
+  )
+
+  return { data, error, isLoading, mutate }
+}
