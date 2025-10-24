@@ -791,6 +791,196 @@ const mockLearnerAnalytics = {
     }
 };
 
+/**
+ * AS-002: Trainer Analytics Mock Data
+ * Complete mock data for all 4 trainer analytics categories
+ */
+const mockTrainerAnalytics = {
+    // AS-002 #8: Course Health Dashboard
+    courseHealth: {
+        'trainer-123': {
+            'course-123': {
+                courseId: 'course-123',
+                courseName: 'Full Stack Web Development',
+                overallHealth: 'good',
+                healthScore: 78,
+                metrics: {
+                    enrollments: {
+                        total: 245,
+                        active: 180,
+                        trend: '+15% this month',
+                        comparisonToAverage: '+8%'
+                    },
+                    completion: {
+                        rate: 68,
+                        target: 75,
+                        variance: '-7%',
+                        averageTimeToComplete: '8.5 weeks',
+                        targetTime: '8 weeks'
+                    },
+                    satisfaction: {
+                        averageRating: 4.3,
+                        totalReviews: 87,
+                        nps: 42,
+                        satisfactionScore: 85,
+                        ratingTrend: '+0.2 from last cohort'
+                    }
+                },
+                dropOffAnalysis: {
+                    overallDropOffRate: 32,
+                    dropOffPoints: [
+                        {
+                            moduleId: 'module_5',
+                            moduleName: 'Advanced JavaScript',
+                            dropOffRate: 35,
+                            studentsDropped: 63,
+                            avgProgressBeforeDrop: 45,
+                            likelyReasons: [
+                                'Difficulty spike (30% of feedback)',
+                                'Unclear instructions (25% of feedback)',
+                                'Time commitment (20% of feedback)'
+                            ],
+                            recommendedActions: [
+                                'Add prerequisite review module',
+                                'Create video walkthrough for complex concepts',
+                                'Break module into smaller sections',
+                                'Add more practice exercises with hints'
+                            ],
+                            priority: 'high'
+                        }
+                    ]
+                },
+                contentPerformance: {
+                    strugglingTopics: [
+                        {
+                            topic: 'Async Programming',
+                            averageScore: 62,
+                            passRate: 58,
+                            averageAttempts: 2.3,
+                            studentFeedback: 'Needs more examples'
+                        }
+                    ],
+                    highPerformanceTopics: [
+                        {
+                            topic: 'HTML/CSS Basics',
+                            averageScore: 92,
+                            passRate: 98,
+                            averageAttempts: 1.1,
+                            studentFeedback: 'Clear and concise'
+                        }
+                    ]
+                },
+                recommendations: [
+                    {
+                        type: 'content_improvement',
+                        priority: 'high',
+                        suggestion: 'Revise Module 5: Add scaffolding content',
+                        expectedImpact: 'Reduce drop-off by 15%'
+                    },
+                    {
+                        type: 'pacing',
+                        priority: 'medium',
+                        suggestion: 'Module 3 completion time is 30% longer than target',
+                        expectedImpact: 'Improve completion rate by 5%'
+                    }
+                ]
+            }
+        }
+    },
+    
+    // AS-002 #7: Course Performance Dashboard
+    coursePerformance: {
+        'trainer-123': {
+            courses: [
+                {
+                    courseId: 'course-123',
+                    courseName: 'Full Stack Web Development',
+                    enrollments: 245,
+                    activeStudents: 180,
+                    completionRate: 68,
+                    averageScore: 78.5,
+                    healthScore: 78,
+                    trend: 'improving'
+                },
+                {
+                    courseId: 'course-456',
+                    courseName: 'React Advanced Patterns',
+                    enrollments: 128,
+                    activeStudents: 95,
+                    completionRate: 72,
+                    averageScore: 82.3,
+                    healthScore: 85,
+                    trend: 'stable'
+                }
+            ],
+            summary: {
+                totalCourses: 2,
+                totalEnrollments: 373,
+                averageCompletionRate: 70,
+                averageHealthScore: 81.5
+            }
+        }
+    },
+    
+    // AS-002 #9: Student Performance Distribution
+    studentDistribution: {
+        'trainer-123': {
+            'course-123': {
+                courseId: 'course-123',
+                courseName: 'Full Stack Web Development',
+                totalStudents: 245,
+                distribution: {
+                    excellent: { count: 45, percentage: 18.4, range: '90-100%' },
+                    good: { count: 98, percentage: 40.0, range: '75-89%' },
+                    average: { count: 67, percentage: 27.3, range: '60-74%' },
+                    struggling: { count: 35, percentage: 14.3, range: '<60%' }
+                },
+                insights: {
+                    averageScore: 78.5,
+                    medianScore: 79.0,
+                    passRate: 85.7,
+                    atRiskStudents: 35,
+                    topPerformers: 45
+                }
+            }
+        }
+    },
+    
+    // AS-002 #10: Teaching Effectiveness Metrics
+    teachingEffectiveness: {
+        'trainer-123': {
+            overallScore: 85.7,
+            metrics: {
+                studentSatisfaction: {
+                    score: 4.3,
+                    totalReviews: 187,
+                    trend: 'improving'
+                },
+                learningOutcomes: {
+                    averageScoreImprovement: 15.5,
+                    skillAcquisitionRate: 82.3,
+                    completionRate: 70.0
+                },
+                engagement: {
+                    responseTime: '2.5 hours',
+                    feedbackQuality: 4.5,
+                    availabilityScore: 92
+                }
+            },
+            strengths: [
+                'Clear explanations and examples',
+                'Quick response to student questions',
+                'Well-structured course content'
+            ],
+            improvementAreas: [
+                'More hands-on exercises',
+                'Additional office hours',
+                'More video content'
+            ]
+        }
+    }
+};
+
 const mockAnalytics = {
     learner: {
         'user-123': {
@@ -1033,6 +1223,85 @@ const analyticsService = {
             scope: 'learner',
             userId: userId,
             data: data,
+            meta: {
+                calculatedAt: new Date().toISOString()
+            }
+        };
+    },
+    
+    /**
+     * ========================================
+     * AS-002: TRAINER ANALYTICS METHODS
+     * ========================================
+     */
+    
+    /**
+     * AS-002 #8: Course Health Dashboard
+     */
+    getCourseHealth: (trainerId, courseId) => {
+        const trainerData = mockTrainerAnalytics.courseHealth[trainerId];
+        if (!trainerData) return null;
+        const data = trainerData[courseId];
+        if (!data) return null;
+        return {
+            success: true,
+            data: {
+                courseHealth: data
+            },
+            meta: {
+                calculatedAt: new Date().toISOString(),
+                dataFreshness: '1 hour'
+            }
+        };
+    },
+    
+    /**
+     * AS-002 #7: Course Performance Dashboard
+     */
+    getCoursePerformance: (trainerId) => {
+        const data = mockTrainerAnalytics.coursePerformance[trainerId];
+        if (!data) return null;
+        return {
+            success: true,
+            data: {
+                coursePerformance: data
+            },
+            meta: {
+                calculatedAt: new Date().toISOString()
+            }
+        };
+    },
+    
+    /**
+     * AS-002 #9: Student Performance Distribution
+     */
+    getStudentDistribution: (trainerId, courseId) => {
+        const trainerData = mockTrainerAnalytics.studentDistribution[trainerId];
+        if (!trainerData) return null;
+        const data = trainerData[courseId];
+        if (!data) return null;
+        return {
+            success: true,
+            data: {
+                studentDistribution: data
+            },
+            meta: {
+                calculatedAt: new Date().toISOString()
+            }
+        };
+    },
+    
+    /**
+     * AS-002 #10: Teaching Effectiveness Metrics
+     */
+    getTeachingEffectiveness: (trainerId) => {
+        const data = mockTrainerAnalytics.teachingEffectiveness[trainerId];
+        if (!data) return null;
+        return {
+            success: true,
+            data: {
+                teachingEffectiveness: data
+            },
             meta: {
                 calculatedAt: new Date().toISOString()
             }

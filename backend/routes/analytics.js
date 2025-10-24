@@ -366,4 +366,162 @@ router.get('/learner/:userId/content-effectiveness', authenticateToken, [
     }
 });
 
+/**
+ * ========================================
+ * AS-002: TRAINER ANALYTICS ENDPOINTS
+ * ========================================
+ */
+
+/**
+ * AS-002 #8: Course Health Dashboard
+ * GET /api/v1/analytics/trainer/:trainerId/course-health/:courseId
+ * 
+ * Data Flow:
+ * 1. Try to fetch from external microservices (not implemented yet)
+ * 2. If external API fails, return mock data as fallback
+ */
+router.get('/trainer/:trainerId/course-health/:courseId', authenticateToken, [
+    param('trainerId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message),
+    param('courseId').matches(/^[a-zA-Z0-9-_]+$/).withMessage('Invalid course ID format')
+], handleValidationErrors, async (req, res) => {
+    try {
+        const { trainerId, courseId } = req.params;
+        
+        // Check if user can access this resource (trainer can access own data, org_admin can access all)
+        if (req.user.userId !== trainerId && !req.user.roles.includes('org_admin')) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        // TODO: Try to fetch from external microservices
+        // const externalData = await fetchFromExternalMicroservices(trainerId, courseId);
+        // if (externalData) return res.json(externalData);
+
+        // Fallback to mock data (current implementation)
+        const analytics = analyticsService.getCourseHealth(trainerId, courseId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        console.error('Error fetching course health:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-002 #7: Course Performance Dashboard
+ * GET /api/v1/analytics/trainer/:trainerId/course-performance
+ */
+router.get('/trainer/:trainerId/course-performance', authenticateToken, [
+    param('trainerId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
+], handleValidationErrors, async (req, res) => {
+    try {
+        const { trainerId } = req.params;
+        
+        if (req.user.userId !== trainerId && !req.user.roles.includes('org_admin')) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const analytics = analyticsService.getCoursePerformance(trainerId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        console.error('Error fetching course performance:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-002 #9: Student Performance Distribution
+ * GET /api/v1/analytics/trainer/:trainerId/student-distribution/:courseId
+ */
+router.get('/trainer/:trainerId/student-distribution/:courseId', authenticateToken, [
+    param('trainerId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message),
+    param('courseId').matches(/^[a-zA-Z0-9-_]+$/).withMessage('Invalid course ID format')
+], handleValidationErrors, async (req, res) => {
+    try {
+        const { trainerId, courseId } = req.params;
+        
+        if (req.user.userId !== trainerId && !req.user.roles.includes('org_admin')) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const analytics = analyticsService.getStudentDistribution(trainerId, courseId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        console.error('Error fetching student distribution:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
+/**
+ * AS-002 #10: Teaching Effectiveness Metrics
+ * GET /api/v1/analytics/trainer/:trainerId/teaching-effectiveness
+ */
+router.get('/trainer/:trainerId/teaching-effectiveness', authenticateToken, [
+    param('trainerId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
+], handleValidationErrors, async (req, res) => {
+    try {
+        const { trainerId } = req.params;
+        
+        if (req.user.userId !== trainerId && !req.user.roles.includes('org_admin')) {
+            return res.status(403).json({
+                error: 'Access denied',
+                code: 'ACCESS_DENIED'
+            });
+        }
+
+        const analytics = analyticsService.getTeachingEffectiveness(trainerId);
+        if (!analytics) {
+            return res.status(404).json({
+                error: 'Analytics not found',
+                code: 'ANALYTICS_NOT_FOUND'
+            });
+        }
+
+        res.json(analytics);
+    } catch (error) {
+        console.error('Error fetching teaching effectiveness:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
+});
+
 module.exports = router;
