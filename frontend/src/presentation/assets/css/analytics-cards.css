@@ -308,6 +308,17 @@
 .chart-container .relative {
   height: 280px !important;
   max-height: 280px !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+.bar-chart-container .relative svg,
+.line-chart-container .relative svg,
+.chart-container .relative svg {
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: 280px !important;
+  height: 280px !important;
 }
 
 /* Chart container constraints */
@@ -317,11 +328,12 @@
 .chart-container {
   width: 100%;
   max-width: 100%;
+  min-height: 320px;
   box-sizing: border-box;
   overflow: visible;
   display: block;
-  padding: 0.75rem;
-  margin: 0.5rem auto;
+  padding: 0.5rem;
+  margin: 0 auto;
 }
 
 .chart-container .bar-chart-container,
