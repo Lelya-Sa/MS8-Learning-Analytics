@@ -138,13 +138,16 @@ export const LineChart = ({
           style={svgStyle}
           role="img"
           aria-label={title || 'Line chart'}
-          className="overflow-visible"
+          className="overflow-hidden"
         >
           <defs>
             <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor={color} stopOpacity="0.3" />
               <stop offset="100%" stopColor={color} stopOpacity="0" />
             </linearGradient>
+            <clipPath id="chartClip">
+              <rect x={margin.left} y={margin.top} width={chartDimensions.chartWidth} height={chartDimensions.chartHeight} />
+            </clipPath>
           </defs>
 
           {/* Grid Lines */}
