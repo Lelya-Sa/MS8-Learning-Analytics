@@ -54,8 +54,13 @@ export const LineChart = ({
     const yMin = Math.min(...yValues);
     const yMax = Math.max(...yValues, 1);
     
-    const xScale = chartWidth / Math.max(xMax - xMin || 1, 1);
-    const yScale = chartHeight / Math.max(yMax - yMin || 1, 1);
+    // Add padding to prevent edge clipping
+    const xRange = Math.max(xMax - xMin || 1, 1);
+    const yRange = Math.max(yMax - yMin || 1, 1);
+    
+    // Use index-based positioning for better spacing when data doesn't start at 0
+    const xScale = chartWidth / Math.max(chartData.length - 1 || 1, 1);
+    const yScale = chartHeight / yRange;
     
     return { xScale, yScale, xMin, xMax, yMin, yMax };
   }, [chartData, chartDimensions, series]);
@@ -63,13 +68,13 @@ export const LineChart = ({
   const pathData = useMemo(() => {
     if (!chartData || chartData.length === 0) return '';
     
-    const { xScale, yScale, xMin, yMin } = scales;
+    const { xScale, yScale, yMin } = scales;
     
     const pathPoints = chartData.map((point, index) => {
-      const x = point.x !== undefined ? point.x : index;
       const y = point.y || 0;
       
-      const xPos = margin.left + (x - xMin) * xScale;
+      // Use index-based positioning for x-axis to ensure even spacing
+      const xPos = margin.left + index * xScale;
       const yPos = margin.top + chartDimensions.chartHeight - (y - yMin) * yScale;
       
       return `${xPos} ${yPos}`;
@@ -83,13 +88,13 @@ export const LineChart = ({
   const pointData = useMemo(() => {
     if (!showPoints || chartData.length === 0) return [];
     
-    const { xScale, yScale, xMin, yMin } = scales;
+    const { xScale, yScale, yMin } = scales;
     
     return chartData.map((point, index) => {
-      const x = point.x !== undefined ? point.x : index;
       const y = point.y || 0;
       
-      const xPos = margin.left + (x - xMin) * xScale;
+      // Use index-based positioning for x-axis to ensure even spacing
+      const xPos = margin.left + index * xScale;
       const yPos = margin.top + chartDimensions.chartHeight - (y - yMin) * yScale;
       
       return { 

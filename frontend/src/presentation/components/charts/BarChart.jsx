@@ -46,34 +46,32 @@ export const BarChart = ({
     
     const { chartWidth, chartHeight } = chartDimensions;
     
-    const xValues = chartData.map((d, idx) => d.x !== undefined ? d.x : idx);
     const yValues = chartData.flatMap(d => 
       series.map(s => d[s] || d.y || 0)
     );
     
-    const xMin = Math.min(...xValues);
-    const xMax = Math.max(...xValues);
     const yMin = Math.min(...yValues);
     const yMax = Math.max(...yValues, 1);
     
-    const xScale = chartWidth / Math.max(xMax - xMin || 1, 1);
+    // Use index-based positioning for better spacing
+    const xScale = chartWidth / Math.max(chartData.length - 1 || 1, 1);
     const yScale = chartHeight / Math.max(yMax - yMin || 1, 1);
     
-    return { xScale, yScale, xMin, xMax, yMin, yMax };
+    return { xScale, yScale, xMin: 0, xMax: chartData.length - 1, yMin, yMax };
   }, [chartData, chartDimensions, series]);
 
   const barData = useMemo(() => {
     if (chartData.length === 0) return [];
     
-    const { xScale, yScale, xMin, yMin } = scales;
+    const { xScale, yScale, yMin } = scales;
     
     const barWidth = (chartDimensions.chartWidth / Math.max(chartData.length, 1)) * (1 - barSpacing);
     
     return chartData.map((point, index) => {
-      const x = point.x !== undefined ? point.x : index;
       const y = point.y || 0;
       
-      const xPos = margin.left + (x - xMin) * xScale;
+      // Use index-based positioning for x-axis to ensure even spacing
+      const xPos = margin.left + index * xScale;
       const barHeight = (y - yMin) * yScale;
       const yPos = margin.top + chartDimensions.chartHeight - barHeight;
       
