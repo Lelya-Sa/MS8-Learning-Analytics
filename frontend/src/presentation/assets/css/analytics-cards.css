@@ -1,161 +1,271 @@
-/* Analytics Cards Styles - Consistent with main page and login page */
+/* Analytics Cards Styles - Natural Carousel with Smooth Sliding */
 
 /* Carousel Container */
 .carousel-container {
   position: relative;
   width: 100%;
-  margin: 2rem 0;
-  padding: 0 3rem;
+  max-width: 100%;
+  margin: 2rem auto;
+  padding: 0 4rem;
+  height: auto;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
+/* Carousel Wrapper - Adapts to active card height */
 .cards-carousel-wrapper {
   overflow: hidden;
   width: 100%;
   position: relative;
+  border-radius: 0.75rem;
+  /* Height will be set dynamically by JavaScript based on active card */
+  height: auto;
+  /* Smooth height transition */
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  padding: 0.5rem 0;
 }
 
+/* Main Carousel - Flex container with smooth sliding */
 .cards-carousel {
   display: flex;
   width: 100%;
-  transition: transform 0.5s ease-in-out;
+  /* Natural sliding animation using cubic-bezier for smooth deceleration */
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  height: auto;
+  will-change: transform;
+  /* Align items so height is determined by tallest in viewport */
+  align-items: flex-start;
+  gap: 0;
 }
 
 .cards-carousel > div {
+  flex: 0 0 100%;
   box-sizing: border-box;
-  min-height: 600px;
+  height: auto;
+  transition: opacity 0.4s ease-in-out;
+  flex-shrink: 0;
+  /* Ensure each slide has auto height to adapt */
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0.5rem 0;
 }
 
-/* Ensure all cards have consistent sizing */
+/* Ensure all cards have consistent width but adaptive height */
 .cards-carousel > div > * {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-/* Carousel Navigation Buttons */
+/* Subtle fade effect during transitions for natural feel */
+.cards-carousel[data-transitioning="true"] > div {
+  opacity: 0.95;
+}
+
+.cards-carousel[data-transitioning="false"] > div {
+  opacity: 1;
+}
+
+/* Carousel Navigation Buttons - Enhanced with smooth interactions and emerald theme */
 .carousel-container button[aria-label="Previous cards"],
 .carousel-container button[aria-label="Next cards"] {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) scale(1);
   z-index: 10;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
   cursor: pointer;
-  font-size: 1.2rem;
-  color: #374151;
-  transition: all 0.2s ease;
-}
-
-.night-mode .carousel-container button[aria-label="Previous cards"],
-.night-mode .carousel-container button[aria-label="Next cards"] {
-  background: #1f2937;
-  color: #d1d5db;
+  font-size: 1.3rem;
+  color: #047857;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0.85;
 }
 
 .carousel-container button[aria-label="Previous cards"]:hover,
 .carousel-container button[aria-label="Next cards"]:hover {
-  background: #f3f4f6;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.15));
+  border-color: rgba(16, 185, 129, 0.4);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2), 0 2px 8px rgba(5, 150, 105, 0.15);
+  opacity: 1;
+  color: #059669;
+}
+
+.carousel-container button[aria-label="Previous cards"]:active,
+.carousel-container button[aria-label="Next cards"]:active {
+  transform: translateY(-50%) scale(0.95);
+  transition: all 0.1s ease;
+}
+
+/* Night mode button styles with emerald accents */
+.night-mode .carousel-container button[aria-label="Previous cards"],
+.night-mode .carousel-container button[aria-label="Next cards"] {
+  background: rgba(31, 41, 55, 0.95);
+  border-color: rgba(52, 211, 153, 0.3);
+  color: #34d399;
 }
 
 .night-mode .carousel-container button[aria-label="Previous cards"]:hover,
 .night-mode .carousel-container button[aria-label="Next cards"]:hover {
-  background: #374151;
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.15), rgba(16, 185, 129, 0.2));
+  border-color: rgba(52, 211, 153, 0.5);
+  color: #6ee7b7;
 }
 
 .carousel-container button[aria-label="Previous cards"] {
-  left: 0;
+  left: -0.5rem;
 }
 
 .carousel-container button[aria-label="Next cards"] {
-  right: 0;
+  right: -0.5rem;
 }
 
-/* Carousel Indicators */
+/* Carousel Indicators - Modern dot navigation */
 .carousel-container .flex.justify-center {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   margin-top: 1.5rem;
+  padding: 0.5rem 0;
 }
 
 .carousel-container .flex.justify-center button {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: #d1d5db;
+  opacity: 0.5;
+}
+
+.carousel-container .flex.justify-center button:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
 }
 
 .night-mode .carousel-container .flex.justify-center button {
-  background: #4b5563;
+  background: #6b7280;
 }
 
+/* Active indicator */
 .carousel-container .flex.justify-center button[class*="bg-cyan"] {
   width: 32px;
-  border-radius: 4px;
-  background: #047857;
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #047857, #10b981);
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .night-mode .carousel-container .flex.justify-center button[class*="bg-cyan"] {
-  background: #10b981;
+  background: linear-gradient(135deg, #10b981, #34d399);
 }
 
-/* Responsive Carousel */
-@media (max-width: 640px) {
-  .carousel-container {
-    padding: 0 2.5rem;
+/* Responsive Carousel - Smooth transitions at all breakpoints */
+@media (max-width: 1024px) {
+  .cards-carousel {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
-  .carousel-container button[aria-label="Previous cards"],
-  .carousel-container button[aria-label="Next cards"] {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
+  .carousel-container {
+    padding: 0 3rem;
   }
 }
 
-/* Base card wrapper - uses theme classes - for all analytics cards */
-.day-mode [class*="-card"],
-.night-mode [class*="-card"] {
-  background: white;
+@media (max-width: 768px) {
+  .carousel-container {
+    margin: 1.5rem 0;
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .carousel-container {
+    padding: 0 1rem;
+    margin: 1rem 0;
+  }
+  
+  
+  .cards-carousel {
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  /* Smaller, more tactile buttons for mobile */
+  .carousel-container button[aria-label="Previous cards"],
+  .carousel-container button[aria-label="Next cards"] {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  .carousel-container button[aria-label="Previous cards"]:hover,
+  .carousel-container button[aria-label="Next cards"]:hover {
+    transform: translateY(-50%) scale(1.08);
+  }
+}
+
+/* Base card wrapper - Enhanced with smooth transitions and performance */
+.day-mode [class*="-card"] {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 50%, #f9fafb 100%);
   border-radius: 0.75rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-  overflow: visible;
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(16, 185, 129, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   position: relative;
+  height: auto;
+  align-self: flex-start;
+  max-width: 100%;
+  box-sizing: border-box;
+  /* Ensure all children respect container width */
+  * {
+    box-sizing: border-box;
+  }
+  /* Enable hardware acceleration for smooth animations */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .night-mode [class*="-card"] {
-  background: #1f2937;
-  border-color: #374151;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  border-color: rgba(75, 85, 99, 0.6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  max-width: 100%;
 }
 
 [class*="-card"]:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -10px rgba(16, 185, 129, 0.08), 0 8px 20px -6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  border-color: rgba(16, 185, 129, 0.15);
+  transform: translateY(-4px) translateZ(0);
 }
 
 .night-mode [class*="-card"]:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.7), 0 4px 16px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 /* Chart Section Styling */
 .chart-section {
   margin-top: 1.5rem;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .chart-wrapper,
@@ -163,11 +273,55 @@
 .mastery-chart,
 .velocity-chart-container {
   width: 100%;
-  height: 200px;
+  max-width: 100%;
+  min-height: 300px;
+  height: auto;
   position: relative;
   background: transparent;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 0.5rem;
+  box-sizing: border-box;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make SVG charts responsive */
+.chart-wrapper svg,
+.chart-wrapper svg[role="img"],
+.engagement-chart svg,
+.mastery-chart svg,
+.velocity-chart-container svg,
+.line-chart-container svg,
+.bar-chart-container svg,
+.pie-chart-container svg {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  box-sizing: border-box;
+}
+
+/* Chart container constraints */
+.bar-chart-container,
+.line-chart-container,
+.pie-chart-container {
+  width: 100%;
+  max-width: 100%;
+  min-height: 350px;
+  box-sizing: border-box;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 2rem;
+}
+
+.bar-chart-container > *,
+.line-chart-container > *,
+.pie-chart-container > * {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .chart-section h4 {
@@ -206,24 +360,39 @@
 }
 
 .chart-controls select {
-  padding: 0.375rem 0.75rem;
+  padding: 0.5rem 1rem;
   font-size: 0.875rem;
+  font-weight: 500;
   border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   background: white;
   color: #374151;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23475569' d='M6 9L1 4l1.4-1.4L6 6.2l3.6-3.6L11 4l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.5rem;
 }
 
 .night-mode .chart-controls select {
   background: #1f2937;
   border-color: #374151;
   color: #d1d5db;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d1d5db' d='M6 9L1 4l1.4-1.4L6 6.2l3.6-3.6L11 4l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
 }
 
 .chart-controls select:hover {
-  border-color: #9ca3af;
+  border-color: #047857;
+  background-color: #f0fdfa;
+}
+
+.night-mode .chart-controls select:hover {
+  background-color: #047857;
+  border-color: #10b981;
 }
 
 .chart-controls select:focus {
@@ -234,7 +403,15 @@
 
 .night-mode .chart-controls select:focus {
   border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.chart-controls select:active {
+  background-color: #d1fae5;
+}
+
+.night-mode .chart-controls select:active {
+  background-color: #065f46;
 }
 
 /* Card header */
@@ -242,10 +419,91 @@
 .night-mode .card-header {
   padding: 1.5rem 1.5rem 1rem;
   border-bottom: 1px solid #e5e7eb;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
 .night-mode .card-header {
   border-color: #374151;
+}
+
+/* Header content */
+.header-content {
+  flex: 1;
+}
+
+.header-content h3 {
+  margin: 0 0 0.25rem 0;
+}
+
+.header-content p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.night-mode .header-content p {
+  color: #9ca3af;
+}
+
+/* Header actions */
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-actions button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Day mode header actions */
+.day-mode .header-actions button {
+  background: #f0fdfa;
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #047857;
+}
+
+.day-mode .header-actions button:hover {
+  background: #d1fae5;
+  border-color: rgba(16, 185, 129, 0.5);
+  color: #059669;
+}
+
+.day-mode .header-actions button:active {
+  background: #a7f3d0;
+  border-color: rgba(16, 185, 129, 0.6);
+}
+
+/* Night mode header actions */
+.night-mode .header-actions button {
+  background: #1f2937;
+  border-color: rgba(16, 185, 129, 0.5);
+  color: #10b981;
+}
+
+.night-mode .header-actions button:hover {
+  background: #047857;
+  border-color: rgba(16, 185, 129, 0.7);
+  color: #34d399;
+}
+
+.night-mode .header-actions button:active {
+  background: #065f46;
 }
 
 .card-header h3 {
@@ -262,15 +520,119 @@
 /* Card content */
 .card-content {
   padding: 1.5rem;
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  height: auto;
+  max-width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
 }
 
 /* Add spacing to all content sections */
 .card-content > * {
   margin: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure tables and wide content don't overflow */
+.card-content table,
+.card-content img,
+.card-content svg,
+.card-content canvas {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.card-content table {
+  table-layout: auto;
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* Risk Indicator */
+.risk-indicator {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.risk-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.risk-level {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.risk-description {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* Risk level colors - Day mode */
+.bg-red-50.text-red-600 {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.bg-yellow-50.text-yellow-600 {
+  background: #ffffff;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.bg-green-50.text-green-600 {
+  background: #ffffff;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Risk level colors - Night mode */
+.night-mode .bg-red-50 {
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.night-mode .bg-yellow-50 {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #f9fafb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.night-mode .bg-green-50 {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #f9fafb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.night-mode .text-red-600 {
+  color: #fca5a5;
+}
+
+.night-mode .text-yellow-600 {
+  color: #fbbf24;
+}
+
+.night-mode .text-green-600 {
+  color: #34d399;
 }
 
 /* Staleness indicator */
@@ -439,7 +801,14 @@
 .chart-wrapper {
   position: relative;
   width: 100%;
-  height: 200px;
+  max-width: 100%;
+  min-height: 300px;
+  height: auto;
+  box-sizing: border-box;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Ensure charts have proper spacing */
@@ -792,7 +1161,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
 }
 
 /* Error state */
@@ -845,6 +1213,9 @@
   margin: 0;
   line-height: 1.6;
   color: #374151;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .night-mode .card-content p {
@@ -861,6 +1232,9 @@
   font-weight: 600;
   color: #111827;
   margin: 0 0 0.75rem 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .night-mode .card-content h4 {
@@ -1101,4 +1475,129 @@
 
 .night-mode .text-purple-700 {
   color: #a78bfa;
+}
+
+/* Quick Action Buttons - Dark Emerald Theme */
+.quick-action-btn {
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.quick-action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.quick-action-btn:hover::before {
+  left: 100%;
+}
+
+.quick-action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.quick-action-btn:active {
+  transform: translateY(-1px);
+}
+
+.quick-action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+}
+
+/* Analytics Button - Emerald Gradient */
+.analytics-btn {
+  background: linear-gradient(135deg, #065f46, #047857, #10b981);
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.analytics-btn:hover {
+  background: linear-gradient(135deg, #047857, #10b981, #34d399);
+  box-shadow: 0 8px 24px rgba(6, 95, 70, 0.4);
+}
+
+/* Report Button - Amber/Gold Gradient */
+.report-btn {
+  background: linear-gradient(135deg, #d97706, #f59e0b, #fbbf24);
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.report-btn:hover {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24, #fde68a);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
+}
+
+/* Achievements Button - Purple Gradient */
+.achievements-btn {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa, #c4b5fd);
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.achievements-btn:hover {
+  background: linear-gradient(135deg, #a78bfa, #c4b5fd, #ddd6fe);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+}
+
+/* Gradient Animation */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Night Mode Overrides */
+.night-mode .quick-action-btn {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.night-mode .quick-action-btn:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.night-mode .analytics-btn:hover {
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
+}
+
+.night-mode .report-btn:hover {
+  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.5);
+}
+
+.night-mode .achievements-btn:hover {
+  box-shadow: 0 8px 24px rgba(167, 139, 250, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .quick-action-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .quick-action-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.8rem;
+    width: 100%;
+    max-width: 280px;
+  }
 }
