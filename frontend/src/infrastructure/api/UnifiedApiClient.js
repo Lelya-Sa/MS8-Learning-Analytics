@@ -9,10 +9,13 @@ import axios from 'axios';
 const getApiBaseURL = () => {
   // Try to get from environment variable
   if (typeof import.meta !== 'undefined' && import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+    const url = import.meta.env.VITE_API_BASE_URL;
+    console.log('🔗 Using API Base URL from environment:', url);
+    return url;
   }
   
   // Fallback for development
+  console.warn('⚠️ VITE_API_BASE_URL not set, using localhost fallback');
   return 'http://localhost:3000/api/v1';
 };
 
