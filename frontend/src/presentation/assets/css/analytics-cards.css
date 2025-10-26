@@ -904,3 +904,77 @@
 .night-mode .secondary-value {
   color: #9ca3af;
 }
+
+/* Colored stat cards for metrics grid */
+.day-mode .stat-card,
+.night-mode .stat-card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.day-mode .stat-card.bg-green-50 {
+  background: #f0fdf4;
+}
+
+.night-mode .stat-card.bg-green-50 {
+  background: #064e3b;
+}
+
+.day-mode .stat-card.bg-blue-50 {
+  background: #eff6ff;
+}
+
+.night-mode .stat-card.bg-blue-50 {
+  background: #1e3a5f;
+}
+
+.day-mode .stat-card.bg-orange-50 {
+  background: #fff7ed;
+}
+
+.night-mode .stat-card.bg-orange-50 {
+  background: #7c2d12;
+}
+
+.day-mode .stat-card.bg-purple-50 {
+  background: #faf5ff;
+}
+
+.night-mode .stat-card.bg-purple-50 {
+  background: #581c87;
+}
+
+/* Text color utilities for stat cards */
+.day-mode .text-green-600 {
+  color: #16a34a;
+}
+
+.night-mode .text-green-600 {
+  color: #34d399;
+}
+
+.day-mode .text-blue-700 {
+  color: #1d4ed8;
+}
+
+.night-mode .text-blue-700 {
+  color: #60a5fa;
+}
+
+.day-mode .text-orange-700 {
+  color: #c2410c;
+}
+
+.night-mode .text-orange-700 {
+  color: #fb923c;
+}
+
+.day-mode .text-purple-700 {
+  color: #7c3aed;
+}
+
+.night-mode .text-purple-700 {
+  color: #a78bfa;
+}
