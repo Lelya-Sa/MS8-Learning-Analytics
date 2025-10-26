@@ -803,9 +803,7 @@
 
 .day-mode .metric-header,
 .night-mode .metric-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  text-align: center;
   margin-bottom: 0.75rem;
 }
 
@@ -814,11 +812,22 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: #374151;
-  margin: 0;
+  margin: 0 0 0.25rem 0;
 }
 
 .night-mode .metric-header h4 {
   color: #d1d5db;
+}
+
+.day-mode .metric-header .trend-indicator,
+.night-mode .metric-header .trend-indicator {
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.night-mode .metric-header .trend-indicator {
+  color: #9ca3af;
 }
 
 .day-mode .metric-values,
