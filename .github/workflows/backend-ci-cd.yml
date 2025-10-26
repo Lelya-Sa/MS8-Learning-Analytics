@@ -96,7 +96,7 @@ jobs:
     name: 🚀 Deploy to Railway
     runs-on: ubuntu-latest
     needs: [lint-and-test, build-check]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name == 'push'
     environment:
       name: production
       url: https://ms8-learning-analytics-backend.railway.app
