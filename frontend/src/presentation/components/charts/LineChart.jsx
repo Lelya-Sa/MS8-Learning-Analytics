@@ -61,19 +61,23 @@ export const LineChart = ({
   }, [chartData, chartDimensions, series]);
 
   const pathData = useMemo(() => {
-    if (chartData.length === 0) return '';
+    if (!chartData || chartData.length === 0) return '';
     
-    const { xScale, yScale, xMin, yMin, yMax } = scales;
+    const { xScale, yScale, xMin, yMin } = scales;
     
-    return chartData.map((point, index) => {
+    const pathPoints = chartData.map((point, index) => {
       const x = point.x !== undefined ? point.x : index;
       const y = point.y || 0;
       
       const xPos = margin.left + (x - xMin) * xScale;
       const yPos = margin.top + chartDimensions.chartHeight - (y - yMin) * yScale;
       
-      return `${index === 0 ? 'M' : 'L'} ${xPos} ${yPos}`;
-    }).join(' ');
+      return `${xPos} ${yPos}`;
+    });
+    
+    if (pathPoints.length === 0) return '';
+    
+    return `M ${pathPoints[0]} ${pathPoints.slice(1).map(p => `L ${p}`).join(' ')}`;
   }, [chartData, scales, margin, chartDimensions]);
 
   const pointData = useMemo(() => {

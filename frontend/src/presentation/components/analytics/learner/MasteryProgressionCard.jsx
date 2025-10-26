@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { LineChart } from '../../charts/LineChart';
 import { BarChart } from '../../charts/BarChart';
+import { DataTable } from '../../charts/DataTable';
 import StatCard from '../../common/StatCard';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
@@ -39,7 +40,7 @@ export const MasteryProgressionCard = ({
   className = '' 
 }) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set(['programming', 'frontend', 'backend']));
-  const [chartType, setChartType] = useState('line');
+  const [viewType, setViewType] = useState('line');
 
   // Extract data early (before any early returns) to follow Rules of Hooks
   const { 
@@ -333,15 +334,16 @@ export const MasteryProgressionCard = ({
           <div className="section-header">
             <h4>Mastery Trend</h4>
             <div className="chart-controls">
-              <label htmlFor="mastery-chart-type-selector">Chart Type:</label>
+              <label htmlFor="mastery-view-type-selector">View:</label>
               <select
-                id="mastery-chart-type-selector"
-                value={chartType}
-                onChange={(e) => setChartType(e.target.value)}
-                aria-label="Select chart type"
+                id="mastery-view-type-selector"
+                value={viewType}
+                onChange={(e) => setViewType(e.target.value)}
+                aria-label="Select view type"
               >
                 <option value="line">Line Chart</option>
                 <option value="bar">Bar Chart</option>
+                <option value="table">Data Table</option>
               </select>
             </div>
           </div>
@@ -351,7 +353,7 @@ export const MasteryProgressionCard = ({
             role="img"
             aria-label={`Mastery trend showing ${masteryPercentage}% overall mastery`}
           >
-            {chartType === 'bar' ? (
+            {viewType === 'bar' ? (
               <BarChart 
                 data={chartData}
                 width={400}
@@ -362,6 +364,14 @@ export const MasteryProgressionCard = ({
                 xAxisLabel="Time"
                 yAxisLabel="Mastery %"
                 responsive={true}
+              />
+            ) : viewType === 'table' ? (
+              <DataTable 
+                data={masteryHistory}
+                columns={[
+                  { key: 'date', label: 'Date', render: (val) => val ? new Date(val).toLocaleDateString() : '-' },
+                  { key: 'mastery', label: 'Mastery %', render: (val) => val ? `${Math.round(val * 100)}%` : '0%' }
+                ]}
               />
             ) : (
               <LineChart 

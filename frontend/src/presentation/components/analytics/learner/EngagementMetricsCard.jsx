@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { LineChart } from '../../charts/LineChart';
 import { BarChart } from '../../charts/BarChart';
+import { DataTable } from '../../charts/DataTable';
 import StatCard from '../../common/StatCard';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
@@ -38,7 +39,7 @@ export const EngagementMetricsCard = ({
   className = '' 
 }) => {
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
-  const [chartType, setChartType] = useState('line');
+  const [viewType, setViewType] = useState('line');
 
   // Extract data early (before any early returns) to follow Rules of Hooks
   const { 
@@ -322,15 +323,16 @@ export const EngagementMetricsCard = ({
           <div className="section-header">
             <h4>Engagement Trend</h4>
             <div className="chart-controls">
-              <label htmlFor="engagement-chart-type-selector">Chart Type:</label>
+              <label htmlFor="engagement-view-type-selector">View:</label>
               <select
-                id="engagement-chart-type-selector"
-                value={chartType}
-                onChange={(e) => setChartType(e.target.value)}
-                aria-label="Select chart type"
+                id="engagement-view-type-selector"
+                value={viewType}
+                onChange={(e) => setViewType(e.target.value)}
+                aria-label="Select view type"
               >
                 <option value="line">Line Chart</option>
                 <option value="bar">Bar Chart</option>
+                <option value="table">Data Table</option>
               </select>
             </div>
           </div>
@@ -340,7 +342,7 @@ export const EngagementMetricsCard = ({
             role="img"
             aria-label={`Engagement trend over ${selectedPeriod} showing ${overallEngagement}% overall engagement`}
           >
-            {chartType === 'bar' ? (
+            {viewType === 'bar' ? (
               <BarChart 
                 data={chartData}
                 width={400}
@@ -351,6 +353,14 @@ export const EngagementMetricsCard = ({
                 xAxisLabel="Time"
                 yAxisLabel="Engagement %"
                 responsive={true}
+              />
+            ) : viewType === 'table' ? (
+              <DataTable 
+                data={filteredHistory}
+                columns={[
+                  { key: 'date', label: 'Date', render: (val) => val ? new Date(val).toLocaleDateString() : '-' },
+                  { key: 'engagement', label: 'Engagement %', render: (val) => val ? `${val}%` : '0%' }
+                ]}
               />
             ) : (
               <LineChart 
