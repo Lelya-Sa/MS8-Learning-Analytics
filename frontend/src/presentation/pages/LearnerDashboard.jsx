@@ -46,7 +46,7 @@ const LearnerDashboard = () => {
     }
   );
 
-  const totalCards = 6; // Total number of analytics cards
+  const totalCards = 7; // Total number of analytics cards (including Drop-off Risk)
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => 
@@ -84,11 +84,8 @@ const LearnerDashboard = () => {
           </p>
         </div>
 
-        {/* Predictive Insights Banner */}
-        <DropOffRiskCard userId={userId} />
-
-        {/* Analytics Cards Carousel */}
-        <div className="carousel-container relative">
+         {/* Analytics Cards Carousel */}
+         <div className="carousel-container relative">
           {/* Left Navigation Button */}
           <button
             onClick={goToPrevious}
@@ -109,13 +106,18 @@ const LearnerDashboard = () => {
                 width: `${totalCards * 100}%`,
               }}
             >
-              {/* AS-001 #1: Learning Velocity */}
-              <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
-                <LearningVelocityCard 
-                  data={analyticsData?.learningVelocity}
-                  isLoading={isLoading}
-                  error={error}
-                />
+               {/* Drop-off Risk Analysis */}
+               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+                 <DropOffRiskCard userId={userId} />
+               </div>
+
+               {/* AS-001 #1: Learning Velocity */}
+               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+                 <LearningVelocityCard 
+                   data={analyticsData?.learningVelocity}
+                   isLoading={isLoading}
+                   error={error}
+                 />
                </div>
              
                {/* AS-001 #2: Skill Gap Matrix */}
