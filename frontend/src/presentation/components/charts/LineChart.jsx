@@ -191,8 +191,10 @@ export const LineChart = ({
           {showGrid && (
             <g className="axis-ticks">
               {/* X-axis ticks */}
-              {Array.from({ length: 6 }).map((_, i) => {
-                const x = margin.left + (chartDimensions.chartWidth / 5) * i;
+              {Array.from({ length: chartData.length > 0 ? Math.min(6, chartData.length) : 6 }).map((_, i) => {
+                // Add padding from y-axis (first tick should not be at margin.left)
+                const spacing = chartData.length > 0 ? chartDimensions.chartWidth / (chartData.length - 1 || 1) : chartDimensions.chartWidth / 5;
+                const x = margin.left + i * spacing;
                 return (
                   <g key={`x-tick-${i}`}>
                     <line
