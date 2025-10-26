@@ -367,6 +367,8 @@
   margin-bottom: 1rem;
   position: relative;
   z-index: 999;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .chart-controls {
@@ -375,6 +377,14 @@
   gap: 0.75rem;
   position: relative;
   z-index: 1000;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.chart-controls select {
+  position: relative;
+  z-index: 1001;
+  visibility: visible !important;
 }
 
 .chart-controls label {
@@ -817,6 +827,424 @@
   border-color: #374151;
 }
 
+/* Engagement Score Section */
+.engagement-score-section,
+.mastery-score-section,
+.performance-score-section,
+.effectiveness-score-section {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  text-align: center;
+}
+
+.night-mode .engagement-score-section,
+.night-mode .mastery-score-section,
+.night-mode .performance-score-section,
+.night-mode .effectiveness-score-section {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.engagement-score,
+.mastery-score,
+.performance-score,
+.effectiveness-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.night-mode .score-label {
+  color: #9ca3af;
+}
+
+.score-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #047857;
+}
+
+.night-mode .score-value {
+  color: #10b981;
+}
+
+.score-level {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #047857;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.night-mode .score-level {
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.2);
+}
+
+/* Time Period Filter */
+.period-filter,
+.time-window-selector,
+.category-filter,
+.content-type-filter {
+  margin: 1rem 0;
+  padding: 0.75rem 0;
+}
+
+/* Content Engagement Section */
+.content-engagement-section {
+  margin: 2rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.night-mode .content-engagement-section {
+  border-color: #374151;
+}
+
+.content-engagement-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.night-mode .content-engagement-section h4 {
+  color: #f9fafb;
+}
+
+.content-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.content-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.night-mode .content-item {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.content-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.night-mode .content-label {
+  color: #9ca3af;
+}
+
+.content-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.night-mode .content-value {
+  color: #f9fafb;
+}
+
+/* Metric Card */
+.metric-card {
+  padding: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.night-mode .metric-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.metric-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.metric-header h4 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0;
+}
+
+.night-mode .metric-header h4 {
+  color: #9ca3af;
+}
+
+.primary-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.night-mode .primary-value {
+  color: #f9fafb;
+}
+
+.secondary-value {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.night-mode .secondary-value {
+  color: #9ca3af;
+}
+
+/* Category Skill Section */
+.category-filter,
+.content-type-filter,
+.period-filter {
+  margin: 1.5rem 0;
+}
+
+/* Skill Gap Matrix Styles */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.skill-item.high,
+.skill-item.critical {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.night-mode .skill-item.high,
+.night-mode .skill-item.critical {
+  background: #1f2937;
+}
+
+.skill-item.high {
+  border-color: #f59e0b;
+  border-left: 3px solid #f59e0b;
+}
+
+.skill-item.critical {
+  border-color: #ef4444;
+  border-left: 3px solid #ef4444;
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 0.5rem;
+}
+
+.skill-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.night-mode .skill-name {
+  color: #f9fafb;
+}
+
+.skill-category {
+  font-size: 0.75rem;
+  color: #6b7280;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background: #f3f4f6;
+}
+
+.night-mode .skill-category {
+  color: #9ca3af;
+  background: #374151;
+}
+
+.skill-levels {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.level-display {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.night-mode .level-display {
+  color: #f9fafb;
+}
+
+.gap-info {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.night-mode .gap-info {
+  color: #9ca3af;
+}
+
+.priority-display {
+  margin-top: 0.5rem;
+}
+
+.priority-bar {
+  height: 0.5rem;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.night-mode .priority-bar {
+  background: #374151;
+}
+
+.priority-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.priority-bar.high .priority-fill {
+  background: #f59e0b;
+}
+
+.priority-bar.critical .priority-fill {
+  background: #ef4444;
+}
+
+.priority-text {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.night-mode .priority-text {
+  color: #9ca3af;
+}
+
+.critical-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #dc2626;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background: #fef2f2;
+}
+
+.night-mode .critical-indicator {
+  color: #fca5a5;
+  background: rgba(220, 38, 38, 0.15);
+}
+
+/* Summary Stats */
+.summary-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  margin: 1rem 0;
+}
+
+.night-mode .summary-stats {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.night-mode .stat-label {
+  color: #9ca3af;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.night-mode .stat-value {
+  color: #f9fafb;
+}
+
+.stat-value.critical {
+  color: #dc2626;
+}
+
+.night-mode .stat-value.critical {
+  color: #fca5a5;
+}
+
+/* Last Updated */
+.last-updated {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.75rem;
+  color: #6b7280;
+  display: flex;
+  justify-content: space-between;
+}
+
+.night-mode .last-updated {
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+.updated-label {
+  font-weight: 500;
+}
+
+.updated-time {
+  font-weight: 400;
+}
+
 /* Responsive section spacing */
 @media (max-width: 768px) {
   .section-header,
@@ -825,6 +1253,22 @@
   .warning-signals {
     margin: 1rem 0;
     padding: 1rem;
+  }
+
+  .engagement-score-section,
+  .mastery-score-section,
+  .performance-score-section,
+  .effectiveness-score-section {
+    padding: 1rem;
+  }
+
+  .score-value {
+    font-size: 2rem;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
   }
 }
 

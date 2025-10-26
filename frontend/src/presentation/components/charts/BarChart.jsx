@@ -65,8 +65,8 @@ export const BarChart = ({
     
     const { xScale, yScale, yMin } = scales;
     
-    // Reduce bar width by multiplying by 0.6 for narrower bars
-    const barWidth = (chartDimensions.chartWidth / Math.max(chartData.length, 1)) * 0.6;
+    // Reduce bar width by multiplying by 0.4 for much narrower bars
+    const barWidth = (chartDimensions.chartWidth / Math.max(chartData.length, 1)) * 0.4;
     
     return chartData.map((point, index) => {
       const y = point.y || 0;
