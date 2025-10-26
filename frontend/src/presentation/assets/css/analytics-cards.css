@@ -750,17 +750,40 @@
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 0;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .day-mode .metric-card,
 .night-mode .metric-card {
   flex: 1 1 calc(25% - 1rem);
   min-width: 200px;
+  max-width: 300px;
+  width: 100%;
+  height: auto;
   padding: 1rem;
   border-radius: 0.5rem;
   background: white;
   border: 1px solid #e5e7eb;
   transition: all 0.2s ease;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .day-mode .metric-card,
+  .night-mode .metric-card {
+    flex: 1 1 calc(50% - 1rem);
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 640px) {
+  .day-mode .metric-card,
+  .night-mode .metric-card {
+    flex: 1 1 100%;
+    max-width: none;
+    min-width: unset;
+  }
 }
 
 .night-mode .metric-card {
