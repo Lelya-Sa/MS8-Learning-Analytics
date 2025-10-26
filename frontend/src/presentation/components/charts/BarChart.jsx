@@ -65,11 +65,14 @@ export const BarChart = ({
     
     const { xScale, yScale, yMin } = scales;
     
-    // Reduce bar width by multiplying by 0.4 for much narrower bars
-    const barWidth = (chartDimensions.chartWidth / Math.max(chartData.length, 1)) * 0.4;
+    // Calculate optimal bar width: maintain 50% spacing between bars (best practice)
+    const availableWidth = chartDimensions.chartWidth;
+    const numBars = chartData.length;
+    // Each bar should take 66% of its allocated space, leaving 34% for spacing
+    const barWidth = (availableWidth / Math.max(numBars, 1)) * 0.66;
     
     return chartData.map((point, index) => {
-      const y = point.y || 0;
+      const y = Math.max(point.y || 0, 0); // Ensure y is never negative
       
       // Use index-based positioning for x-axis to ensure even spacing
       const xPos = margin.left + index * xScale;
@@ -80,12 +83,12 @@ export const BarChart = ({
         x: xPos - barWidth / 2,
         y: yPos,
         width: barWidth,
-        height: barHeight,
+        height: Math.max(barHeight, 1), // Ensure minimum height for visibility
         data: point,
         label: point.label || ''
       };
     });
-  }, [chartData, scales, margin, barSpacing, chartDimensions]);
+  }, [chartData, scales, margin, chartDimensions]);
 
   const handleBarHover = (bar, index, event) => {
     if (!showTooltip) return;
@@ -228,18 +231,19 @@ export const BarChart = ({
               key={index}
               x={bar.x}
               y={bar.y}
-              width={Math.max(bar.width, 2)}
-              height={Math.max(bar.height, 1)}
+              width={bar.width}
+              height={bar.height}
               fill={color}
               rx={borderRadius}
               ry={borderRadius}
               className="transition-all duration-200 cursor-pointer"
               style={{
-                opacity: hoveredIndex === index ? 0.8 : 1,
+                opacity: hoveredIndex === index ? 0.7 : 1,
                 transform: hoveredIndex === index ? 'translateY(-2px)' : 'none'
               }}
               onMouseEnter={(e) => handleBarHover(bar, index, e)}
               onMouseLeave={handleBarLeave}
+              aria-label={`Bar ${index + 1}: ${bar.data.x || index}, value: ${bar.data.y || 0}`}
             />
           ))}
 
@@ -262,17 +266,17 @@ export const BarChart = ({
           {tooltip && (
             <g className="tooltip-group">
               <rect
-                x={tooltip.x - 50}
-                y={tooltip.y - 60}
-                width="100"
-                height="40"
+                x={Math.max(10, Math.min(tooltip.x - 60, width - 130))}
+                y={Math.max(10, tooltip.y - 80)}
+                width="120"
+                height="auto"
                 rx="4"
                 fill="#1f2937"
                 opacity="0.95"
               />
               <text
                 x={tooltip.x}
-                y={tooltip.y - 40}
+                y={tooltip.y - 50}
                 textAnchor="middle"
                 fill="white"
                 fontSize="12"
@@ -282,7 +286,7 @@ export const BarChart = ({
               </text>
               <text
                 x={tooltip.x}
-                y={tooltip.y - 25}
+                y={tooltip.y - 30}
                 textAnchor="middle"
                 fill="#9ca3af"
                 fontSize="10"
