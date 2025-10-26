@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { LineChart } from '../../charts/LineChart';
+import { BarChart } from '../../charts/BarChart';
 import StatCard from '../../common/StatCard';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
@@ -37,6 +38,7 @@ export const EngagementMetricsCard = ({
   className = '' 
 }) => {
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
+  const [chartType, setChartType] = useState('line');
 
   // Extract data early (before any early returns) to follow Rules of Hooks
   const { 
@@ -317,26 +319,54 @@ export const EngagementMetricsCard = ({
 
         {/* Engagement History Chart */}
         <div className="chart-section">
-          <h4>Engagement Trend</h4>
+          <div className="section-header">
+            <h4>Engagement Trend</h4>
+            <div className="chart-controls">
+              <label htmlFor="engagement-chart-type-selector">Chart Type:</label>
+              <select
+                id="engagement-chart-type-selector"
+                value={chartType}
+                onChange={(e) => setChartType(e.target.value)}
+                aria-label="Select chart type"
+              >
+                <option value="line">Line Chart</option>
+                <option value="bar">Bar Chart</option>
+              </select>
+            </div>
+          </div>
           <div 
             className="engagement-chart"
             data-testid="engagement-chart"
             role="img"
             aria-label={`Engagement trend over ${selectedPeriod} showing ${overallEngagement}% overall engagement`}
           >
-            <LineChart 
-              data={chartData}
-              width={400}
-              height={200}
-              color="#047857"
-              strokeWidth={2}
-              showGrid={true}
-              showPoints={true}
-              showTooltip={true}
-              xAxisLabel="Time"
-              yAxisLabel="Engagement %"
-              responsive={true}
-            />
+            {chartType === 'bar' ? (
+              <BarChart 
+                data={chartData}
+                width={400}
+                height={200}
+                color="#047857"
+                showGrid={true}
+                showTooltip={true}
+                xAxisLabel="Time"
+                yAxisLabel="Engagement %"
+                responsive={true}
+              />
+            ) : (
+              <LineChart 
+                data={chartData}
+                width={400}
+                height={200}
+                color="#047857"
+                strokeWidth={2}
+                showGrid={true}
+                showPoints={true}
+                showTooltip={true}
+                xAxisLabel="Time"
+                yAxisLabel="Engagement %"
+                responsive={true}
+              />
+            )}
             {chartData.map((point, index) => (
               <div
                 key={index}

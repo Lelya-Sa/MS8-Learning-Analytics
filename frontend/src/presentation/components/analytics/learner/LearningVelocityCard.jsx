@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LineChart } from '../../charts/LineChart';
+import { BarChart } from '../../charts/BarChart';
 import StatCard from '../../common/StatCard';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
@@ -31,6 +32,7 @@ export const LearningVelocityCard = ({
   className = '' 
 }) => {
   const [selectedTimeWindow, setSelectedTimeWindow] = useState('30d');
+  const [chartType, setChartType] = useState('line');
 
   // Loading state
   if (isLoading) {
@@ -218,6 +220,20 @@ export const LearningVelocityCard = ({
           </div>
         </div>
 
+        {/* Chart Type Selector */}
+        <div className="chart-controls">
+          <label htmlFor="velocity-chart-type-selector">Chart Type:</label>
+          <select
+            id="velocity-chart-type-selector"
+            value={chartType}
+            onChange={(e) => setChartType(e.target.value)}
+            aria-label="Select chart type"
+          >
+            <option value="line">Line Chart</option>
+            <option value="bar">Bar Chart</option>
+          </select>
+        </div>
+
         {/* Velocity chart */}
         <div className="velocity-chart-container">
           <div 
@@ -226,19 +242,33 @@ export const LearningVelocityCard = ({
             role="img"
             aria-label={`Learning velocity trend chart for ${selectedTimeWindow}`}
           >
-            <LineChart 
-              data={chartData}
-              width={400}
-              height={200}
-              color="#047857"
-              strokeWidth={2}
-              showGrid={true}
-              showPoints={true}
-              showTooltip={true}
-              xAxisLabel="Time"
-              yAxisLabel="Velocity"
-              responsive={true}
-            />
+            {chartType === 'bar' ? (
+              <BarChart 
+                data={chartData}
+                width={400}
+                height={200}
+                color="#047857"
+                showGrid={true}
+                showTooltip={true}
+                xAxisLabel="Time"
+                yAxisLabel="Velocity"
+                responsive={true}
+              />
+            ) : (
+              <LineChart 
+                data={chartData}
+                width={400}
+                height={200}
+                color="#047857"
+                strokeWidth={2}
+                showGrid={true}
+                showPoints={true}
+                showTooltip={true}
+                xAxisLabel="Time"
+                yAxisLabel="Velocity"
+                responsive={true}
+              />
+            )}
             <div 
               className="trend-line"
               data-testid="velocity-trend-line"
