@@ -834,7 +834,9 @@
 .night-mode .metric-values {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.25rem;
+  text-align: center;
 }
 
 .day-mode .primary-value,
