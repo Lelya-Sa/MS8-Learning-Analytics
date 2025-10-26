@@ -743,23 +743,79 @@
   color: #f9fafb;
 }
 
-/* Metrics Grid - Compact inline layout */
+/* Metrics Grid - Compact inline layout with sliding carousel */
 .day-mode .metrics-grid,
 .night-mode .metrics-grid {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1rem;
   margin-bottom: 0;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.day-mode .metrics-grid::-webkit-scrollbar,
+.night-mode .metrics-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* Navigation buttons for metrics carousel */
+.metrics-carousel-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.carousel-nav-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.night-mode .carousel-nav-btn {
+  background: #1f2937;
+  border-color: #374151;
+  color: #d1d5db;
+}
+
+.carousel-nav-btn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.night-mode .carousel-nav-btn:hover {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.carousel-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .day-mode .metric-card,
-.night-mode .metric-card {
-  flex: 1 1 calc(25% - 1rem);
-  min-width: 200px;
-  max-width: 300px;
-  width: 100%;
+.night-mode .metric-card,
+.day-mode .stat-card,
+.night-mode .stat-card {
+  flex: 0 0 auto;
+  min-width: 250px;
+  max-width: 280px;
+  width: auto;
   height: auto;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -767,22 +823,22 @@
   border: 1px solid #e5e7eb;
   transition: all 0.2s ease;
   text-align: center;
+  scroll-snap-align: start;
 }
 
-@media (max-width: 1024px) {
-  .day-mode .metric-card,
-  .night-mode .metric-card {
-    flex: 1 1 calc(50% - 1rem);
-    max-width: 250px;
-  }
+.night-mode .metric-card,
+.night-mode .stat-card {
+  background: #1f2937;
+  border-color: #374151;
 }
 
 @media (max-width: 640px) {
   .day-mode .metric-card,
-  .night-mode .metric-card {
-    flex: 1 1 100%;
-    max-width: none;
-    min-width: unset;
+  .night-mode .metric-card,
+  .day-mode .stat-card,
+  .night-mode .stat-card {
+    min-width: 220px;
+    max-width: 240px;
   }
 }
 
