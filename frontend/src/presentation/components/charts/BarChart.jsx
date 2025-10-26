@@ -121,12 +121,17 @@ export const BarChart = ({
   return (
     <div className={`bar-chart-container ${className}`} style={containerStyle} {...props}>
       <div className="relative" style={{ width: '100%', height: responsive ? '200px' : `${height}px` }}>
-        <svg
-          style={svgStyle}
-          role="img"
-          aria-label={title || 'Bar chart'}
-          className="overflow-visible"
-        >
+          <svg
+            style={svgStyle}
+            role="img"
+            aria-label={title || 'Bar chart'}
+            className="overflow-hidden"
+          >
+            <defs>
+              <clipPath id="barChartClip">
+                <rect x={margin.left} y={margin.top} width={chartDimensions.chartWidth} height={chartDimensions.chartHeight} />
+              </clipPath>
+            </defs>
           {/* Grid Lines */}
           {showGrid && (
             <g className="grid-lines">

@@ -180,22 +180,26 @@ export const LineChart = ({
           )}
 
           {/* Area under line */}
-          <path
-            d={`${pathData} L ${margin.left + chartDimensions.chartWidth} ${margin.top + chartDimensions.chartHeight} L ${margin.left} ${margin.top + chartDimensions.chartHeight} Z`}
-            fill="url(#lineGradient)"
-            opacity="0.5"
-          />
+          <g clipPath="url(#chartClip)">
+            <path
+              d={`${pathData} L ${margin.left + chartDimensions.chartWidth} ${margin.top + chartDimensions.chartHeight} L ${margin.left} ${margin.top + chartDimensions.chartHeight} Z`}
+              fill="url(#lineGradient)"
+              opacity="0.5"
+            />
+          </g>
 
           {/* Line Path */}
-          <path
-            d={pathData}
-            fill="none"
-            stroke={color}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={animate ? 'animate-pulse' : ''}
-          />
+          <g clipPath="url(#chartClip)">
+            <path
+              d={pathData}
+              fill="none"
+              stroke={color}
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={animate ? 'animate-pulse' : ''}
+            />
+          </g>
 
           {/* Data Points */}
           {showPoints && pointData.map((point, index) => (
