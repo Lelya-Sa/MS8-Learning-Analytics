@@ -4,30 +4,12 @@ const { body } = require('express-validator');
 const { authenticateToken, handleValidationErrors } = require('../middleware/auth');
 const { validationRules } = require('../middleware/validation');
 const { userService } = require('../services/mockData');
+const { AuthService } = require('../services/authService');
 
 const router = express.Router();
 
-/**
- * Generate JWT token for user
- * @param {Object} user - User object
- * @returns {string} JWT token
- */
-const generateToken = (user) => {
-    // Use GitHub Secret in production, fallback for local development
-    const JWT_SECRET = process.env.JWT_SECRET || 'local-dev-secret-key-DO-NOT-USE-IN-PRODUCTION';
-    
-    return jwt.sign(
-        { 
-            userId: user.id, 
-            email: user.email, 
-            role: user.role, // Primary role
-            roles: user.roles || [user.role], // All roles (fallback to primary role if not defined)
-            organizationId: user.organization_id 
-        },
-        JWT_SECRET,
-        { expiresIn: '24h' }
-    );
-};
+// Initialize Auth Service
+const authService = new AuthService();
 
 /**
  * Login endpoint
@@ -40,41 +22,18 @@ router.post('/login', [
     try {
         const { email, password } = req.body;
 
-        // Find user
-        const user = userService.findByEmail(email);
-        if (!user) {
-            return res.status(401).json({
-                error: 'Invalid credentials',
-                code: 'INVALID_CREDENTIALS'
-            });
-        }
-
-        // Verify password
-        const isValidPassword = userService.validatePassword(password, user);
-        if (!isValidPassword) {
-            return res.status(401).json({
-                error: 'Invalid credentials',
-                code: 'INVALID_CREDENTIALS'
-            });
-        }
-
-        // Generate JWT token
-        const token = generateToken(user);
+        // Authenticate with MS12 (with fallback to mock data)
+        const authResult = await authService.authenticate(email, password);
 
         res.json({
-            token,
-            user: {
-                id: user.id,
-                email: user.email,
-                role: user.role, // Primary role
-                roles: user.roles || [user.role], // All roles
-                organization_id: user.organization_id
-            }
+            token: authResult.token,
+            user: authResult.user,
+            source: authResult.source // 'MS12' or 'MOCK'
         });
     } catch (error) {
-        res.status(500).json({
-            error: 'Internal server error',
-            code: 'INTERNAL_ERROR'
+        res.status(401).json({
+            error: 'Invalid credentials',
+            code: 'INVALID_CREDENTIALS'
         });
     }
 });
@@ -89,6 +48,27 @@ router.post('/logout', authenticateToken, (req, res) => {
         message: 'Logged out successfully',
         code: 'LOGOUT_SUCCESS'
     });
+});
+
+/**
+ * Get current user info endpoint
+ * GET /api/v1/auth/me
+ */
+router.get('/me', authenticateToken, async (req, res) => {
+    try {
+        // Get user data with MS12 fallback
+        const result = await authService.getCurrentUser(req.user.userId);
+
+        res.json({
+            user: result.user,
+            source: result.source // 'MS12' or 'MOCK'
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
 });
 
 /**
@@ -120,8 +100,5 @@ router.post('/refresh', authenticateToken, (req, res) => {
         });
     }
 });
-
-module.exports = router;
-
 
 module.exports = router;

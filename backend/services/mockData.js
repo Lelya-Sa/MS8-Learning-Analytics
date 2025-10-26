@@ -1,1717 +1,1655 @@
 /**
- * Mock data service for testing and development
- * In production, this would be replaced with actual database calls
+ * Phase 3B: Comprehensive Mock Data Service
+ * Provides mock data for all 30+ API endpoints
  */
 
-const mockUsers = [
-    {
-        id: 'user-123',
-        email: 'test@example.com',
-        password: process.env.TEST_USER_PASSWORD || 'test-password-123',
-        role: 'learner', // Primary role
-        roles: ['learner'], // All roles
-        organization_id: 'org-123'
-    },
-    {
-        id: 'learner-456',
-        email: 'learner@example.com',
-        password: process.env.TEST_USER_PASSWORD || 'test-password-123',
-        role: 'learner',
-        roles: ['learner'],
-        organization_id: 'org-123'
-    },
-    {
-        id: 'trainer-789',
-        email: 'trainer@example.com',
-        password: process.env.TEST_USER_PASSWORD || 'test-password-123',
-        role: 'trainer',
-        roles: ['trainer'],
-        organization_id: 'org-123'
-    },
-    {
-        id: 'admin-101',
-        email: 'admin@example.com',
-        password: process.env.TEST_USER_PASSWORD || 'test-password-123',
-        role: 'org_admin',
-        roles: ['org_admin'],
-        organization_id: 'org-123'
-    },
-    {
-        id: 'multi-role-202',
-        email: 'multi@example.com',
-        password: process.env.TEST_USER_PASSWORD || 'test-password-123',
-        role: 'learner', // Primary role
-        roles: ['learner', 'trainer'], // User with multiple roles
-        organization_id: 'org-123'
-    },
-    {
-        id: 'super-admin-303',
-        email: 'superadmin@example.com',
-        password: process.env.TEST_USER_PASSWORD || 'test-password-123',
-        role: 'org_admin', // Primary role
-        roles: ['learner', 'trainer', 'org_admin'], // User with all roles
-        organization_id: 'org-123'
+class UserService {
+    constructor() {
+        this.users = [
+            {
+                id: 'learner-123',
+                email: 'learner@test.com',
+                password: 'password123',
+                role: 'learner',
+                roles: ['learner'],
+                organization_id: 'org-123',
+                fullName: 'John Learner',
+                department: 'Engineering'
+            },
+            {
+                id: 'trainer-456',
+                email: 'trainer@test.com',
+                password: 'password123',
+                role: 'trainer',
+                roles: ['trainer'],
+                organization_id: 'org-123',
+                fullName: 'Jane Trainer',
+                department: 'Education'
+            },
+            {
+                id: 'admin-789',
+                email: 'admin@test.com',
+                password: 'password123',
+                role: 'org-admin',
+                roles: ['org-admin'],
+                organization_id: 'org-123',
+                fullName: 'Admin User',
+                department: 'Management'
+            },
+            {
+                id: 'supertester-999',
+                email: 'supertester@test.com',
+                password: 'password123',
+                role: 'learner', // Default active role
+                roles: ['learner', 'trainer', 'org-admin'],
+                organization_id: 'org-123',
+                fullName: 'Super Tester',
+                department: 'QA & Testing'
+            }
+        ];
     }
-];
 
-/**
- * AS-001: Learner Analytics Mock Data
- * Complete mock data for all 6 learner analytics categories
- */
-const mockLearnerAnalytics = {
-    // AS-001 #1: Learning Velocity & Momentum
-    velocity: {
-        'user-123': {
-            currentPace: 2.5,
-            averagePace: 1.8,
-            trend: 'accelerating',
-            trendPercentage: 38.9,
-            comparisonToGoal: {
-                targetPace: 2.0,
-                variance: 25,
-                status: 'ahead'
-            },
-            predictions: {
-                remainingTopics: 15,
-                estimatedWeeksToComplete: 6,
-                predictedCompletionDate: '2025-02-15',
-                targetCompletionDate: '2025-03-01',
-                onTrack: true
-            },
-            timeAnalysis: {
-                totalTimeSpent: 45.5,
-                averageTimePerTopic: 3.2,
-                efficientLearner: true
-            },
-            momentum: {
-                score: 85,
-                description: 'Strong momentum! You\'re learning faster than your average.',
-                recommendation: 'Maintain current pace to finish 2 weeks early.'
-            }
-        },
-        'learner-456': {
-            currentPace: 1.2,
-            averagePace: 1.5,
-            trend: 'decelerating',
-            trendPercentage: -20.0,
-            comparisonToGoal: {
-                targetPace: 2.0,
-                variance: -40,
-                status: 'behind'
-            },
-            predictions: {
-                remainingTopics: 25,
-                estimatedWeeksToComplete: 21,
-                predictedCompletionDate: '2025-06-15',
-                targetCompletionDate: '2025-03-01',
-                onTrack: false
-            },
-            timeAnalysis: {
-                totalTimeSpent: 28.3,
-                averageTimePerTopic: 4.1,
-                efficientLearner: false
-            },
-            momentum: {
-                score: 45,
-                description: 'Your pace has slowed down recently.',
-                recommendation: 'Try to increase study time to 5 hours per week.'
-            }
-        }
-    },
-    
-    // AS-001 #2: Skill Gap Matrix with Prioritization
-    skillGaps: {
-        'user-123': {
-            summary: {
-                totalTargetSkills: 15,
-                skillsAcquired: 8,
-                skillsInProgress: 4,
-                skillsNotStarted: 3,
-                averageGap: 35,
-                criticalGaps: 2
-            },
-            prioritizedGaps: [
-                {
-                    skillId: 'skill-js-es6',
-                    skillName: 'JavaScript ES6+',
-                    currentLevel: 45,
-                    targetLevel: 80,
-                    gap: 35,
-                    gapPercentage: 43.75,
-                    priorityScore: 92,
-                    priorityRank: 1,
-                    factors: {
-                        businessPriority: 'critical',
-                        businessJustification: 'Required for upcoming React migration project',
-                        marketDemand: 94,
-                        marketTrend: 'increasing',
-                        salaryImpact: 12,
-                        prerequisiteFor: ['React Advanced', 'Node.js'],
-                        blockedSkills: 2
-                    },
-                    actionPlan: {
-                        estimatedTimeToClose: '3-4 weeks',
-                        estimatedHours: 25,
-                        recommendedPath: [
-                            {
-                                step: 1,
-                                courseId: 'course-456',
-                                courseName: 'Modern JavaScript Fundamentals',
-                                duration: '2 weeks',
-                                skillGain: 15
-                            },
-                            {
-                                step: 2,
-                                courseId: 'course-457',
-                                courseName: 'Advanced JavaScript Patterns',
-                                duration: '1-2 weeks',
-                                skillGain: 20
-                            }
-                        ],
-                        practices: [
-                            'Complete 10 ES6 challenges in DevLab',
-                            'Build 2 small projects using modern JS'
-                        ],
-                        nextMilestone: 'Complete async/await and promises module',
-                        deadline: '2025-01-31'
-                    }
-                },
-                {
-                    skillId: 'skill-react',
-                    skillName: 'React',
-                    currentLevel: 30,
-                    targetLevel: 75,
-                    gap: 45,
-                    gapPercentage: 60.0,
-                    priorityScore: 85,
-                    priorityRank: 2,
-                    factors: {
-                        businessPriority: 'high',
-                        businessJustification: 'Core technology for frontend development',
-                        marketDemand: 92,
-                        marketTrend: 'stable',
-                        salaryImpact: 15,
-                        prerequisiteFor: ['React Native', 'Next.js'],
-                        blockedSkills: 2
-                    },
-                    actionPlan: {
-                        estimatedTimeToClose: '4-6 weeks',
-                        estimatedHours: 35,
-                        recommendedPath: [
-                            {
-                                step: 1,
-                                courseId: 'course-react-101',
-                                courseName: 'React Fundamentals',
-                                duration: '3 weeks',
-                                skillGain: 25
-                            },
-                            {
-                                step: 2,
-                                courseId: 'course-react-201',
-                                courseName: 'Advanced React Patterns',
-                                duration: '2-3 weeks',
-                                skillGain: 20
-                            }
-                        ],
-                        practices: [
-                            'Build 3 React components from scratch',
-                            'Complete React hooks tutorial'
-                        ],
-                        nextMilestone: 'Complete React fundamentals course',
-                        deadline: '2025-02-28'
-                    }
-                }
-            ],
-            skillsOnTrack: [
-                {
-                    skillName: 'Python',
-                    currentLevel: 75,
-                    targetLevel: 80,
-                    gap: 5,
-                    status: 'on_track',
-                    estimatedCompletion: '2 weeks'
-                }
-            ],
-            skillsAchieved: [
-                {
-                    skillName: 'HTML5',
-                    achievedLevel: 90,
-                    targetLevel: 80,
-                    achievedDate: '2024-11-15',
-                    daysToAchieve: 45
-                },
-                {
-                    skillName: 'CSS3',
-                    achievedLevel: 85,
-                    targetLevel: 75,
-                    achievedDate: '2024-11-20',
-                    daysToAchieve: 38
-                }
-            ]
-        },
-        'learner-456': {
-            summary: {
-                totalTargetSkills: 12,
-                skillsAcquired: 5,
-                skillsInProgress: 5,
-                skillsNotStarted: 2,
-                averageGap: 42,
-                criticalGaps: 3
-            },
-            prioritizedGaps: [
-                {
-                    skillId: 'skill-python',
-                    skillName: 'Python',
-                    currentLevel: 35,
-                    targetLevel: 80,
-                    gap: 45,
-                    gapPercentage: 56.25,
-                    priorityScore: 88,
-                    priorityRank: 1,
-                    factors: {
-                        businessPriority: 'critical',
-                        businessJustification: 'Required for data science projects',
-                        marketDemand: 90,
-                        marketTrend: 'increasing',
-                        salaryImpact: 18,
-                        prerequisiteFor: ['Django', 'Data Science'],
-                        blockedSkills: 2
-                    },
-                    actionPlan: {
-                        estimatedTimeToClose: '5-6 weeks',
-                        estimatedHours: 40,
-                        recommendedPath: [
-                            {
-                                step: 1,
-                                courseId: 'course-python-101',
-                                courseName: 'Python Basics',
-                                duration: '3 weeks',
-                                skillGain: 25
-                            },
-                            {
-                                step: 2,
-                                courseId: 'course-python-201',
-                                courseName: 'Intermediate Python',
-                                duration: '2-3 weeks',
-                                skillGain: 20
-                            }
-                        ],
-                        practices: [
-                            'Complete 15 Python exercises',
-                            'Build a small CLI application'
-                        ],
-                        nextMilestone: 'Complete Python basics course',
-                        deadline: '2025-02-15'
-                    }
-                }
-            ],
-            skillsOnTrack: [],
-            skillsAchieved: [
-                {
-                    skillName: 'Git',
-                    achievedLevel: 70,
-                    targetLevel: 65,
-                    achievedDate: '2024-12-01',
-                    daysToAchieve: 30
-                }
-            ]
-        }
-    },
-    
-    // AS-001 #3: Engagement Score with Behavioral Insights
-    engagement: {
-        'user-123': {
-            overallScore: 78,
-            scoreGrade: 'Good',
-            scoreTrend: '+5 from last week',
-            breakdowns: {
-                consistency: {
-                    score: 85,
-                    loginFrequency: 4.5,
-                    loginFrequencyTarget: 5,
-                    activeStreak: 12,
-                    longestGap: 2,
-                    insight: 'Excellent consistency! You\'ve been active 12 days in a row.'
-                },
-                timeInvestment: {
-                    score: 72,
-                    hoursLast7Days: 8.5,
-                    hoursLast30Days: 32,
-                    averageSessionDuration: 45,
-                    recommendedHoursPerWeek: 10,
-                    comparisonToRecommended: -15,
-                    insight: 'Consider adding 1.5 hours per week to reach your goal faster.'
-                },
-                interactionQuality: {
-                    score: 75,
-                    contentCompletionRate: 88,
-                    chatbotInteractions: 3,
-                    practiceAttempts: 8,
-                    assessmentAttempts: 2,
-                    meaningfulInteractions: 92,
-                    insight: 'High-quality engagement! You complete most content you start.'
-                },
-                resourceUsage: {
-                    score: 80,
-                    contentTypesUsed: ['video', 'article', 'interactive', 'quiz'],
-                    diversityScore: 80,
-                    preferredContentType: 'video',
-                    underutilizedResources: ['podcast'],
-                    insight: 'Great content diversity. Consider trying podcast format.'
-                }
-            },
-            behavioralPatterns: {
-                peakLearningTime: '8-10 AM',
-                peakLearningDays: ['Monday', 'Wednesday', 'Friday'],
-                preferredDevice: 'desktop',
-                averageSessionsPerDay: 1.5,
-                learningStyle: 'visual',
-                concentrationSpan: 45,
-                insights: [
-                    'You learn best in the morning',
-                    'Your concentration is optimal for 45-minute sessions',
-                    'Desktop usage correlates with higher completion rates'
-                ],
-                recommendations: [
-                    'Schedule important modules for 8-10 AM',
-                    'Take 10-minute breaks every 45 minutes',
-                    'Use mobile for lighter review content'
-                ]
-            },
-            riskAssessment: {
-                riskLevel: 'low',
-                riskScore: 22,
-                riskFactors: [],
-                interventionRecommended: false,
-                healthStatus: 'Healthy engagement',
-                nextCheckIn: '2024-12-27T10:00:00Z'
-            },
-            comparisonToPeers: {
-                yourScore: 78,
-                peerAverage: 72,
-                percentile: 68,
-                insight: 'You\'re more engaged than 68% of similar learners'
-            }
-        },
-        'learner-456': {
-            overallScore: 52,
-            scoreGrade: 'Needs Improvement',
-            scoreTrend: '-8 from last week',
-            breakdowns: {
-                consistency: {
-                    score: 45,
-                    loginFrequency: 2.1,
-                    loginFrequencyTarget: 5,
-                    activeStreak: 3,
-                    longestGap: 7,
-                    insight: 'Your login frequency has decreased. Try to establish a regular schedule.'
-                },
-                timeInvestment: {
-                    score: 48,
-                    hoursLast7Days: 4.2,
-                    hoursLast30Days: 18,
-                    averageSessionDuration: 28,
-                    recommendedHoursPerWeek: 10,
-                    comparisonToRecommended: -58,
-                    insight: 'You\'re investing less time than recommended. Consider increasing to 10 hours per week.'
-                },
-                interactionQuality: {
-                    score: 55,
-                    contentCompletionRate: 62,
-                    chatbotInteractions: 1,
-                    practiceAttempts: 3,
-                    assessmentAttempts: 1,
-                    meaningfulInteractions: 58,
-                    insight: 'Your content completion rate is lower than average. Focus on finishing started content.'
-                },
-                resourceUsage: {
-                    score: 60,
-                    contentTypesUsed: ['video', 'article'],
-                    diversityScore: 40,
-                    preferredContentType: 'video',
-                    underutilizedResources: ['interactive', 'quiz', 'podcast'],
-                    insight: 'Try exploring interactive content and quizzes for better engagement.'
-                }
-            },
-            behavioralPatterns: {
-                peakLearningTime: '7-9 PM',
-                peakLearningDays: ['Saturday', 'Sunday'],
-                preferredDevice: 'mobile',
-                averageSessionsPerDay: 0.8,
-                learningStyle: 'reading',
-                concentrationSpan: 25,
-                insights: [
-                    'You prefer evening learning',
-                    'Weekend learning works better for you',
-                    'Mobile usage may limit deep learning'
-                ],
-                recommendations: [
-                    'Schedule dedicated weekend learning blocks',
-                    'Use desktop for complex topics',
-                    'Break learning into 25-minute focused sessions'
-                ]
-            },
-            riskAssessment: {
-                riskLevel: 'high',
-                riskScore: 72,
-                riskFactors: [
-                    'Declining engagement trend',
-                    'Low time investment',
-                    'Irregular login pattern'
-                ],
-                interventionRecommended: true,
-                healthStatus: 'At risk - intervention recommended',
-                nextCheckIn: '2024-12-22T10:00:00Z'
-            },
-            comparisonToPeers: {
-                yourScore: 52,
-                peerAverage: 72,
-                percentile: 28,
-                insight: 'Your engagement is below average. Let\'s work on improving it together.'
-            }
-        }
-    },
-    
-    // AS-001 #4: Mastery Progress Tracking
-    mastery: {
-        'user-123': {
-            summary: {
-                topicsMastered: 15,
-                topicsInProgress: 5,
-                topicsNotStarted: 10,
-                overallMasteryScore: 72
-            },
-            topicBreakdown: [
-                {
-                    topicId: 'topic-async-js',
-                    topicName: 'JavaScript Async/Await',
-                    masteryLevel: 85,
-                    masteryGrade: 'Proficient',
-                    progressToMaster: 88,
-                    practiceAttempts: 12,
-                    successRate: 91,
-                    averageScore: 87,
-                    timeToMastery: '2 weeks',
-                    timeSpent: 8.5,
-                    retentionScore: 88,
-                    lastPracticeDate: '2024-12-19',
-                    needsReview: false,
-                    nextReviewDate: '2025-01-05',
-                    milestones: [
-                        {
-                            milestone: 'Understood basic concepts',
-                            achievedAt: '2024-12-01',
-                            level: 40
-                        },
-                        {
-                            milestone: 'Applied in practice',
-                            achievedAt: '2024-12-10',
-                            level: 70
-                        },
-                        {
-                            milestone: 'Proficient level achieved',
-                            achievedAt: '2024-12-18',
-                            level: 85
-                        }
-                    ],
-                    strengthAreas: [
-                        'Promise handling',
-                        'Error handling with try/catch'
-                    ],
-                    improvementAreas: [
-                        'Parallel execution with Promise.all()'
-                    ],
-                    recommendations: [
-                        'Practice 2 more advanced challenges',
-                        'Build a real-world async project'
-                    ]
-                },
-                {
-                    topicId: 'topic-react-hooks',
-                    topicName: 'React Hooks',
-                    masteryLevel: 62,
-                    masteryGrade: 'Developing',
-                    progressToMaster: 62,
-                    practiceAttempts: 8,
-                    successRate: 75,
-                    averageScore: 72,
-                    timeToMastery: '3 weeks',
-                    timeSpent: 12.3,
-                    retentionScore: 70,
-                    lastPracticeDate: '2024-12-18',
-                    needsReview: false,
-                    nextReviewDate: '2025-01-02',
-                    milestones: [
-                        {
-                            milestone: 'Understood useState and useEffect',
-                            achievedAt: '2024-12-05',
-                            level: 35
-                        },
-                        {
-                            milestone: 'Applied custom hooks',
-                            achievedAt: '2024-12-15',
-                            level: 62
-                        }
-                    ],
-                    strengthAreas: [
-                        'useState basics',
-                        'useEffect dependencies'
-                    ],
-                    improvementAreas: [
-                        'Custom hooks',
-                        'useCallback and useMemo optimization'
-                    ],
-                    recommendations: [
-                        'Complete advanced hooks tutorial',
-                        'Build a project using custom hooks'
-                    ]
-                }
-            ]
-        },
-        'learner-456': {
-            summary: {
-                topicsMastered: 8,
-                topicsInProgress: 7,
-                topicsNotStarted: 12,
-                overallMasteryScore: 48
-            },
-            topicBreakdown: [
-                {
-                    topicId: 'topic-python-basics',
-                    topicName: 'Python Basics',
-                    masteryLevel: 45,
-                    masteryGrade: 'Developing',
-                    progressToMaster: 45,
-                    practiceAttempts: 6,
-                    successRate: 67,
-                    averageScore: 68,
-                    timeToMastery: '4 weeks',
-                    timeSpent: 15.2,
-                    retentionScore: 62,
-                    lastPracticeDate: '2024-12-17',
-                    needsReview: true,
-                    nextReviewDate: '2024-12-24',
-                    milestones: [
-                        {
-                            milestone: 'Understood syntax basics',
-                            achievedAt: '2024-11-28',
-                            level: 25
-                        },
-                        {
-                            milestone: 'Completed first project',
-                            achievedAt: '2024-12-12',
-                            level: 45
-                        }
-                    ],
-                    strengthAreas: [
-                        'Variables and data types',
-                        'Control flow'
-                    ],
-                    improvementAreas: [
-                        'Functions and modules',
-                        'Object-oriented programming'
-                    ],
-                    recommendations: [
-                        'Review OOP concepts',
-                        'Practice with more coding exercises'
-                    ]
-                }
-            ]
-        }
-    },
-    
-    // AS-001 #5: Performance & Assessment Analytics
-    performance: {
-        'user-123': {
-            overview: {
-                totalAssessments: 25,
-                completedAssessments: 23,
-                pendingAssessments: 2,
-                overallAverageScore: 78.5,
-                recentAverageScore: 82.3,
-                bestScore: 95,
-                worstScore: 62,
-                passRate: 86.4,
-                improvementTrend: 'improving'
-            },
-            scoreProgression: [65, 70, 75, 78, 82, 85, 88, 90, 92, 95],
-            topicPerformance: [
-                {
-                    topicId: 'topic-js-fundamentals',
-                    topicName: 'JavaScript Fundamentals',
-                    averageScore: 88.5,
-                    assessmentCount: 5,
-                    trend: 'improving'
-                },
-                {
-                    topicId: 'topic-react-basics',
-                    topicName: 'React Basics',
-                    averageScore: 75.2,
-                    assessmentCount: 4,
-                    trend: 'stable'
-                }
-            ],
-            timeEfficiency: {
-                averageCompletionTime: 42,
-                timeEfficiencyRatio: 0.95,
-                quickestCompletion: 28
-            },
-            retryPatterns: {
-                retryRate: 18,
-                retrySuccessRate: 85,
-                averageAttemptsToPass: 1.2
-            },
-            predictions: {
-                projectedNextScore: 88,
-                riskLevel: 'low',
-                recommendedStudyTime: 4
-            }
-        },
-        'learner-456': {
-            overview: {
-                totalAssessments: 18,
-                completedAssessments: 15,
-                pendingAssessments: 3,
-                overallAverageScore: 68.2,
-                recentAverageScore: 65.8,
-                bestScore: 82,
-                worstScore: 48,
-                passRate: 73.3,
-                improvementTrend: 'declining'
-            },
-            scoreProgression: [72, 68, 70, 65, 62, 68, 70, 65, 63, 60],
-            topicPerformance: [
-                {
-                    topicId: 'topic-python-basics',
-                    topicName: 'Python Basics',
-                    averageScore: 68.5,
-                    assessmentCount: 6,
-                    trend: 'declining'
-                }
-            ],
-            timeEfficiency: {
-                averageCompletionTime: 58,
-                timeEfficiencyRatio: 1.15,
-                quickestCompletion: 45
-            },
-            retryPatterns: {
-                retryRate: 35,
-                retrySuccessRate: 68,
-                averageAttemptsToPass: 1.8
-            },
-            predictions: {
-                projectedNextScore: 62,
-                riskLevel: 'high',
-                recommendedStudyTime: 8
-            }
-        }
-    },
-    
-    // AS-001 #6: Course & Content Effectiveness
-    contentEffectiveness: {
-        'user-123': {
-            scope: 'learner',
-            dateRange: { start: '2024-11-01', end: '2024-12-20' },
-            effectivenessByType: [
-                { type: 'video', avgScore: 85.2, count: 12 },
-                { type: 'article', avgScore: 78.5, count: 8 },
-                { type: 'interactive', avgScore: 88.7, count: 6 },
-                { type: 'quiz', avgScore: 82.1, count: 10 }
-            ],
-            engagementToScoreCorrelation: 0.78,
-            topContent: [
-                {
-                    contentId: 'content-react-hooks',
-                    title: 'React Hooks Deep Dive',
-                    type: 'video',
-                    score: 92,
-                    completionRate: 95,
-                    timeSpent: 3.5
-                },
-                {
-                    contentId: 'content-async-js',
-                    title: 'Async JavaScript Mastery',
-                    type: 'interactive',
-                    score: 90,
-                    completionRate: 98,
-                    timeSpent: 4.2
-                }
-            ],
-            lowContent: [
-                {
-                    contentId: 'content-css-grid',
-                    title: 'CSS Grid Layout',
-                    type: 'article',
-                    score: 65,
-                    completionRate: 72,
-                    timeSpent: 2.1
-                }
-            ],
-            insights: [
-                'Interactive content leads to 10% higher scores',
-                'Video format works best for complex topics',
-                'Morning study sessions correlate with better outcomes'
-            ]
-        },
-        'learner-456': {
-            scope: 'learner',
-            dateRange: { start: '2024-11-01', end: '2024-12-20' },
-            effectivenessByType: [
-                { type: 'video', avgScore: 72.1, count: 8 },
-                { type: 'article', avgScore: 68.5, count: 10 },
-                { type: 'interactive', avgScore: 65.2, count: 3 }
-            ],
-            engagementToScoreCorrelation: 0.62,
-            topContent: [
-                {
-                    contentId: 'content-python-intro',
-                    title: 'Python Introduction',
-                    type: 'video',
-                    score: 78,
-                    completionRate: 85,
-                    timeSpent: 2.8
-                }
-            ],
-            lowContent: [
-                {
-                    contentId: 'content-oop-python',
-                    title: 'OOP in Python',
-                    type: 'article',
-                    score: 58,
-                    completionRate: 62,
-                    timeSpent: 1.5
-                }
-            ],
-            insights: [
-                'Consider more interactive practice',
-                'Break down complex topics into smaller chunks',
-                'Evening study sessions show lower retention'
-            ]
-        }
+    findByEmail(email) {
+        return this.users.find(user => user.email === email);
     }
-};
 
-/**
- * AS-002: Trainer Analytics Mock Data
- * Complete mock data for all 4 trainer analytics categories
- */
-const mockTrainerAnalytics = {
-    // AS-002 #8: Course Health Dashboard
-    courseHealth: {
-        'trainer-123': {
-            'course-123': {
-                courseId: 'course-123',
-                courseName: 'Full Stack Web Development',
-                overallHealth: 'good',
-                healthScore: 78,
-                metrics: {
-                    enrollments: {
-                        total: 245,
-                        active: 180,
-                        trend: '+15% this month',
-                        comparisonToAverage: '+8%'
-                    },
-                    completion: {
-                        rate: 68,
-                        target: 75,
-                        variance: '-7%',
-                        averageTimeToComplete: '8.5 weeks',
-                        targetTime: '8 weeks'
-                    },
-                    satisfaction: {
-                        averageRating: 4.3,
-                        totalReviews: 87,
-                        nps: 42,
-                        satisfactionScore: 85,
-                        ratingTrend: '+0.2 from last cohort'
-                    }
-                },
-                dropOffAnalysis: {
-                    overallDropOffRate: 32,
-                    dropOffPoints: [
-                        {
-                            moduleId: 'module_5',
-                            moduleName: 'Advanced JavaScript',
-                            dropOffRate: 35,
-                            studentsDropped: 63,
-                            avgProgressBeforeDrop: 45,
-                            likelyReasons: [
-                                'Difficulty spike (30% of feedback)',
-                                'Unclear instructions (25% of feedback)',
-                                'Time commitment (20% of feedback)'
-                            ],
-                            recommendedActions: [
-                                'Add prerequisite review module',
-                                'Create video walkthrough for complex concepts',
-                                'Break module into smaller sections',
-                                'Add more practice exercises with hints'
-                            ],
-                            priority: 'high'
-                        }
-                    ]
-                },
-                contentPerformance: {
-                    strugglingTopics: [
-                        {
-                            topic: 'Async Programming',
-                            averageScore: 62,
-                            passRate: 58,
-                            averageAttempts: 2.3,
-                            studentFeedback: 'Needs more examples'
-                        }
-                    ],
-                    highPerformanceTopics: [
-                        {
-                            topic: 'HTML/CSS Basics',
-                            averageScore: 92,
-                            passRate: 98,
-                            averageAttempts: 1.1,
-                            studentFeedback: 'Clear and concise'
-                        }
-                    ]
-                },
-                recommendations: [
-                    {
-                        type: 'content_improvement',
-                        priority: 'high',
-                        suggestion: 'Revise Module 5: Add scaffolding content',
-                        expectedImpact: 'Reduce drop-off by 15%'
-                    },
-                    {
-                        type: 'pacing',
-                        priority: 'medium',
-                        suggestion: 'Module 3 completion time is 30% longer than target',
-                        expectedImpact: 'Improve completion rate by 5%'
-                    }
-                ]
-            }
-        }
-    },
-    
-    // AS-002 #7: Course Performance Dashboard
-    coursePerformance: {
-        'trainer-123': {
-            courses: [
+    findById(id) {
+        return this.users.find(user => user.id === id);
+    }
+
+    validatePassword(password, user) {
+        // Simple password validation for testing
+        return password === user.password;
+    }
+}
+
+class MockDataService {
+    constructor() {
+        this.learnerAnalyticsService = new LearnerAnalyticsService();
+        this.trainerAnalyticsService = new TrainerAnalyticsService();
+        this.orgAnalyticsService = new OrgAnalyticsService();
+        this.comparisonAnalyticsService = new ComparisonAnalyticsService();
+        this.predictiveAnalyticsService = new PredictiveAnalyticsService();
+        this.gamificationService = new GamificationService();
+        this.systemService = new SystemService();
+        this.integrationService = new IntegrationService();
+    }
+}
+
+class LearnerAnalyticsService {
+    getOverview(userId) {
+        return {
+            userId: userId,
+            learningVelocity: this.getVelocity(userId),
+            skillGap: this.getSkillGap(userId),
+            engagement: this.getEngagement(userId),
+            mastery: this.getMastery(userId),
+            performance: this.getPerformance(userId),
+            contentEffectiveness: this.getContentEffectiveness(userId),
+            lastUpdated: new Date().toISOString(),
+            status: "active"
+        };
+    }
+
+    getVelocity(userId) {
+        return {
+            currentVelocity: 78,          // Updated: Changed from currentPace (0-1) to currentVelocity (0-100)
+            momentum: "accelerating",     // Added: Momentum field
+            trend: "up",                  // Updated: Simplified trend to "up", "down", "stable"
+            timeWindows: {                // Added: Time window data
+                "7d": { velocity: 75, momentum: "steady" },
+                "30d": { velocity: 78, momentum: "accelerating" },
+                "90d": { velocity: 72, momentum: "slowing" }
+            },
+            velocityHistory: [            // Added: Historical data points
+                { velocity: 70, date: "2024-01-01" },
+                { velocity: 72, date: "2024-01-08" },
+                { velocity: 75, date: "2024-01-15" },
+                { velocity: 78, date: "2024-01-22" }
+            ],
+            lastUpdated: "2024-01-22T10:00:00Z",
+            isStale: false                // Added: Stale indicator
+        };
+    }
+
+    getSkillGap(userId) {
+        return {
+            skills: [                     // Updated: Single skills array combining all skill data
                 {
-                    courseId: 'course-123',
-                    courseName: 'Full Stack Web Development',
-                    enrollments: 245,
-                    activeStudents: 180,
-                    completionRate: 68,
-                    averageScore: 78.5,
-                    healthScore: 78,
-                    trend: 'improving'
+                    id: "skill-1",           // Added: id field
+                    name: "JavaScript",      // Updated: Changed from skillName
+                    category: "Programming", // Added: category field
+                    currentLevel: 3,         // Updated: Changed from masteryLevel (0-1) to currentLevel (0-4)
+                    targetLevel: 4,          // Added: target level
+                    gap: 1,                  // Added: calculated gap
+                    priority: 75,            // Added: priority (0-100)
+                    isCritical: false,       // Added: critical flag
+                    businessImpact: 85,      // Added: business impact score
+                    marketDemand: 90,        // Added: market demand score
+                    prerequisites: 70,       // Added: prerequisites score
+                    careerValue: 85          // Added: career value score
                 },
                 {
-                    courseId: 'course-456',
-                    courseName: 'React Advanced Patterns',
-                    enrollments: 128,
-                    activeStudents: 95,
-                    completionRate: 72,
-                    averageScore: 82.3,
-                    healthScore: 85,
-                    trend: 'stable'
+                    id: "skill-2",
+                    name: "React",
+                    category: "Frontend",
+                    currentLevel: 2,
+                    targetLevel: 4,
+                    gap: 2,
+                    priority: 85,
+                    isCritical: true,        // True because gap >= 2
+                    businessImpact: 90,
+                    marketDemand: 85,
+                    prerequisites: 75,
+                    careerValue: 90
                 }
             ],
-            summary: {
-                totalCourses: 2,
-                totalEnrollments: 373,
-                averageCompletionRate: 70,
-                averageHealthScore: 81.5
-            }
-        }
-    },
-    
-    // AS-002 #9: Student Performance Distribution
-    studentDistribution: {
-        'trainer-123': {
-            'course-123': {
-                courseId: 'course-123',
-                courseName: 'Full Stack Web Development',
-                totalStudents: 245,
-                distribution: {
-                    excellent: { count: 45, percentage: 18.4, range: '90-100%' },
-                    good: { count: 98, percentage: 40.0, range: '75-89%' },
-                    average: { count: 67, percentage: 27.3, range: '60-74%' },
-                    struggling: { count: 35, percentage: 14.3, range: '<60%' }
-                },
-                insights: {
-                    averageScore: 78.5,
-                    medianScore: 79.0,
-                    passRate: 85.7,
-                    atRiskStudents: 35,
-                    topPerformers: 45
+            categories: ["Programming", "Frontend", "Backend"],  // Added: unique categories array
+            lastUpdated: "2024-01-22T10:00:00Z",
+            isStale: false
+        };
+    }
+
+    getEngagement(userId) {
+        return {
+            overallEngagement: 78,        // Updated: Renamed from overallScore and changed scale (0-100)
+            timeSpent: {                  // Added: Time spent object
+                total: 24.5,              // hours
+                average: 2.1,             // hours per session
+                trend: "increasing"       // "increasing" | "decreasing" | "stable"
+            },
+            interactionRate: {            // Added: Interaction rate object
+                current: 0.65,            // 0-1 scale
+                average: 0.60,
+                trend: "increasing"
+            },
+            completionRate: {             // Added: Completion rate object
+                current: 0.72,            // 0-1 scale
+                average: 0.68,
+                trend: "increasing"
+            },
+            sessionFrequency: {           // Added: Session frequency object
+                daily: 0.60,              // 0-1 scale
+                weekly: 0.40,
+                monthly: 0.80,
+                trend: "increasing"
+            },
+            contentEngagement: {          // Updated: Changed from activityBreakdown
+                videos: 0.85,             // 0-1 scale
+                quizzes: 0.90,
+                readings: 0.72,
+                discussions: 0.58
+            },
+            engagementHistory: [          // Updated: Changed from weeklyEngagement
+                { engagement: 70, date: "2024-01-01" },
+                { engagement: 72, date: "2024-01-08" },
+                { engagement: 75, date: "2024-01-15" },
+                { engagement: 78, date: "2024-01-22" }
+            ],
+            lastUpdated: "2024-01-22T10:00:00Z",
+            isStale: false                // Added: Stale indicator
+        };
+    }
+
+    getMastery(userId) {
+        return {
+            overallMastery: 0.72,        // Number (0-1) - already correct
+            skillCategories: [           // Updated: Changed from skillMastery
+                {
+                    id: "category-1",
+                    name: "Programming",
+                    mastery: 0.75,
+                    progress: 0.15,
+                    skills: [
+                        {
+                            id: "skill-1",
+                            name: "JavaScript",
+                            mastery: 0.85,
+                            trend: "increasing"
+                        }
+                    ]
                 }
-            }
-        }
-    },
-    
-    // AS-002 #10: Teaching Effectiveness Metrics
-    teachingEffectiveness: {
-        'trainer-123': {
-            overallScore: 85.7,
-            metrics: {
+            ],
+            masteryHistory: [            // Added: Historical mastery data
+                { mastery: 0.70, date: "2024-01-01" },
+                { mastery: 0.71, date: "2024-01-08" },
+                { mastery: 0.72, date: "2024-01-15" }
+            ],
+            milestones: [                // Added: Milestones array
+                {
+                    id: "milestone-1",
+                    name: "Intermediate",
+                    threshold: 0.5,
+                    achieved: true,
+                    date: "2024-01-01"
+                }
+            ],
+            nextMilestone: {             // Updated: Changed from learningPath
+                name: "Advanced",
+                progress: 0.85,           // How close to milestone
+                remaining: 0.15           // How much left
+            },
+            lastUpdated: "2024-01-22T10:00:00Z",
+            isStale: false
+        };
+    }
+
+    getPerformance(userId) {
+        return {
+            overallScore: 0.78,           // Updated: Renamed from overallPerformance
+            assessmentResults: [          // Updated: Changed from assessmentScores
+                {
+                    id: "assessment-1",
+                    title: "JavaScript Fundamentals",
+                    score: 0.85,
+                    correctAnswers: 8,
+                    questions: 10,
+                    timeSpent: 45,        // minutes
+                    difficulty: "intermediate",
+                    category: "Programming",
+                    completedAt: "2024-01-22T10:00:00Z"
+                }
+            ],
+            performanceHistory: [         // Added: Historical performance data
+                { score: 0.75, date: "2024-01-01" },
+                { score: 0.77, date: "2024-01-08" },
+                { score: 0.78, date: "2024-01-15" }
+            ],
+            strengths: [                  // Updated: Changed to objects
+                {
+                    skill: "Problem Solving",
+                    score: 0.90,
+                    trend: "increasing"
+                }
+            ],
+            weaknesses: [                 // Added: Weaknesses array
+                {
+                    skill: "Documentation",
+                    score: 0.60,
+                    trend: "stable"
+                }
+            ],
+            improvementAreas: [           // Added: Improvement areas array
+                {
+                    area: "Testing",
+                    currentScore: 0.65,
+                    targetScore: 0.85,
+                    priority: "high"      // "high" | "medium" | "low"
+                }
+            ],
+            lastUpdated: "2024-01-22T10:00:00Z",
+            isStale: false
+        };
+    }
+
+    getContentEffectiveness(userId) {
+        return {
+            overallEffectiveness: 0.82,   // Updated: Renamed from contentEffectiveness
+            contentTypes: [               // Updated: Structure for content type objects
+                {
+                    id: "content-type-1",
+                    name: "Video",
+                    effectiveness: 0.85,
+                    completionRate: 0.92,
+                    engagementScore: 0.90,
+                    completedContent: 12,
+                    totalContent: 15,
+                    averageRating: 4.5,
+                    timeSpent: 180,       // minutes
+                    lastAccessed: "2024-01-22T10:00:00Z"
+                },
+                {
+                    id: "content-type-2",
+                    name: "Interactive",
+                    effectiveness: 0.95,
+                    completionRate: 0.88,
+                    engagementScore: 0.92,
+                    completedContent: 8,
+                    totalContent: 10,
+                    averageRating: 4.8,
+                    timeSpent: 150,
+                    lastAccessed: "2024-01-22T10:00:00Z"
+                }
+            ],
+            effectivenessHistory: [       // Added: Historical effectiveness data
+                { effectiveness: 0.80, date: "2024-01-01" },
+                { effectiveness: 0.81, date: "2024-01-08" },
+                { effectiveness: 0.82, date: "2024-01-15" }
+            ],
+            topPerformingContent: [       // Added: Top performing content
+                {
+                    id: "content-1",
+                    title: "JavaScript Basics",
+                    type: "video",
+                    effectiveness: 0.95,
+                    rating: 4.8
+                }
+            ],
+            underperformingContent: [     // Added: Underperforming content
+                {
+                    id: "content-2",
+                    title: "Advanced React",
+                    type: "reading",
+                    effectiveness: 0.55,
+                    rating: 3.2
+                }
+            ],
+            recommendations: [            // Updated: Changed structure
+                {
+                    type: "Content Quality",
+                    priority: "high",
+                    suggestion: "Improve video quality for better engagement"
+                }
+            ],
+            lastUpdated: "2024-01-22T10:00:00Z",
+            isStale: false
+        };
+    }
+}
+
+class TrainerAnalyticsService {
+    getOverview(trainerId) {
+        return {
+            trainerId: trainerId,
+            coursePerformance: this.getCoursePerformance(trainerId),
+            courseHealth: this.getCourseHealth(trainerId),
+            studentDistribution: this.getStudentDistribution(trainerId),
+            teachingEffectiveness: this.getTeachingEffectiveness(trainerId),
+            lastUpdated: new Date().toISOString(),
+            status: "active"
+        };
+    }
+
+    getCoursePerformance(trainerId) {
+        return {
+            summary: {                     // Added: Summary object
+                totalCourses: 5,
+                totalEnrollments: 125,
+                averageCompletionRate: 78, // 0-100 scale
+                averageHealthScore: 82     // 0-100 scale
+            },
+            courses: [                     // Updated: Changed field names
+                {
+                    courseId: "course-1",
+                    courseName: "Advanced JavaScript",
+                    trend: "improving",    // Updated: Changed from performance
+                    healthScore: 85,       // Updated: Changed from performance (0-100)
+                    enrollments: 45,       // Updated: Changed from studentCount
+                    activeStudents: 38,    // Added: Active students
+                    completionRate: 84,    // Updated: Changed scale (0-100)
+                    averageScore: 78       // Updated: Changed scale (0-100)
+                }
+            ],
+            insights: [                    // Updated: Simplified structure (strings)
+                "Course completion rates have improved by 15% this month"
+            ],
+            recommendations: [             // Added: Recommendations array
+                "Consider adding more interactive content"
+            ],
+            lastUpdated: "2024-01-22T10:00:00Z",
+            staleness: "fresh"             // Added: Staleness indicator
+        };
+    }
+
+    getCourseHealth(trainerId) {
+        return {
+            courseName: "Advanced JavaScript",
+            healthScore: 85,              // Updated: Changed from overallHealth (0-1) to healthScore (0-100)
+            overallHealth: "healthy",     // Added: Health status ("healthy" | "at_risk" | "unhealthy")
+            metrics: {                     // Added: Metrics object
+                enrollments: {
+                    total: 45,
+                    active: 38
+                },
+                completion: {
+                    rate: 84,             // 0-100 scale
+                    target: 80
+                },
+                satisfaction: {
+                    averageRating: 4.5,   // 1-5 scale
+                    totalReviews: 32,
+                    nps: 75,              // -100 to 100
+                    satisfactionScore: 85, // 0-100
+                    ratingTrend: "increasing"
+                }
+            },
+            dropOffAnalysis: {            // Added: Drop-off analysis
+                overallDropOffRate: 15,   // 0-100
+                dropOffPoints: [
+                    {
+                        moduleName: "Module 3",
+                        dropOffRate: 25,
+                        studentsDropped: 8,
+                        priority: "high",  // "high" | "medium" | "low"
+                        likelyReasons: [
+                            "Content too complex",
+                            "Lack of examples"
+                        ],
+                        recommendedActions: [
+                            "Add more examples",
+                            "Break down into smaller sections"
+                        ]
+                    }
+                ]
+            },
+            contentPerformance: {         // Added: Content performance
+                strugglingTopics: [
+                    {
+                        topic: "Async/Await",
+                        averageScore: 65,
+                        passRate: 70,
+                        averageAttempts: 2.5,
+                        studentFeedback: "Too difficult to understand"
+                    }
+                ],
+                highPerformanceTopics: [
+                    {
+                        topic: "ES6 Features",
+                        averageScore: 92,
+                        passRate: 95,
+                        averageAttempts: 1.2,
+                        studentFeedback: "Great examples and explanations"
+                    }
+                ]
+            },
+            recommendations: [            // Updated: Changed structure
+                {
+                    suggestion: "Add more practice exercises",
+                    priority: "high",
+                    type: "content_improvement",
+                    expectedImpact: "15% increase in completion rate"
+                }
+            ],
+            lastUpdated: "2024-01-22T10:00:00Z",
+            staleness: "fresh"
+        };
+    }
+
+    getStudentDistribution(trainerId) {
+        return {
+            courseName: "Advanced JavaScript",
+            totalStudents: 45,
+            distribution: {                  // Updated: Changed structure
+                excellent: {                 // Score >= 90
+                    count: 12,
+                    percentage: 27,
+                    range: "90-100%"
+                },
+                good: {                      // Score 75-89
+                    count: 18,
+                    percentage: 40,
+                    range: "75-89%"
+                },
+                average: {                   // Score 60-74
+                    count: 10,
+                    percentage: 22,
+                    range: "60-74%"
+                },
+                struggling: {                // Score < 60
+                    count: 5,
+                    percentage: 11,
+                    range: "<60%"
+                }
+            },
+            insights: {                      // Added: Insights object
+                averageScore: 78,           // 0-100 scale
+                medianScore: 82,
+                passRate: 89,               // 0-100 scale
+                atRiskStudents: 5,
+                topPerformers: 12
+            },
+            lastUpdated: "2024-01-22T10:00:00Z"
+        };
+    }
+
+    getTeachingEffectiveness(trainerId) {
+        return {
+            overallScore: 85,             // Updated: Renamed from overallEffectiveness (0-100)
+            metrics: {                     // Updated: Changed structure
                 studentSatisfaction: {
-                    score: 4.3,
-                    totalReviews: 187,
-                    trend: 'improving'
+                    score: 4.5,           // 1-5 scale
+                    totalReviews: 42,
+                    trend: "increasing"
                 },
                 learningOutcomes: {
-                    averageScoreImprovement: 15.5,
-                    skillAcquisitionRate: 82.3,
-                    completionRate: 70.0
+                    averageScoreImprovement: 15,  // percentage
+                    skillAcquisitionRate: 78,     // 0-100
+                    completionRate: 84            // 0-100
                 },
                 engagement: {
-                    responseTime: '2.5 hours',
-                    feedbackQuality: 4.5,
-                    availabilityScore: 92
+                    responseTime: "2 hours",
+                    feedbackQuality: 4.8,         // 1-5 scale
+                    availabilityScore: 92         // 0-100
                 }
             },
-            strengths: [
-                'Clear explanations and examples',
-                'Quick response to student questions',
-                'Well-structured course content'
+            strengths: [                  // Updated: Changed to strings
+                "Clear explanations",
+                "Responsive to questions"
             ],
-            improvementAreas: [
-                'More hands-on exercises',
-                'Additional office hours',
-                'More video content'
-            ]
-        }
+            improvementAreas: [           // Updated: Changed to strings
+                "More hands-on exercises",
+                "Better pacing for complex topics"
+            ],
+            lastUpdated: "2024-01-22T10:00:00Z"
+        };
     }
-};
+}
 
-/**
- * AS-003: Organizational Analytics Mock Data
- * Complete mock data for all 4 organizational analytics categories
- */
-const mockOrganizationalAnalytics = {
-    // AS-003 #11: Organizational Learning Velocity
-    learningVelocity: {
-        'org-123': {
-            organizationId: 'org-123',
-            period: 'Q4 2024',
-            overview: {
-                totalEmployees: 500,
-                activelyLearning: 450,
-                participationRate: 90,
-                averageCompletionRate: 68,
-                skillsAcquiredThisQuarter: 1247,
-                certificationsEarned: 89
-            },
-            roiMetrics: {
-                trainingInvestment: 125000,
-                productivityGains: 340000,
-                roi: '172%',
-                calculationMethod: 'Based on average salary increase and project completion velocity',
-                costPerSkillAcquired: 100.24,
-                averageTimeToSkill: '3.2 weeks'
-            },
+class OrgAnalyticsService {
+    getOverview(orgId) {
+        return {
+            organizationId: orgId,
+            learningVelocity: this.getLearningVelocity(orgId),
+            strategicAlignment: this.getStrategicAlignment(orgId),
+            learningCulture: this.getLearningCulture(orgId),
+            orgPerformance: this.getOrgPerformance(orgId),
+            lastUpdated: new Date().toISOString(),
+            status: "active"
+        };
+    }
+
+    getLearningVelocity(orgId) {
+        return {
+            overallVelocity: 0.76,
             departmentBreakdown: [
                 {
-                    departmentId: 'dept_engineering',
-                    departmentName: 'Engineering',
-                    totalEmployees: 120,
-                    activelyLearning: 110,
-                    participationRate: 92,
-                    completionRate: 75,
-                    skillsAcquired: 456,
-                    topSkills: [
-                        { skill: 'Python', employeesWithSkill: 85 },
-                        { skill: 'AWS', employeesWithSkill: 67 },
-                        { skill: 'Docker', employeesWithSkill: 54 }
-                    ],
-                    skillGapClosure: 65,
-                    target: 75,
-                    status: 'on_track',
-                    trend: '+10% from last quarter'
+                    departmentId: "dept-1",
+                    departmentName: "Engineering",
+                    velocity: 0.82,
+                    learnerCount: 45,
+                    averageProgress: 0.78
                 },
                 {
-                    departmentId: 'dept_marketing',
-                    departmentName: 'Marketing',
-                    totalEmployees: 80,
-                    activelyLearning: 72,
-                    participationRate: 90,
-                    completionRate: 70,
-                    skillsAcquired: 234,
-                    topSkills: [
-                        { skill: 'Digital Marketing', employeesWithSkill: 65 },
-                        { skill: 'Analytics', employeesWithSkill: 48 },
-                        { skill: 'SEO', employeesWithSkill: 42 }
-                    ],
-                    skillGapClosure: 70,
-                    target: 75,
-                    status: 'on_track',
-                    trend: '+8% from last quarter'
+                    departmentId: "dept-2",
+                    departmentName: "Marketing",
+                    velocity: 0.71,
+                    learnerCount: 23,
+                    averageProgress: 0.65
                 }
             ],
             trends: {
-                quarterOverQuarter: '+15%',
-                yearOverYear: '+42%',
-                peakLearningMonth: 'November 2024'
-            }
-        }
-    },
-    
-    // AS-003 #12: Strategic Alignment Tracking
-    strategicAlignment: {
-        'org-123': {
-            organizationId: 'org-123',
-            overallAlignment: 85,
-            alignmentGrade: 'Excellent',
+                velocity: "increasing",
+                trendPercentage: 12.5,
+                timePeriod: "last_3_months"
+            },
+            benchmarks: {
+                industryAverage: 0.68,
+                topPerformers: 0.89,
+                percentile: 78
+            },
+            insights: [
+                {
+                    type: "positive",
+                    message: "Engineering department shows 15% above average velocity"
+                },
+                {
+                    type: "opportunity",
+                    message: "Marketing department could benefit from additional learning resources"
+                }
+            ],
+            recommendations: [
+                {
+                    departmentId: "dept-2",
+                    departmentName: "Marketing",
+                    action: "increase_learning_budget",
+                    priority: "medium",
+                    estimatedImpact: "10% velocity increase"
+                }
+            ]
+        };
+    }
+
+    getStrategicAlignment(orgId) {
+        return {
+            overallAlignment: 0.84,
+            alignmentGrade: "B+",
+            staleness: "fresh",
+            period: "Q1 2024",
             strategicGoals: [
                 {
-                    goalId: 'goal_1',
-                    goalName: 'Digital Transformation',
-                    targetDate: '2025-06-30',
-                    alignmentScore: 88,
-                    progress: 72,
-                    requiredSkills: ['Cloud Computing', 'DevOps', 'Microservices'],
-                    skillsCovered: 65,
-                    employeesOnTrack: 145,
-                    totalEmployeesNeeded: 200,
-                    status: 'on_track',
+                    goalId: "goal-1",
+                    goalName: "Digital Transformation",
+                    alignmentScore: 0.89,
+                    progress: 65,
+                    skillsCovered: 82,
+                    requiredSkills: ["Cloud Computing", "DevOps", "Microservices", "API Design"],
+                    employeesOnTrack: 52,
+                    totalEmployeesNeeded: 80,
+                    status: "on_track",
                     recommendations: [
-                        'Increase focus on Microservices training',
-                        'Consider advanced DevOps certification programs'
+                        "Increase focus on advanced cloud architecture training",
+                        "Extend API design workshops to more teams"
                     ]
                 },
                 {
-                    goalId: 'goal_2',
-                    goalName: 'Data-Driven Culture',
-                    targetDate: '2025-09-30',
-                    alignmentScore: 82,
-                    progress: 68,
-                    requiredSkills: ['Data Analytics', 'SQL', 'Python for Data Science'],
-                    skillsCovered: 70,
-                    employeesOnTrack: 120,
-                    totalEmployeesNeeded: 150,
-                    status: 'on_track',
+                    goalId: "goal-2",
+                    goalName: "Leadership Development",
+                    alignmentScore: 0.76,
+                    progress: 43,
+                    skillsCovered: 71,
+                    requiredSkills: ["Strategic Thinking", "Change Management", "Team Leadership", "Communication"],
+                    employeesOnTrack: 20,
+                    totalEmployeesNeeded: 50,
+                    status: "at_risk",
                     recommendations: [
-                        'Expand Python for Data Science courses',
-                        'Create more hands-on data analytics projects'
+                        "Accelerate leadership training programs",
+                        "Provide 1-on-1 coaching for high-potential leaders"
                     ]
                 }
             ],
             gapAnalysis: {
-                criticalGaps: 3,
-                mediumGaps: 7,
-                lowGaps: 12,
+                criticalGaps: 2,
+                mediumGaps: 5,
+                lowGaps: 3,
                 topMissingSkills: [
-                    { skill: 'Kubernetes', gap: 45, priority: 'critical' },
-                    { skill: 'Machine Learning', gap: 38, priority: 'high' },
-                    { skill: 'Cybersecurity', gap: 32, priority: 'high' }
+                    { skill: "Cloud Architecture", priority: "critical", gap: 40 },
+                    { skill: "Change Management", priority: "high", gap: 32 },
+                    { skill: "Strategic Thinking", priority: "medium", gap: 24 }
                 ]
-            }
-        }
-    },
-    
-    // AS-003 #13: Department & Team Analytics
-    departmentAnalytics: {
-        'org-123': {
-            organizationId: 'org-123',
-            departments: [
+            },
+            recommendations: [
                 {
-                    departmentId: 'dept_engineering',
-                    departmentName: 'Engineering',
-                    totalEmployees: 120,
-                    metrics: {
-                        participationRate: 92,
-                        completionRate: 75,
-                        averageScore: 82.5,
-                        skillsAcquired: 456,
-                        certificationsEarned: 34
-                    },
-                    topPerformers: [
-                        { userId: 'user-123', name: 'John Doe', skillsAcquired: 12 },
-                        { userId: 'user-456', name: 'Jane Smith', skillsAcquired: 10 }
-                    ],
-                    teamComparison: {
-                        vsOrgAverage: '+8%',
-                        ranking: 1,
-                        totalDepartments: 5
-                    },
-                    trends: {
-                        last30Days: '+5%',
-                        last90Days: '+12%'
-                    }
-                },
-                {
-                    departmentId: 'dept_marketing',
-                    departmentName: 'Marketing',
-                    totalEmployees: 80,
-                    metrics: {
-                        participationRate: 90,
-                        completionRate: 70,
-                        averageScore: 78.3,
-                        skillsAcquired: 234,
-                        certificationsEarned: 18
-                    },
-                    topPerformers: [
-                        { userId: 'user-789', name: 'Alice Johnson', skillsAcquired: 8 },
-                        { userId: 'user-101', name: 'Bob Wilson', skillsAcquired: 7 }
-                    ],
-                    teamComparison: {
-                        vsOrgAverage: '+2%',
-                        ranking: 2,
-                        totalDepartments: 5
-                    },
-                    trends: {
-                        last30Days: '+3%',
-                        last90Days: '+8%'
-                    }
+                    type: "skill_development",
+                    priority: "high",
+                    action: "invest_in_cloud_training",
+                    estimatedCost: 25000,
+                    expectedROI: 2.3
                 }
-            ]
-        }
-    },
-    
-    // AS-003 #14: Learning Culture Metrics
-    learningCulture: {
-        'org-123': {
-            organizationId: 'org-123',
-            overallCultureScore: 87,
-            cultureGrade: 'Strong',
+            ],
+            lastUpdated: new Date().toISOString()
+        };
+    }
+
+    getDepartmentAnalytics(orgId, department) {
+        return {
+            organizationId: orgId,
+            department: department,
+            metrics: {
+                totalLearners: 45,
+                activeLearners: 38,
+                completionRate: 0.84,
+                averageScore: 0.78,
+                engagementScore: 0.82
+            },
+            trends: {
+                learningVelocity: "increasing",
+                skillDevelopment: "stable",
+                engagement: "improving"
+            },
+            insights: [
+                {
+                    type: "success",
+                    message: "Department shows strong learning momentum",
+                    impact: "high"
+                }
+            ],
+            lastUpdated: new Date().toISOString()
+        };
+    }
+
+    getLearningCulture(orgId) {
+        return {
+            overallCultureScore: 0.81,
+            cultureGrade: "B+",
+            staleness: "fresh",
+            period: "Q1 2024",
             metrics: {
                 learningEngagement: {
-                    score: 88,
-                    activeParticipation: 90,
+                    score: 82,
+                    activeParticipation: 78,
                     voluntaryLearning: 65,
-                    peerCollaboration: 72
+                    peerCollaboration: 71
                 },
                 knowledgeSharing: {
-                    score: 85,
+                    score: 84,
                     mentorshipPrograms: 12,
-                    activeMentors: 45,
-                    knowledgeBaseSessions: 28,
-                    internalPresentations: 34
+                    activeMentors: 34,
+                    knowledgeBaseSessions: 28
                 },
                 innovationMetrics: {
-                    score: 82,
+                    score: 76,
                     newIdeasSubmitted: 156,
-                    ideasImplemented: 42,
-                    innovationProjects: 18,
-                    crossTeamCollaboration: 68
+                    ideasImplemented: 48,
+                    innovationProjects: 15
                 },
                 continuousImprovement: {
-                    score: 90,
-                    feedbackLoops: 'strong',
-                    courseCompletionTrend: '+15%',
-                    skillApplicationRate: 78,
-                    learningPathAdherence: 85
+                    score: 79,
+                    feedbackLoops: 8,
+                    courseCompletionTrend: "+12%",
+                    skillApplicationRate: 73
                 }
             },
             culturalIndicators: {
-                managerSupport: 92,
-                learningTimeAllocation: 85,
-                recognitionPrograms: 88,
-                careerDevelopmentOpportunities: 86
+                managerSupport: 85,
+                learningTimeAllocation: 72,
+                recognitionPrograms: 9,
+                careerDevelopmentOpportunities: 12
             },
             benchmarks: {
-                industryAverage: 72,
-                vsIndustry: '+15 points',
-                topQuartile: 90,
-                standing: 'Above Average'
+                industryAverage: 75,
+                vsIndustry: "+6%",
+                standing: "Above Average"
             },
             recommendations: [
-                'Increase voluntary learning incentives',
-                'Expand peer mentorship programs',
-                'Create more innovation challenges',
-                'Enhance recognition for learning achievements'
-            ]
-        }
+                "Expand mentorship programs to increase knowledge sharing",
+                "Increase learning time allocation to improve voluntary learning",
+                "Implement more recognition programs to boost engagement"
+            ],
+            lastUpdated: new Date().toISOString()
+        };
     }
-};
 
-const mockAnalytics = {
-    learner: {
-        'user-123': {
-            learning_velocity: 85.5,
-            mastery_progress: 72.3,
-            engagement_score: 91.2,
-            assessment_performance: 78.5,
-            content_effectiveness: 82.1,
-            skill_gaps: [
-                { skill: 'JavaScript', priority: 'high', gap_score: 0.3 },
-                { skill: 'React', priority: 'medium', gap_score: 0.2 }
+    getOrgPerformance(orgId) {
+        return {
+            overallPerformance: 0.83,
+            performanceMetrics: {
+                learningROI: 2.4,
+                skillDevelopmentRate: 0.78,
+                employeeRetention: 0.89,
+                productivityImprovement: 0.15,
+                innovationIndex: 0.72
+            },
+            departmentPerformance: [
+                {
+                    departmentId: "dept-1",
+                    departmentName: "Engineering",
+                    performance: 0.87,
+                    learningROI: 2.8,
+                    skillDevelopmentRate: 0.82,
+                    retentionRate: 0.92
+                },
+                {
+                    departmentId: "dept-2",
+                    departmentName: "Marketing",
+                    performance: 0.76,
+                    learningROI: 2.1,
+                    skillDevelopmentRate: 0.71,
+                    retentionRate: 0.85
+                }
+            ],
+            keyPerformanceIndicators: {
+                averageTimeToCompetency: 4.2,
+                learningCompletionRate: 0.84,
+                skillGapReduction: 0.23,
+                crossFunctionalMobility: 0.31,
+                leadershipPipeline: 0.67
+            },
+            businessImpact: {
+                revenuePerEmployee: 125000,
+                costSavings: 45000,
+                timeToMarket: -15,
+                customerSatisfaction: 0.91,
+                employeeSatisfaction: 0.88
+            },
+            benchmarks: {
+                industryAverage: 0.75,
+                topPerformers: 0.92,
+                percentile: 82
+            },
+            trends: {
+                performance: "increasing",
+                roi: "improving",
+                retention: "stable"
+            },
+            recommendations: [
+                {
+                    type: "investment",
+                    priority: "high",
+                    action: "increase_engineering_training_budget",
+                    estimatedROI: 3.2,
+                    expectedImpact: "15% performance improvement"
+                }
             ]
-        },
-        'learner-456': {
-            learning_velocity: 78.2,
-            mastery_progress: 65.8,
-            engagement_score: 84.5,
-            assessment_performance: 71.3,
-            content_effectiveness: 76.9,
-            skill_gaps: [
-                { skill: 'Python', priority: 'high', gap_score: 0.4 },
-                { skill: 'Data Structures', priority: 'high', gap_score: 0.35 }
-            ]
-        },
-        'multi-role-202': {
-            learning_velocity: 92.1,
-            mastery_progress: 88.5,
-            engagement_score: 95.3,
-            assessment_performance: 89.7,
-            content_effectiveness: 91.2,
-            skill_gaps: [
-                { skill: 'Advanced Algorithms', priority: 'medium', gap_score: 0.15 },
-                { skill: 'System Design', priority: 'low', gap_score: 0.1 }
-            ]
-        },
-        'super-admin-303': {
-            learning_velocity: 96.8,
-            mastery_progress: 94.2,
-            engagement_score: 98.1,
-            assessment_performance: 95.5,
-            content_effectiveness: 97.3,
-            skill_gaps: [
-                { skill: 'Machine Learning', priority: 'low', gap_score: 0.05 }
-            ]
-        }
-    },
-    trainer: {
-        'trainer-789': {
-            course_performance: 88.5,
-            course_health: 92.3,
-            teaching_effectiveness: 85.7,
-            student_distribution: {
-                total_students: 150,
-                active_students: 120,
-                at_risk_students: 15
-            }
-        },
-        'multi-role-202': {
-            course_performance: 82.3,
-            course_health: 87.5,
-            teaching_effectiveness: 79.8,
-            student_distribution: {
-                total_students: 85,
-                active_students: 72,
-                at_risk_students: 8
-            }
-        },
-        'super-admin-303': {
-            course_performance: 95.2,
-            course_health: 98.1,
-            teaching_effectiveness: 93.5,
-            student_distribution: {
-                total_students: 250,
-                active_students: 235,
-                at_risk_students: 5
-            }
-        }
-    },
-    organization: {
-        'org-123': {
-            learning_velocity: 78.5,
-            strategic_alignment: 85.2,
-            learning_culture: 91.8,
-            department_metrics: {
-                engineering: { velocity: 82.1, engagement: 88.5 },
-                marketing: { velocity: 75.3, engagement: 79.2 }
-            }
-        }
+        };
     }
-};
+}
 
-let mockReports = [
-    {
-        id: 'report-1',
-        type: 'learner',
-        format: 'pdf',
-        status: 'completed',
-        created_at: '2024-01-15T10:00:00Z',
-        expires_at: '2024-01-22T10:00:00Z',
-        download_url: 'https://example.com/report-1.pdf',
-        user_id: 'user-123'
-    },
-    {
-        id: 'report-2',
-        type: 'learner',
-        format: 'csv',
-        status: 'processing',
-        created_at: '2024-01-15T11:00:00Z',
-        expires_at: '2024-01-22T11:00:00Z',
-        download_url: null,
-        user_id: 'user-123'
-    },
-    {
-        id: 'completed-report-id',
-        type: 'learner',
-        format: 'pdf',
-        status: 'completed',
-        created_at: '2024-01-15T10:00:00Z',
-        expires_at: '2024-01-22T10:00:00Z',
-        download_url: 'https://example.com/completed-report.pdf',
-        user_id: 'user-123'
+class ComparisonAnalyticsService {
+    getPeerComparison(userId) {
+        return {
+            userRanking: {
+                overall: 23,
+                totalPeers: 156,
+                percentile: 85
+            },
+            skillComparisons: [
+                {
+                    skillId: "skill-1",
+                    skillName: "JavaScript",
+                    userLevel: 0.85,
+                    peerAverage: 0.72,
+                    peerMedian: 0.75,
+                    ranking: 12,
+                    percentile: 88
+                }
+            ],
+            performanceComparisons: [
+                {
+                    metric: "learning_velocity",
+                    userValue: 0.78,
+                    peerAverage: 0.65,
+                    peerMedian: 0.68,
+                    ranking: 18,
+                    percentile: 82
+                }
+            ],
+            anonymizedPeerData: [
+                {
+                    peerGroup: "similar_experience",
+                    averageProgress: 0.74,
+                    averageEngagement: 0.81,
+                    commonStrengths: ["problem-solving", "code-review"],
+                    commonChallenges: ["testing", "documentation"]
+                }
+            ],
+            insights: [
+                {
+                    type: "strength",
+                    message: "You're performing 15% above average in JavaScript skills"
+                },
+                {
+                    type: "opportunity",
+                    message: "Consider focusing on testing skills to improve overall ranking"
+                }
+            ],
+            recommendations: [
+                {
+                    skillId: "skill-2",
+                    skillName: "Testing",
+                    action: "complete_testing_course",
+                    priority: "high",
+                    expectedImpact: "10% ranking improvement"
+                }
+            ]
+        };
     }
-];
 
-let mockCollections = {
-    'completed-collection-id': {
-        collection_id: 'completed-collection-id',
-        user_id: 'user-123',
-        collection_type: 'full',
-        services: ['directory', 'course-builder', 'assessment'],
-        status: 'completed',
-        progress: 100,
-        records_processed: 1500,
-        started_at: '2024-01-15T10:00:00Z',
-        updated_at: '2024-01-15T10:30:00Z',
-        estimated_duration: '5-10 minutes'
+    getSkillDemand(skills, timeframe) {
+        return {
+            skillDemand: [
+                {
+                    skillId: "skill-1",
+                    skillName: "JavaScript",
+                    demandScore: 0.92,
+                    trend: "increasing",
+                    trendPercentage: 15.3,
+                    jobPostings: 1250,
+                    averageSalary: 95000,
+                    growthRate: 0.12
+                },
+                {
+                    skillId: "skill-2",
+                    skillName: "React",
+                    demandScore: 0.88,
+                    trend: "stable",
+                    trendPercentage: 2.1,
+                    jobPostings: 890,
+                    averageSalary: 98000,
+                    growthRate: 0.08
+                },
+                {
+                    skillId: "skill-3",
+                    skillName: "Python",
+                    demandScore: 0.95,
+                    trend: "increasing",
+                    trendPercentage: 18.7,
+                    jobPostings: 2100,
+                    averageSalary: 102000,
+                    growthRate: 0.15
+                }
+            ],
+            marketInsights: [
+                {
+                    insight: "Python skills are in highest demand with 18.7% growth",
+                    priority: "high",
+                    recommendation: "Consider Python specialization"
+                },
+                {
+                    insight: "JavaScript remains stable with consistent demand",
+                    priority: "medium",
+                    recommendation: "Maintain current JavaScript skills"
+                }
+            ],
+            industryTrends: {
+                technology: "increasing",
+                healthcare: "stable",
+                finance: "increasing",
+                education: "stable"
+            },
+            geographicDistribution: {
+                "North America": 0.45,
+                "Europe": 0.32,
+                "Asia": 0.18,
+                "Other": 0.05
+            },
+            salaryRanges: {
+                "JavaScript": { min: 75000, max: 120000, median: 95000 },
+                "React": { min: 80000, max: 130000, median: 98000 },
+                "Python": { min: 85000, max: 140000, median: 102000 }
+            }
+        };
     }
-};
+}
 
-/**
- * User service methods
- */
-const userService = {
-    findByEmail: (email) => mockUsers.find(user => user.email === email),
-    findById: (id) => mockUsers.find(user => user.id === id),
-    validatePassword: (password, user) => password === user.password // Plain text for testing
-};
+class PredictiveAnalyticsService {
+    getDropOffRisk(userId) {
+        return {
+            riskAssessment: {
+                overallRisk: 75,
+                engagementScore: 45,
+                daysSinceLastActivity: 5,
+                trend: -10.5
+            },
+            engagementPatterns: [
+                { week: 'Week 1', engagementScore: 85, riskScore: 20, date: '2024-01-01', activity: 'Course Start', duration: '2h' },
+                { week: 'Week 2', engagementScore: 78, riskScore: 35, date: '2024-01-08', activity: 'Module 1', duration: '1.5h' },
+                { week: 'Week 3', engagementScore: 65, riskScore: 50, date: '2024-01-15', activity: 'Module 2', duration: '1h' },
+                { week: 'Week 4', engagementScore: 45, riskScore: 75, date: '2024-01-22', activity: 'Module 3', duration: '30m' },
+            ],
+            warningSignals: [
+                {
+                    type: 'Low Engagement',
+                    severity: 'High',
+                    description: 'Engagement score has dropped significantly',
+                    impact: 'High',
+                    duration: '2 weeks'
+                },
+                {
+                    type: 'Missed Deadlines',
+                    severity: 'Medium',
+                    description: 'Multiple assignment deadlines missed',
+                    impact: 'Medium',
+                    duration: '1 week'
+                }
+            ],
+            interventionRecommendations: [
+                {
+                    type: 'Personal Outreach',
+                    priority: 'High',
+                    description: 'Schedule one-on-one session to understand challenges',
+                    action: 'Schedule Meeting',
+                    timeline: 'Within 24 hours'
+                },
+                {
+                    type: 'Content Adjustment',
+                    priority: 'Medium',
+                    description: 'Provide additional resources and alternative learning paths',
+                    action: 'Send Resources',
+                    timeline: 'Within 48 hours'
+                }
+            ],
+            metadata: {
+                lastUpdated: new Date().toISOString(),
+                dataSource: 'dropoff-risk',
+                sampleSize: 100,
+            }
+        };
+    }
 
-/**
- * Analytics service methods
- */
-const analyticsService = {
-    // Legacy combined analytics (for backward compatibility)
-    getLearnerAnalytics: (userId) => mockAnalytics.learner[userId],
-    getTrainerAnalytics: (userId) => mockAnalytics.trainer[userId],
-    getOrganizationAnalytics: (organizationId) => mockAnalytics.organization[organizationId],
-    
-    // AS-001: Learner Analytics (Individual methods for each analytic)
-    getLearnerVelocity: (userId) => {
-        const data = mockLearnerAnalytics.velocity[userId];
-        if (!data) return null;
+    getForecast(userId) {
         return {
-            success: true,
-            data: {
-                learningVelocity: data
+            currentPerformance: {
+                overallScore: 78,
+                lastUpdated: new Date().toISOString()
             },
-            meta: {
-                calculatedAt: new Date().toISOString(),
-                dataFreshness: '2 hours',
-                confidence: 'high'
-            }
-        };
-    },
-    
-    getLearnerSkillGaps: (userId) => {
-        const data = mockLearnerAnalytics.skillGaps[userId];
-        if (!data) return null;
-        return {
-            success: true,
-            data: {
-                skillGapMatrix: data
+            forecastProjections: [
+                { 
+                    period: 'Week 1', 
+                    historicalScore: 75, 
+                    forecastedScore: 80, 
+                    confidenceLow: 76, 
+                    confidenceHigh: 84, 
+                    probability: 'High',
+                    recommendation: 'Continue'
+                },
+                { 
+                    period: 'Week 2', 
+                    historicalScore: 78, 
+                    forecastedScore: 82, 
+                    confidenceLow: 78, 
+                    confidenceHigh: 86, 
+                    probability: 'Medium',
+                    recommendation: 'Improve'
+                },
+                { 
+                    period: 'Week 3', 
+                    historicalScore: 80, 
+                    forecastedScore: 85, 
+                    confidenceLow: 80, 
+                    confidenceHigh: 90, 
+                    probability: 'High',
+                    recommendation: 'Continue'
+                },
+                { 
+                    period: 'Week 4', 
+                    historicalScore: 82, 
+                    forecastedScore: 88, 
+                    confidenceLow: 82, 
+                    confidenceHigh: 94, 
+                    probability: 'Low',
+                    recommendation: 'Monitor'
+                }
+            ],
+            trendAnalysis: {
+                overallTrend: 8.5,
+                velocity: 2.3,
+                acceleration: 0.5,
+                volatility: 3.2,
+                stability: 0.85,
+                seasonality: 'Upward',
+                peakPeriod: 'Week 4'
             },
-            meta: {
-                calculatedAt: new Date().toISOString(),
-                nextRecommendedAnalysis: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
-            }
-        };
-    },
-    
-    getLearnerEngagement: (userId) => {
-        const data = mockLearnerAnalytics.engagement[userId];
-        if (!data) return null;
-        return {
-            success: true,
-            data: {
-                engagementAnalytics: data
+            confidenceMetrics: {
+                overallConfidence: 87,
+                forecastAccuracy: 92,
+                dataQuality: 95,
+                modelAccuracy: 89,
+                predictionReliability: 85
             },
-            meta: {
-                calculatedAt: new Date().toISOString(),
-                basedOnDays: 30,
-                confidence: 'high'
+            metadata: {
+                lastUpdated: new Date().toISOString(),
+                dataSource: 'performance-forecast',
+                modelVersion: 'v2.1',
             }
         };
-    },
-    
-    getLearnerMastery: (userId) => {
-        const data = mockLearnerAnalytics.mastery[userId];
-        if (!data) return null;
+    }
+
+    getRecommendations(userId) {
         return {
-            success: true,
-            data: {
-                masteryTracking: data
-            },
-            meta: {
-                calculatedAt: new Date().toISOString()
-            }
-        };
-    },
-    
-    getLearnerPerformance: (userId) => {
-        const data = mockLearnerAnalytics.performance[userId];
-        if (!data) return null;
-        return {
-            success: true,
-            analyticsType: 'performance_analytics',
-            userId: userId,
-            data: data,
-            meta: {
-                calculatedAt: new Date().toISOString()
-            }
-        };
-    },
-    
-    getLearnerContentEffectiveness: (userId, filters = {}) => {
-        const data = mockLearnerAnalytics.contentEffectiveness[userId];
-        if (!data) return null;
-        return {
-            success: true,
-            analyticsType: 'content_effectiveness',
-            scope: 'learner',
-            userId: userId,
-            data: data,
-            meta: {
-                calculatedAt: new Date().toISOString()
-            }
-        };
-    },
-    
-    /**
-     * ========================================
-     * AS-002: TRAINER ANALYTICS METHODS
-     * ========================================
-     */
-    
-    /**
-     * AS-002 #8: Course Health Dashboard
-     */
-    getCourseHealth: (trainerId, courseId) => {
-        const trainerData = mockTrainerAnalytics.courseHealth[trainerId];
-        if (!trainerData) return null;
-        const data = trainerData[courseId];
-        if (!data) return null;
-        return {
-            success: true,
-            data: {
-                courseHealth: data
-            },
-            meta: {
-                calculatedAt: new Date().toISOString(),
-                dataFreshness: '1 hour'
-            }
-        };
-    },
-    
-    /**
-     * AS-002 #7: Course Performance Dashboard
-     */
-    getCoursePerformance: (trainerId) => {
-        const data = mockTrainerAnalytics.coursePerformance[trainerId];
-        if (!data) return null;
-        return {
-            success: true,
-            data: {
-                coursePerformance: data
-            },
-            meta: {
-                calculatedAt: new Date().toISOString()
-            }
-        };
-    },
-    
-    /**
-     * AS-002 #9: Student Performance Distribution
-     */
-    getStudentDistribution: (trainerId, courseId) => {
-        const trainerData = mockTrainerAnalytics.studentDistribution[trainerId];
-        if (!trainerData) return null;
-        const data = trainerData[courseId];
-        if (!data) return null;
-        return {
-            success: true,
-            data: {
-                studentDistribution: data
-            },
-            meta: {
-                calculatedAt: new Date().toISOString()
-            }
-        };
-    },
-    
-    /**
-     * AS-002 #10: Teaching Effectiveness Metrics
-     */
-    getTeachingEffectiveness: (trainerId) => {
-        const data = mockTrainerAnalytics.teachingEffectiveness[trainerId];
-        if (!data) return null;
-        return {
-            success: true,
-            data: {
-                teachingEffectiveness: data
-            },
-            meta: {
-                calculatedAt: new Date().toISOString()
-            }
-        };
-    },
-    
-    /**
-     * ========================================
-     * AS-003: ORGANIZATIONAL ANALYTICS METHODS
-     * ========================================
-     */
-    
-    /**
-     * AS-003 #11: Organizational Learning Velocity
-     */
-    getOrgLearningVelocity: (organizationId) => {
-        const data = mockOrganizationalAnalytics.learningVelocity[organizationId];
-        if (!data) return null;
-        return {
-            success: true,
-            data: {
-                orgLearningVelocity: data
-            },
-            meta: {
-                calculatedAt: new Date().toISOString(),
-                dataFreshness: '1 hour'
-            }
-        };
-    },
-    
-    /**
-     * AS-003 #12: Strategic Alignment Tracking
-     */
-    getStrategicAlignment: (organizationId) => {
-        const data = mockOrganizationalAnalytics.strategicAlignment[organizationId];
-        if (!data) return null;
-        return {
-            success: true,
-            data: {
-                strategicAlignment: data
-            },
-            meta: {
-                calculatedAt: new Date().toISOString(),
-                dataFreshness: '6 hours'
-            }
-        };
-    },
-    
-    /**
-     * AS-003 #13: Department & Team Analytics
-     */
-    getDepartmentAnalytics: (organizationId, departmentFilter = null) => {
-        const data = mockOrganizationalAnalytics.departmentAnalytics[organizationId];
-        if (!data) return null;
-        
-        let departments = data.departments;
-        if (departmentFilter) {
-            departments = departments.filter(dept => 
-                dept.departmentId.toLowerCase().includes(departmentFilter.toLowerCase()) ||
-                dept.departmentName.toLowerCase().includes(departmentFilter.toLowerCase())
-            );
-        }
-        
-        return {
-            success: true,
-            data: {
-                departmentAnalytics: {
-                    organizationId: data.organizationId,
-                    departments: departments
+            summary: {
+                totalRecommendations: 12,
+                highPriorityCount: 3,
+                completedCount: 8,
+                completionRate: 67,
+                successRate: 85,
+                progressTracking: {
+                    thisWeek: 75,
+                    thisMonth: 68,
+                    overall: 72
                 }
             },
-            meta: {
-                calculatedAt: new Date().toISOString(),
-                dataFreshness: '2 hours'
+            recommendations: [
+                {
+                    id: 'rec-1',
+                    title: 'Complete Advanced JavaScript Course',
+                    description: 'Based on your current skill level, completing this course will significantly improve your JavaScript proficiency.',
+                    category: 'Learning',
+                    priority: 'High',
+                    confidence: 92,
+                    expectedImpact: 'High',
+                    timeToComplete: '2-3 weeks',
+                    difficulty: 'Medium',
+                    resources: [
+                        { title: 'JavaScript Advanced Concepts', url: 'https://example.com/js-advanced' },
+                        { title: 'Practice Exercises', url: 'https://example.com/js-practice' }
+                    ]
+                },
+                {
+                    id: 'rec-2',
+                    title: 'Join Study Group',
+                    description: 'Collaborative learning has shown to improve retention and understanding.',
+                    category: 'Social',
+                    priority: 'Medium',
+                    confidence: 78,
+                    expectedImpact: 'Medium',
+                    timeToComplete: '1 week',
+                    difficulty: 'Easy',
+                    resources: []
+                },
+                {
+                    id: 'rec-3',
+                    title: 'Practice Algorithm Problems',
+                    description: 'Regular practice with algorithmic thinking will enhance your problem-solving skills.',
+                    category: 'Practice',
+                    priority: 'High',
+                    confidence: 89,
+                    expectedImpact: 'High',
+                    timeToComplete: 'Ongoing',
+                    difficulty: 'Hard',
+                    resources: [
+                        { title: 'LeetCode Problems', url: 'https://leetcode.com' }
+                    ]
+                }
+            ],
+            categories: [
+                { name: 'Learning', count: 5 },
+                { name: 'Practice', count: 4 },
+                { name: 'Social', count: 2 },
+                { name: 'Assessment', count: 1 }
+            ],
+            insights: [
+                {
+                    title: 'Learning Pattern Analysis',
+                    description: 'You perform best with hands-on learning activities in the morning.',
+                    type: 'Pattern',
+                    confidence: 87,
+                    impact: 'High'
+                },
+                {
+                    title: 'Skill Gap Identification',
+                    description: 'Focus on data structures and algorithms to improve overall performance.',
+                    type: 'Gap',
+                    confidence: 94,
+                    impact: 'Critical'
+                }
+            ],
+            metadata: {
+                lastUpdated: new Date().toISOString(),
+                dataSource: 'recommendations',
+                modelVersion: 'v3.2',
             }
         };
-    },
-    
-    /**
-     * AS-003 #14: Learning Culture Metrics
-     */
-    getLearningCulture: (organizationId) => {
-        const data = mockOrganizationalAnalytics.learningCulture[organizationId];
-        if (!data) return null;
+    }
+}
+
+class GamificationService {
+    getStats(userId) {
         return {
-            success: true,
-            data: {
-                learningCulture: data
+            totalPoints: 2450,
+            level: 8,
+            levelProgress: 0.65,
+            nextLevelPoints: 500,
+            badges: [
+                {
+                    id: "badge-1",
+                    name: "JavaScript Master",
+                    description: "Completed 5 JavaScript courses",
+                    earnedAt: "2025-10-20T00:00:00Z",
+                    rarity: "rare"
+                },
+                {
+                    id: "badge-2",
+                    name: "Streak Keeper",
+                    description: "7-day learning streak",
+                    earnedAt: "2025-10-24T00:00:00Z",
+                    rarity: "common"
+                }
+            ],
+            achievements: [
+                {
+                    id: "achievement-1",
+                    name: "Course Completer",
+                    progress: 0.8,
+                    target: 10,
+                    current: 8,
+                    description: "Complete 10 courses"
+                }
+            ],
+            streaks: {
+                current: 7,
+                longest: 15,
+                average: 4.2
             },
-            meta: {
-                calculatedAt: new Date().toISOString(),
-                dataFreshness: '6 hours'
+            leaderboard: {
+                rank: 23,
+                totalUsers: 156,
+                percentile: 85
+            },
+            recentActivity: [
+                {
+                    type: "course_completed",
+                    points: 150,
+                    description: "Completed React Fundamentals",
+                    timestamp: "2025-10-24T00:00:00Z"
+                },
+                {
+                    type: "streak_milestone",
+                    points: 50,
+                    description: "7-day streak achieved",
+                    timestamp: "2025-10-24T00:00:00Z"
+                }
+            ]
+        };
+    }
+
+    getAchievements(userId) {
+        return {
+            earnedAchievements: [
+                {
+                    id: "achievement-1",
+                    name: "JavaScript Master",
+                    description: "Completed 5 JavaScript courses",
+                    earnedAt: "2025-10-20T00:00:00Z",
+                    rarity: "rare",
+                    points: 500,
+                    category: "skill_mastery"
+                },
+                {
+                    id: "achievement-2",
+                    name: "Streak Keeper",
+                    description: "7-day learning streak",
+                    earnedAt: "2025-10-24T00:00:00Z",
+                    rarity: "common",
+                    points: 100,
+                    category: "consistency"
+                }
+            ],
+            availableAchievements: [
+                {
+                    id: "achievement-3",
+                    name: "React Expert",
+                    description: "Complete 3 React courses",
+                    progress: 0.67,
+                    target: 3,
+                    current: 2,
+                    rarity: "rare",
+                    points: 750,
+                    category: "skill_mastery",
+                    estimatedTime: "2 weeks"
+                },
+                {
+                    id: "achievement-4",
+                    name: "Perfect Week",
+                    description: "Complete 7 days of learning",
+                    progress: 0.86,
+                    target: 7,
+                    current: 6,
+                    rarity: "common",
+                    points: 200,
+                    category: "consistency",
+                    estimatedTime: "1 day"
+                }
+            ],
+            categories: {
+                skill_mastery: { earned: 2, available: 8, total: 10 },
+                consistency: { earned: 1, available: 5, total: 6 },
+                collaboration: { earned: 0, available: 3, total: 3 },
+                innovation: { earned: 0, available: 2, total: 2 }
+            },
+            statistics: {
+                totalEarned: 3,
+                totalAvailable: 18,
+                completionRate: 0.17,
+                averageRarity: "uncommon"
             }
         };
     }
-};
 
-/**
- * Reports service methods
- */
-const reportsService = {
-    getUserReports: (userId) => mockReports.filter(report => report.user_id === userId),
-    createReport: (reportData) => {
-        const reportId = `report-${Date.now()}`;
-        const now = new Date();
-        const expiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days
-        
-        const newReport = {
-            id: reportId,
-            ...reportData,
-            status: 'processing',
-            created_at: now.toISOString(),
-            expires_at: expiresAt.toISOString(),
-            download_url: null
+    getLeaderboard(timeframe, limit, category) {
+        return {
+            leaderboard: [
+                {
+                    rank: 1,
+                    userId: "user-1",
+                    displayName: "Alex Johnson",
+                    points: 4850,
+                    level: 12,
+                    avatar: "https://example.com/avatar1.jpg",
+                    badges: 8,
+                    streak: 23
+                },
+                {
+                    rank: 2,
+                    userId: "user-2",
+                    displayName: "Sarah Chen",
+                    points: 4620,
+                    level: 11,
+                    avatar: "https://example.com/avatar2.jpg",
+                    badges: 7,
+                    streak: 18
+                }
+            ],
+            userRanking: {
+                rank: 23,
+                points: 2450,
+                level: 8,
+                badges: 3,
+                streak: 7
+            },
+            statistics: {
+                totalParticipants: 156,
+                averagePoints: 1850,
+                topPercentile: 0.15
+            },
+            timeframe: timeframe || "month",
+            lastUpdated: new Date().toISOString()
         };
-        
-        mockReports.push(newReport);
-        return newReport;
-    },
-    findReportById: (reportId) => mockReports.find(report => report.id === reportId),
-    deleteReport: (reportId) => {
-        const index = mockReports.findIndex(report => report.id === reportId);
-        if (index !== -1) {
-            mockReports.splice(index, 1);
-            return true;
-        }
-        return false;
     }
-};
 
-/**
- * Data collection service methods
- */
-const dataCollectionService = {
-    createCollection: (collectionData) => {
-        const collectionId = `collection-${Date.now()}`;
-        const now = new Date();
-        
-        const newCollection = {
-            collection_id: collectionId,
-            ...collectionData,
-            status: 'started',
-            progress: 0,
-            records_processed: 0,
-            started_at: now.toISOString(),
-            updated_at: now.toISOString(),
-            estimated_duration: '5-10 minutes'
+    getStreak(userId) {
+        return {
+            currentStreak: 7,
+            longestStreak: 15,
+            averageStreak: 4.2,
+            streakHistory: [
+                {
+                    startDate: "2025-10-18T00:00:00Z",
+                    endDate: "2025-10-25T00:00:00Z",
+                    length: 7,
+                    status: "active"
+                },
+                {
+                    startDate: "2025-10-01T00:00:00Z",
+                    endDate: "2025-10-15T00:00:00Z",
+                    length: 15,
+                    status: "completed"
+                }
+            ],
+            milestones: [
+                {
+                    milestone: 7,
+                    achieved: true,
+                    achievedAt: "2025-10-24T00:00:00Z",
+                    points: 50
+                },
+                {
+                    milestone: 14,
+                    achieved: false,
+                    progress: 0.5,
+                    estimatedAchievement: "2025-10-31T00:00:00Z",
+                    points: 150
+                },
+                {
+                    milestone: 30,
+                    achieved: false,
+                    progress: 0.23,
+                    estimatedAchievement: "2025-11-16T00:00:00Z",
+                    points: 500
+                }
+            ],
+            streakGoals: [
+                {
+                    goal: "maintain_weekly_streak",
+                    target: 7,
+                    current: 7,
+                    progress: 1.0,
+                    status: "achieved"
+                },
+                {
+                    goal: "monthly_consistency",
+                    target: 20,
+                    current: 7,
+                    progress: 0.35,
+                    status: "in_progress"
+                }
+            ],
+            insights: [
+                {
+                    insight: "You're on track for your longest streak this month",
+                    type: "positive"
+                },
+                {
+                    insight: "Weekends are your strongest learning days",
+                    type: "pattern"
+                }
+            ],
+            recommendations: [
+                {
+                    action: "set_daily_reminder",
+                    priority: "medium",
+                    expectedImpact: "15% streak consistency improvement"
+                }
+            ]
         };
+    }
+}
+
+class SystemService {
+    getHealthStatus() {
+        return {
+            status: "healthy",
+            timestamp: new Date().toISOString(),
+            uptime: 86400,
+            environment: "production",
+            version: "1.0.0",
+            services: {
+                database: "healthy",
+                cache: "healthy",
+                queue: "healthy",
+                external_apis: "healthy"
+            }
+        };
+    }
+
+    getServiceStatus() {
+        return {
+            service: "MS8 Learning Analytics Backend",
+            status: "operational",
+            version: "1.0.0",
+            timestamp: new Date().toISOString(),
+            uptime: 86400,
+            environment: "production",
+            services: {
+                auth: "operational",
+                analytics: "operational",
+                gamification: "operational",
+                reports: "operational",
+                integration: "operational"
+            },
+            metrics: {
+                requestsPerMinute: 45,
+                averageResponseTime: 250,
+                errorRate: 0.02,
+                activeUsers: 156
+            }
+        };
+    }
+
+    triggerManualRefresh(userId, role, analytics) {
+        return {
+            jobId: `job-${Date.now()}`,
+            estimatedCompletion: new Date(Date.now() + 5 * 60 * 1000).toISOString()
+        };
+    }
+}
+
+class IntegrationService {
+    getIntegrationHealth() {
+        return {
+            status: "healthy",
+            timestamp: new Date().toISOString(),
+            services: {
+                "MS12 (Auth)": { status: "healthy", responseTime: 45 },
+                "Directory MS": { status: "healthy", responseTime: 67 },
+                "Course Builder MS": { status: "healthy", responseTime: 89 },
+                "Content Studio MS": { status: "healthy", responseTime: 56 },
+                "Assessment MS": { status: "healthy", responseTime: 78 },
+                "Skills Engine MS": { status: "healthy", responseTime: 92 },
+                "Learner AI MS": { status: "healthy", responseTime: 123 },
+                "DevLab MS": { status: "healthy", responseTime: 87 },
+                "RAG Assistant MS": { status: "healthy", responseTime: 134 }
+            },
+            circuitBreakers: {
+                "MS12 (Auth)": { isOpen: false, failureCount: 0 },
+                "Directory MS": { isOpen: false, failureCount: 0 },
+                "Course Builder MS": { isOpen: false, failureCount: 0 },
+                "Content Studio MS": { isOpen: false, failureCount: 0 },
+                "Assessment MS": { isOpen: false, failureCount: 0 },
+                "Skills Engine MS": { isOpen: false, failureCount: 0 },
+                "Learner AI MS": { isOpen: false, failureCount: 0 },
+                "DevLab MS": { isOpen: false, failureCount: 0 },
+                "RAG Assistant MS": { isOpen: false, failureCount: 0 }
+            }
+        };
+    }
+
+    getServiceStatus(serviceName) {
+        const serviceMap = {
+            'directory': 'Directory MS',
+            'course-builder': 'Course Builder MS',
+            'content-studio': 'Content Studio MS',
+            'assessment': 'Assessment MS',
+            'skills-engine': 'Skills Engine MS',
+            'learner-ai': 'Learner AI MS',
+            'devlab': 'DevLab MS',
+            'rag-assistant': 'RAG Assistant MS'
+        };
+
+        return {
+            service: serviceMap[serviceName],
+            status: "healthy",
+            responseTime: Math.floor(Math.random() * 100) + 50,
+            circuitBreaker: {
+                isOpen: false,
+                failureCount: 0,
+                lastFailure: null,
+                nextAttempt: null
+            },
+            endpoints: {
+                "GET /api/v1/users/:userId": { status: "healthy", avgResponseTime: 45 },
+                "GET /api/v1/organizations/:orgId": { status: "healthy", avgResponseTime: 67 },
+                "GET /api/v1/kpis/:orgId": { status: "healthy", avgResponseTime: 89 }
+            },
+            mockDataAvailable: true,
+            lastHealthCheck: new Date().toISOString()
+        };
+    }
+
+    testService(serviceName, testType, endpoint, timeout) {
+        // Simulate test results
+        const success = Math.random() > 0.1; // 90% success rate
         
-        mockCollections[collectionId] = newCollection;
-        return newCollection;
-    },
-    findCollectionById: (collectionId) => mockCollections[collectionId],
-    updateCollectionStatus: (collectionId, updates) => {
-        if (mockCollections[collectionId]) {
-            mockCollections[collectionId] = {
-                ...mockCollections[collectionId],
-                ...updates,
-                updated_at: new Date().toISOString()
+        if (success) {
+            return {
+                success: true,
+                responseTime: Math.floor(Math.random() * 200) + 50,
+                details: {
+                    statusCode: 200,
+                    responseSize: 1024,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Response-Time": "67ms"
+                    }
+                }
             };
-            return mockCollections[collectionId];
+        } else {
+            return {
+                success: false,
+                details: {
+                    error: "Connection timeout",
+                    timeout: timeout || 5000,
+                    lastKnownStatus: "unhealthy"
+                },
+                fallback: {
+                    available: true,
+                    mockDataUsed: true,
+                    message: "Using mock data fallback"
+                }
+            };
         }
-        return null;
     }
-};
+
+    getMockData(serviceName, endpoint, userId) {
+        const mockDataMap = {
+            'directory': {
+                data: {
+                    userId: userId || "test-user-123",
+                    fullName: "John Doe",
+                    email: "john.doe@example.com",
+                    organizationId: "org-456",
+                    roles: ["learner", "trainer"],
+                    department: "Engineering",
+                    kpis: {
+                        learningVelocity: 0.75,
+                        skillGaps: 3,
+                        engagementScore: 0.82
+                    },
+                    valuePropositions: [
+                        "Technical Excellence",
+                        "Continuous Learning",
+                        "Innovation"
+                    ],
+                    loginLogs: [
+                        {
+                            timestamp: "2025-10-25T09:00:00Z",
+                            ipAddress: "192.168.1.100",
+                            userAgent: "Mozilla/5.0...",
+                            sessionDuration: 3600
+                        }
+                    ]
+                },
+                metadata: {
+                    generatedAt: new Date().toISOString(),
+                    dataVersion: "1.0.0",
+                    coverage: "100%",
+                    lastUpdated: new Date().toISOString()
+                }
+            }
+        };
+
+        return mockDataMap[serviceName] || null;
+    }
+
+    resetCircuitBreaker(serviceName) {
+        return {
+            circuitBreaker: {
+                isOpen: false,
+                failureCount: 0,
+                lastFailure: null,
+                nextAttempt: null,
+                resetAt: new Date().toISOString()
+            }
+        };
+    }
+
+    getMetrics(timeframe, service) {
+        return {
+            services: {
+                "Directory MS": {
+                    totalRequests: 1250,
+                    successfulRequests: 1180,
+                    failedRequests: 70,
+                    successRate: 0.944,
+                    averageResponseTime: 67,
+                    p95ResponseTime: 145,
+                    p99ResponseTime: 234,
+                    circuitBreakerTrips: 2,
+                    mockDataFallbacks: 15,
+                    endpoints: {
+                        "GET /api/v1/users/:userId": {
+                            totalRequests: 450,
+                            successfulRequests: 425,
+                            failedRequests: 25,
+                            averageResponseTime: 45
+                        },
+                        "GET /api/v1/organizations/:orgId": {
+                            totalRequests: 300,
+                            successfulRequests: 290,
+                            failedRequests: 10,
+                            averageResponseTime: 67
+                        },
+                        "GET /api/v1/kpis/:orgId": {
+                            totalRequests: 500,
+                            successfulRequests: 465,
+                            failedRequests: 35,
+                            averageResponseTime: 89
+                        }
+                    }
+                },
+                "Course Builder MS": {
+                    totalRequests: 2100,
+                    successfulRequests: 1980,
+                    failedRequests: 120,
+                    successRate: 0.943,
+                    averageResponseTime: 89,
+                    p95ResponseTime: 167,
+                    p99ResponseTime: 289,
+                    circuitBreakerTrips: 1,
+                    mockDataFallbacks: 8
+                }
+            },
+            summary: {
+                totalRequests: 15750,
+                totalSuccessfulRequests: 14820,
+                totalFailedRequests: 930,
+                overallSuccessRate: 0.941,
+                averageResponseTime: 78,
+                totalCircuitBreakerTrips: 12,
+                totalMockDataFallbacks: 45
+            }
+        };
+    }
+}
 
 module.exports = {
-    userService,
-    analyticsService,
-    reportsService,
-    dataCollectionService
+    MockDataService,
+    userService: new UserService(),
+    learnerAnalyticsService: new LearnerAnalyticsService(),
+    trainerAnalyticsService: new TrainerAnalyticsService(),
+    orgAnalyticsService: new OrgAnalyticsService(),
+    comparisonAnalyticsService: new ComparisonAnalyticsService(),
+    predictiveAnalyticsService: new PredictiveAnalyticsService(),
+    gamificationService: new GamificationService(),
+    systemService: new SystemService(),
+    integrationService: new IntegrationService()
 };

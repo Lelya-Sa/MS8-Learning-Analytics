@@ -14,6 +14,28 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check endpoint (for Railway deployment)
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        environment: process.env.NODE_ENV || 'development',
+        version: '1.0.0'
+    });
+});
+
+// Status endpoint
+app.get('/api/status', (req, res) => {
+    res.json({
+        status: 'operational',
+        service: 'MS8 Learning Analytics Backend',
+        version: '1.0.0',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
 // Routes
 app.get('/', (req, res) => {
     res.json({
@@ -24,45 +46,41 @@ app.get('/', (req, res) => {
     });
 });
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'healthy',
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-        environment: process.env.NODE_ENV || 'development'
-    });
-});
-
 // Import route modules
 const authRoutes = require('./routes/auth');
 const analyticsRoutes = require('./routes/analytics');
+// const processedAnalyticsRoutes = require('./routes/processed-analytics');
 const reportsRoutes = require('./routes/reports');
-const dataCollectionRoutes = require('./routes/data-collection');
-const bffRoutes = require('./routes/bff');
+// const dataCollectionRoutes = require('./routes/data-collection');
+// const bffRoutes = require('./routes/bff');
 const integrationRoutes = require('./routes/integration');
 
-// API routes
-app.get('/api/status', (req, res) => {
-    res.json({
-        service: 'MS8 Learning Analytics Backend',
-        status: 'operational',
-        services: {
-            database: 'connected',
-            frontend: 'connected',
-            analytics: 'active'
-        },
-        timestamp: new Date().toISOString()
-    });
-});
+// Phase 3B: New API route modules
+const learnerAnalyticsRoutes = require('./routes/learner-analytics');
+const trainerAnalyticsRoutes = require('./routes/trainer-analytics');
+const orgAnalyticsRoutes = require('./routes/org-analytics');
+const comparisonAnalyticsRoutes = require('./routes/comparison-analytics');
+const predictiveAnalyticsRoutes = require('./routes/predictive-analytics');
+const gamificationRoutes = require('./routes/gamification');
+const systemRoutes = require('./routes/system');
 
 // Mount API routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/analytics', analyticsRoutes);
+// app.use('/api/v1/processed-analytics', processedAnalyticsRoutes);
 app.use('/api/v1/reports', reportsRoutes);
-app.use('/api/v1/data-collection', dataCollectionRoutes);
-app.use('/api/v1/bff', bffRoutes);
+// app.use('/api/v1/data-collection', dataCollectionRoutes);
+// app.use('/api/v1/bff', bffRoutes);
 app.use('/api/v1/integration', integrationRoutes);
+
+// Phase 3B: Mount new API routes
+app.use('/api/v1/learner/analytics', learnerAnalyticsRoutes);
+app.use('/api/v1/trainer/analytics', trainerAnalyticsRoutes);
+app.use('/api/v1/org-admin/analytics', orgAnalyticsRoutes);
+app.use('/api/v1/comparison', comparisonAnalyticsRoutes);
+app.use('/api/v1/predictive', predictiveAnalyticsRoutes);
+app.use('/api/v1/gamification', gamificationRoutes);
+app.use('/api', systemRoutes);
 
 // Legacy Learning Analytics API endpoints (for backward compatibility)
 app.get('/api/analytics/overview', (req, res) => {

@@ -1,0 +1,660 @@
+/* Analytics Cards Styles - Consistent with main page and login page */
+
+/* Base card wrapper - uses theme classes - for all analytics cards */
+.day-mode [class*="-card"],
+.night-mode [class*="-card"] {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.night-mode [class*="-card"] {
+  background: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+[class*="-card"]:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.night-mode [class*="-card"]:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* Card header */
+.day-mode .card-header,
+.night-mode .card-header {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.night-mode .card-header {
+  border-color: #374151;
+}
+
+.card-header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.night-mode .card-header h3 {
+  color: #f9fafb;
+}
+
+/* Card content */
+.card-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Add spacing to all content sections */
+.card-content > * {
+  margin: 0;
+}
+
+/* Staleness indicator */
+.staleness-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: #fef3c7;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  color: #92400e;
+}
+
+.night-mode .staleness-indicator {
+  background: #78350f;
+  color: #fbbf24;
+}
+
+/* Velocity display */
+.velocity-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+
+.velocity-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.velocity-value .value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #047857;
+}
+
+.night-mode .velocity-value .value {
+  color: #10b981;
+}
+
+.velocity-value .unit {
+  font-size: 1.25rem;
+  color: #6b7280;
+}
+
+.night-mode .velocity-value .unit {
+  color: #9ca3af;
+}
+
+/* Momentum indicator */
+.momentum-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.momentum-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.momentum-accelerating {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.night-mode .momentum-accelerating {
+  background: #064e3b;
+  color: #6ee7b7;
+}
+
+.momentum-slowing {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.night-mode .momentum-slowing {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+.momentum-steady {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.night-mode .momentum-steady {
+  background: #78350f;
+  color: #fde68a;
+}
+
+/* Time window selector */
+.time-window-selector {
+  margin-bottom: 0;
+}
+
+.selector-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.night-mode .selector-label {
+  color: #9ca3af;
+}
+
+.selector-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.time-window-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.night-mode .time-window-btn {
+  border-color: #4b5563;
+  background: #374151;
+  color: #f3f4f6;
+}
+
+.time-window-btn:hover {
+  border-color: #047857;
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.night-mode .time-window-btn:hover {
+  border-color: #10b981;
+  background: #064e3b;
+  color: #6ee7b7;
+}
+
+.time-window-btn.active {
+  border-color: #047857;
+  background: #047857;
+  color: white;
+}
+
+.night-mode .time-window-btn.active {
+  border-color: #10b981;
+  background: #10b981;
+  color: #065f46;
+}
+
+/* Chart container */
+.velocity-chart-container {
+  margin-bottom: 0;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+/* Ensure charts have proper spacing */
+.chart-wrapper,
+.velocity-chart-container {
+  margin: 0;
+}
+
+/* Add spacing for chart elements */
+.chart-wrapper + div {
+  margin-top: 1rem;
+}
+
+/* Last updated */
+.last-updated {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.night-mode .last-updated {
+  color: #9ca3af;
+}
+
+.updated-label {
+  font-weight: 500;
+}
+
+/* Metric displays and sections */
+.day-mode .metric-section,
+.night-mode .metric-section {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  background: #f9fafb;
+}
+
+.night-mode .metric-section {
+  background: #374151;
+}
+
+/* Add gap between metric sections */
+.day-mode .metric-section + .metric-section,
+.night-mode .metric-section + .metric-section {
+  margin-top: 1.5rem;
+}
+
+.day-mode .metric-grid,
+.night-mode .metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+.day-mode .metric-item,
+.night-mode .metric-item {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.night-mode .metric-item {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.day-mode .metric-value,
+.night-mode .metric-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #047857;
+  margin-bottom: 0.5rem;
+}
+
+.night-mode .metric-value {
+  color: #10b981;
+}
+
+.day-mode .metric-label,
+.night-mode .metric-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.night-mode .metric-label {
+  color: #9ca3af;
+}
+
+/* Progress bars and indicators */
+.day-mode .progress-container,
+.night-mode .progress-container {
+  margin-bottom: 0;
+}
+
+/* Add spacing between multiple progress containers */
+.day-mode .progress-container + .progress-container,
+.night-mode .progress-container + .progress-container {
+  margin-top: 1rem;
+}
+
+.day-mode .progress-bar,
+.night-mode .progress-bar {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #e5e7eb;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.night-mode .progress-bar {
+  background: #374151;
+}
+
+.day-mode .progress-fill,
+.night-mode .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #047857, #10b981);
+  transition: width 0.3s ease;
+}
+
+/* Stats and comparison elements */
+.day-mode .stat-comparison,
+.night-mode .stat-comparison {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  margin-bottom: 0.75rem;
+}
+
+.night-mode .stat-comparison {
+  background: #374151;
+}
+
+/* Add spacing between stat comparisons */
+.day-mode .stat-comparison + .stat-comparison,
+.night-mode .stat-comparison + .stat-comparison {
+  margin-top: 0.75rem;
+}
+
+.day-mode .stat-label,
+.night-mode .stat-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.night-mode .stat-label {
+  color: #9ca3af;
+}
+
+.day-mode .stat-change,
+.night-mode .stat-change {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.day-mode .stat-change.positive {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.night-mode .stat-change.positive {
+  background: #064e3b;
+  color: #6ee7b7;
+}
+
+.day-mode .stat-change.negative {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.night-mode .stat-change.negative {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+/* Skill and skill gap elements */
+.day-mode .skill-item,
+.night-mode .skill-item {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  margin-bottom: 0.75rem;
+  border-left: 3px solid #047857;
+}
+
+.night-mode .skill-item {
+  background: #374151;
+  border-left-color: #10b981;
+}
+
+/* Remove bottom margin from last skill item */
+.day-mode .skill-item:last-child,
+.night-mode .skill-item:last-child {
+  margin-bottom: 0;
+}
+
+.day-mode .skill-name,
+.night-mode .skill-name {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.night-mode .skill-name {
+  color: #f9fafb;
+}
+
+.day-mode .skill-gap-info,
+.night-mode .skill-gap-info {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.night-mode .skill-gap-info {
+  color: #9ca3af;
+}
+
+/* Lists and recommendations */
+.day-mode .recommendation-list,
+.night-mode .recommendation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.day-mode .recommendation-item,
+.night-mode .recommendation-item {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.night-mode .recommendation-item {
+  background: #374151;
+}
+
+/* Remove bottom margin from last recommendation */
+.day-mode .recommendation-item:last-child,
+.night-mode .recommendation-item:last-child {
+  margin-bottom: 0;
+}
+
+.day-mode .recommendation-icon,
+.night-mode .recommendation-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.day-mode .recommendation-text,
+.night-mode .recommendation-text {
+  font-size: 0.875rem;
+  color: #374151;
+  flex: 1;
+}
+
+.night-mode .recommendation-text {
+  color: #e5e7eb;
+}
+
+/* Badges and tags */
+.day-mode .badge,
+.night-mode .badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.day-mode .badge-success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.night-mode .badge-success {
+  background: #064e3b;
+  color: #6ee7b7;
+}
+
+.day-mode .badge-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.night-mode .badge-warning {
+  background: #78350f;
+  color: #fde68a;
+}
+
+.day-mode .badge-danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.night-mode .badge-danger {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+/* Divider lines */
+.day-mode .divider,
+.night-mode .divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 1.5rem 0;
+}
+
+.night-mode .divider {
+  background: #374151;
+}
+
+/* Empty states */
+.day-mode .empty-state,
+.night-mode .empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #6b7280;
+}
+
+.night-mode .empty-state {
+  color: #9ca3af;
+}
+
+.day-mode .empty-icon,
+.night-mode .empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Loading state */
+.loading .card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+/* Error state */
+.error .card-content .error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.error .card-content .error-message p {
+  color: #dc2626;
+  text-align: center;
+}
+
+.night-mode .error .card-content .error-message p {
+  color: #fca5a5;
+}
+
+/* Section headers within cards */
+.day-mode .section-header,
+.night-mode .section-header {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+  margin-top: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.night-mode .section-header {
+  color: #f9fafb;
+  border-bottom-color: #374151;
+}
+
+/* Subsection spacing */
+.day-mode .subsection,
+.night-mode .subsection {
+  margin-bottom: 1.5rem;
+}
+
+.day-mode .subsection:last-child,
+.night-mode .subsection:last-child {
+  margin-bottom: 0;
+}
+
+/* Text content within cards - proper line height */
+.card-content p {
+  margin: 0;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.night-mode .card-content p {
+  color: #e5e7eb;
+}
+
+.card-content p + p {
+  margin-top: 0.75rem;
+}
+
+/* Headers within card content */
+.card-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.75rem 0;
+}
+
+.night-mode .card-content h4 {
+  color: #f9fafb;
+}

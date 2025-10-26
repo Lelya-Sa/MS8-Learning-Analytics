@@ -1,157 +1,196 @@
 /**
- * Integration Routes
- * Implements the 3-stage processing pipeline endpoints
+ * Phase 3B: Integration Routes
+ * Implements integration endpoints for external microservices
  */
 
 const express = require('express');
-const { param, body, query } = require('express-validator');
-const { authenticateToken, requireRole, handleValidationErrors } = require('../middleware/auth');
-const IntegrationService = require('../services/integrationService');
+const { param, query, body } = require('express-validator');
+const { authenticateToken, requireRole } = require('../middleware/auth');
+const { handleValidationErrors } = require('../middleware/validation');
+const { integrationService } = require('../services/mockData');
 
 const router = express.Router();
-const integrationService = new IntegrationService();
 
-// 3-Stage Processing Pipeline Routes
-router.post('/collect', authenticateToken, [
-  body('user_id').matches(/^[a-zA-Z0-9-]+$/).withMessage('Invalid user ID format'),
-  body('analytics_type').isIn(['learner', 'trainer', 'organization']).withMessage('Invalid analytics type'),
-  body('microservices').isArray().withMessage('Microservices must be an array')
-], handleValidationErrors, async (req, res) => {
-  try {
-    const { user_id, analytics_type, microservices } = req.body;
-    const result = await integrationService.collectData(user_id, analytics_type, microservices);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_ERROR' });
-  }
+/**
+ * GET /api/v1/integration/health
+ * Integration Health Check
+ */
+router.get('/health', async (req, res) => {
+    try {
+        const health = integrationService.getIntegrationHealth();
+        res.json(health);
+    } catch (error) {
+        console.error('Error fetching integration health:', error);
+        res.status(503).json({
+            status: 'degraded',
+            timestamp: new Date().toISOString(),
+            error: 'Integration health check failed'
+        });
+    }
 });
 
-router.post('/analyze', authenticateToken, [
-  body('collection_id').matches(/^[a-zA-Z0-9-]+$/).withMessage('Invalid collection ID format'),
-  body('analytics_type').isIn(['learner', 'trainer', 'organization']).withMessage('Invalid analytics type'),
-  body('analysis_config').isObject().withMessage('Analysis config must be an object')
+/**
+ * GET /api/v1/integration/services/:serviceName/status
+ * Individual Service Status
+ */
+router.get('/services/:serviceName/status', [
+    param('serviceName').isIn(['directory', 'course-builder', 'content-studio', 'assessment', 'skills-engine', 'learner-ai', 'devlab', 'rag-assistant'])
 ], handleValidationErrors, async (req, res) => {
-  try {
-    const { collection_id, analytics_type, analysis_config } = req.body;
-    const result = await integrationService.analyzeData(collection_id, analytics_type, analysis_config);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_ERROR' });
-  }
+    try {
+        const { serviceName } = req.params;
+        
+        const status = integrationService.getServiceStatus(serviceName);
+        if (!status) {
+            return res.status(404).json({
+                error: 'SERVICE_NOT_FOUND',
+                message: `Service '${serviceName}' not found`,
+                availableServices: ['directory', 'course-builder', 'content-studio', 'assessment', 'skills-engine', 'learner-ai', 'devlab', 'rag-assistant']
+            });
+        }
+
+        res.json(status);
+    } catch (error) {
+        console.error('Error fetching service status:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
 });
 
-router.post('/aggregate', authenticateToken, [
-  body('analysis_id').matches(/^[a-zA-Z0-9-]+$/).withMessage('Invalid analysis ID format'),
-  body('aggregation_config').isObject().withMessage('Aggregation config must be an object')
+/**
+ * POST /api/v1/integration/services/:serviceName/test
+ * Test Service Connectivity
+ */
+router.post('/services/:serviceName/test', authenticateToken, [
+    param('serviceName').isIn(['directory', 'course-builder', 'content-studio', 'assessment', 'skills-engine', 'learner-ai', 'devlab', 'rag-assistant']),
+    body('testType').isIn(['connectivity', 'endpoint', 'mock-data']),
+    body('endpoint').optional().isString(),
+    body('timeout').optional().isInt({ min: 1000, max: 30000 })
 ], handleValidationErrors, async (req, res) => {
-  try {
-    const { analysis_id, aggregation_config } = req.body;
-    const result = await integrationService.aggregateData(analysis_id, aggregation_config);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_ERROR' });
-  }
+    try {
+        const { serviceName } = req.params;
+        const { testType, endpoint, timeout } = req.body;
+        
+        const result = integrationService.testService(serviceName, testType, endpoint, timeout);
+        
+        if (result.success) {
+            res.json({
+                service: `${serviceName} MS`,
+                testType: testType,
+                result: 'success',
+                responseTime: result.responseTime,
+                details: result.details,
+                timestamp: new Date().toISOString()
+            });
+        } else {
+            res.status(400).json({
+                error: 'TEST_FAILED',
+                message: 'Service test failed',
+                service: `${serviceName} MS`,
+                testType: testType,
+                result: 'failure',
+                details: result.details,
+                fallback: result.fallback
+            });
+        }
+    } catch (error) {
+        console.error('Error testing service:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
 });
 
-router.post('/pipeline', authenticateToken, [
-  body('user_id').matches(/^[a-zA-Z0-9-]+$/).withMessage('Invalid user ID format'),
-  body('analytics_type').isIn(['learner', 'trainer', 'organization']).withMessage('Invalid analytics type'),
-  body('pipeline_config').isObject().withMessage('Pipeline config must be an object')
+/**
+ * GET /api/v1/integration/mock-data/:serviceName
+ * Get Mock Data for Service
+ */
+router.get('/mock-data/:serviceName', authenticateToken, [
+    param('serviceName').isIn(['directory', 'course-builder', 'content-studio', 'assessment', 'skills-engine', 'learner-ai', 'devlab', 'rag-assistant']),
+    query('endpoint').optional().isString(),
+    query('userId').optional().matches(/^[a-zA-Z0-9-]+$/)
 ], handleValidationErrors, async (req, res) => {
-  try {
-    const { user_id, analytics_type, pipeline_config } = req.body;
-    const result = await integrationService.executePipeline(user_id, analytics_type, pipeline_config);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_ERROR' });
-  }
+    try {
+        const { serviceName } = req.params;
+        const { endpoint, userId } = req.query;
+        
+        const mockData = integrationService.getMockData(serviceName, endpoint, userId);
+        if (!mockData) {
+            return res.status(404).json({
+                error: 'SERVICE_NOT_FOUND',
+                message: `Service '${serviceName}' not found`
+            });
+        }
+
+        res.json({
+            service: `${serviceName} MS`,
+            endpoint: endpoint || 'default',
+            mockData: mockData.data,
+            metadata: mockData.metadata
+        });
+    } catch (error) {
+        console.error('Error fetching mock data:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
 });
 
-// Microservice Data Collection Routes
-router.post('/microservice/:serviceName', authenticateToken, [
-  param('serviceName').matches(/^[a-zA-Z0-9_-]+$/).withMessage('Invalid service name format'),
-  body('user_id').matches(/^[a-zA-Z0-9-]+$/).withMessage('Invalid user ID format'),
-  body('data_type').isString().withMessage('Data type must be a string')
+/**
+ * POST /api/v1/integration/circuit-breaker/:serviceName/reset
+ * Reset Circuit Breaker
+ */
+router.post('/circuit-breaker/:serviceName/reset', authenticateToken, requireRole(['org-admin']), [
+    param('serviceName').isIn(['directory', 'course-builder', 'content-studio', 'assessment', 'skills-engine', 'learner-ai', 'devlab', 'rag-assistant'])
 ], handleValidationErrors, async (req, res) => {
-  try {
-    const { serviceName } = req.params;
-    const { user_id, data_type } = req.body;
-    const result = await integrationService.collectFromMicroservice(serviceName, user_id, data_type);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: error.message, code: 'MICROSERVICE_ERROR' });
-  }
+    try {
+        const { serviceName } = req.params;
+        
+        const result = integrationService.resetCircuitBreaker(serviceName);
+        
+        res.json({
+            service: `${serviceName} MS`,
+            circuitBreaker: result.circuitBreaker,
+            message: 'Circuit breaker reset successfully'
+        });
+    } catch (error) {
+        console.error('Error resetting circuit breaker:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
 });
 
-// Data Processing and Storage Routes
-router.post('/storage/store', authenticateToken, [
-  body('collection_id').matches(/^[a-zA-Z0-9-]+$/).withMessage('Invalid collection ID format'),
-  body('data').isObject().withMessage('Data must be an object'),
-  body('storage_config').isObject().withMessage('Storage config must be an object')
+/**
+ * GET /api/v1/integration/metrics
+ * Integration Metrics
+ */
+router.get('/metrics', authenticateToken, [
+    query('timeframe').optional().isIn(['1h', '24h', '7d', '30d']),
+    query('service').optional().isIn(['directory', 'course-builder', 'content-studio', 'assessment', 'skills-engine', 'learner-ai', 'devlab', 'rag-assistant'])
 ], handleValidationErrors, async (req, res) => {
-  try {
-    const { collection_id, data, storage_config } = req.body;
-    const result = await integrationService.storeData(collection_id, data, storage_config);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_ERROR' });
-  }
-});
-
-router.get('/storage/retrieve', authenticateToken, [
-  query('user_id').matches(/^[a-zA-Z0-9-]+$/).withMessage('Invalid user ID format'),
-  query('analytics_type').isIn(['learner', 'trainer', 'organization']).withMessage('Invalid analytics type'),
-  query('time_range').isIn(['24h', '7d', '1y']).withMessage('Invalid time range')
-], handleValidationErrors, async (req, res) => {
-  try {
-    const { user_id, analytics_type, time_range } = req.query;
-    const result = await integrationService.retrieveData(user_id, analytics_type, time_range);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_ERROR' });
-  }
-});
-
-// Real-time Analytics Processing Routes
-router.post('/realtime/process', authenticateToken, [
-  body('user_id').matches(/^[a-zA-Z0-9-]+$/).withMessage('Invalid user ID format'),
-  body('event_type').isString().withMessage('Event type must be a string'),
-  body('event_data').isObject().withMessage('Event data must be an object')
-], handleValidationErrors, async (req, res) => {
-  try {
-    const { user_id, event_type, event_data } = req.body;
-    const result = await integrationService.processRealtimeUpdate(user_id, event_type, event_data);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_ERROR' });
-  }
-});
-
-router.post('/batch/process', authenticateToken, [
-  body('batch_config').isObject().withMessage('Batch config must be an object')
-], handleValidationErrors, async (req, res) => {
-  try {
-    const { batch_config } = req.body;
-    const result = await integrationService.processBatch(batch_config);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error', code: 'INTERNAL_ERROR' });
-  }
-});
-
-// Integration Error Handling Routes
-router.post('/retry', authenticateToken, [
-  body('failed_operation').isString().withMessage('Failed operation must be a string'),
-  body('service_name').isString().withMessage('Service name must be a string'),
-  body('retry_config').isObject().withMessage('Retry config must be an object')
-], handleValidationErrors, async (req, res) => {
-  try {
-    const { failed_operation, service_name, retry_config } = req.body;
-    const result = await integrationService.retryOperation(failed_operation, service_name, retry_config);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Retry failed', code: 'RETRY_ERROR' });
-  }
+    try {
+        const { timeframe, service } = req.query;
+        
+        const metrics = integrationService.getMetrics(timeframe, service);
+        
+        res.json({
+            timeframe: timeframe || '24h',
+            services: metrics.services,
+            summary: metrics.summary,
+            generatedAt: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Error fetching integration metrics:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'INTERNAL_ERROR'
+        });
+    }
 });
 
 module.exports = router;

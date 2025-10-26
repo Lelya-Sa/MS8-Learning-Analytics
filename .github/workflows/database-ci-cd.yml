@@ -1,0 +1,139 @@
+name: Database CI/CD (Supabase)
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'database/**'
+      - 'backend/prisma/**'
+      - '.github/workflows/database-ci-cd.yml'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'database/**'
+      - 'backend/prisma/**'
+
+jobs:
+  validate-schema:
+    name: Validate Database Schema
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'backend/package-lock.json'
+
+      - name: Install Prisma
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Validate Prisma Schema
+        working-directory: ./backend
+        run: npx prisma validate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  test-migrations:
+    name: Test Database Migrations
+    runs-on: ubuntu-latest
+    needs: validate-schema
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'backend/package-lock.json'
+
+      - name: Install Prisma
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Check Migration Status
+        working-directory: ./backend
+        run: npx prisma migrate status
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  deploy-migrations:
+    name: Deploy Database Migrations
+    runs-on: ubuntu-latest
+    needs: [validate-schema, test-migrations]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'backend/package-lock.json'
+
+      - name: Install Prisma
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Apply Migrations
+        working-directory: ./backend
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Verify Migration Success
+        working-directory: ./backend
+        run: |
+          npx prisma migrate status
+          echo "✅ Database migrations deployed successfully"
+
+  supabase-validate:
+    name: Validate Supabase Config
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check Supabase Config
+        working-directory: ./database
+        run: |
+          if [ -f "supabase-config.js" ]; then
+            echo "✅ Supabase config file exists"
+            node -e "const config = require('./supabase-config.js'); console.log('Config loaded:', typeof config !== 'undefined')"
+          else
+            echo "⚠️ No Supabase config file found"
+          fi
+        continue-on-error: true
+
+      - name: Test Database Connection
+        working-directory: ./database
+        run: |
+          echo "Testing database connection..."
+          # Connection test would go here if configured
+          echo "Connection test would run with DATABASE_URL"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        continue-on-error: true
+

@@ -10,5 +10,5 @@
       "@/services/*": ["services/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "../backend/tests/domain"]
 }
