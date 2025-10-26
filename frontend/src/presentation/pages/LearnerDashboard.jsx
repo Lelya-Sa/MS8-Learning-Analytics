@@ -46,40 +46,18 @@ const LearnerDashboard = () => {
     }
   );
 
-  // Calculate cards per view based on screen size
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setCardsPerView(1);
-      } else if (window.innerWidth < 1024) {
-        setCardsPerView(2);
-      } else {
-        setCardsPerView(3);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const totalCards = 6; // Total number of analytics cards
-  const totalPages = Math.ceil(totalCards / cardsPerView);
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? totalPages - 1 : prevIndex - 1
+      prevIndex === 0 ? totalCards - 1 : prevIndex - 1
     );
   };
 
   const goToNext = () => {
     setCurrentIndex((prevIndex) => 
-      prevIndex === totalPages - 1 ? 0 : prevIndex + 1
+      prevIndex === totalCards - 1 ? 0 : prevIndex + 1
     );
-  };
-
-  const goToSlide = (index) => {
-    setCurrentIndex(index);
   };
 
   if (!userId) {
@@ -124,66 +102,66 @@ const LearnerDashboard = () => {
           <div className="cards-carousel-wrapper overflow-hidden">
             <div 
               ref={carouselRef}
-              className="cards-carousel flex h-full"
+              className="cards-carousel flex"
               style={{
-                transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
+                transform: `translateX(-${currentIndex * 100}%)`,
                 transition: 'transform 0.5s ease-in-out',
-                width: `${100 * totalCards / cardsPerView}%`,
+                width: `${totalCards * 100}%`,
               }}
             >
               {/* AS-001 #1: Learning Velocity */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
+              <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
                 <LearningVelocityCard 
                   data={analyticsData?.learningVelocity}
                   isLoading={isLoading}
                   error={error}
                 />
-              </div>
-            
-              {/* AS-001 #2: Skill Gap Matrix */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
-                <SkillGapMatrixCard 
-                  data={analyticsData?.skillGap}
-                  isLoading={isLoading}
-                  error={error}
-                />
-              </div>
-            
-              {/* AS-001 #3: Engagement Score */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
-                <EngagementMetricsCard 
-                  data={analyticsData?.engagement}
-                  isLoading={isLoading}
-                  error={error}
-                />
-              </div>
-            
-              {/* AS-001 #4: Mastery Progress */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
-                <MasteryProgressionCard 
-                  data={analyticsData?.mastery}
-                  isLoading={isLoading}
-                  error={error}
-                />
-              </div>
-            
-              {/* AS-001 #5: Performance Analytics */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
-                <PerformanceAnalyticsCard 
-                  data={analyticsData?.performance}
-                  isLoading={isLoading}
-                  error={error}
-                />
-              </div>
-            
-              {/* AS-001 #6: Content Effectiveness */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
-                <ContentEffectivenessCard 
-                  data={analyticsData?.contentEffectiveness}
-                  isLoading={isLoading}
-                  error={error}
-                />
-              </div>
+               </div>
+             
+               {/* AS-001 #2: Skill Gap Matrix */}
+               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+                 <SkillGapMatrixCard 
+                   data={analyticsData?.skillGap}
+                   isLoading={isLoading}
+                   error={error}
+                 />
+               </div>
+             
+               {/* AS-001 #3: Engagement Score */}
+               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+                 <EngagementMetricsCard 
+                   data={analyticsData?.engagement}
+                   isLoading={isLoading}
+                   error={error}
+                 />
+               </div>
+             
+               {/* AS-001 #4: Mastery Progress */}
+               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+                 <MasteryProgressionCard 
+                   data={analyticsData?.mastery}
+                   isLoading={isLoading}
+                   error={error}
+                 />
+               </div>
+             
+               {/* AS-001 #5: Performance Analytics */}
+               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+                 <PerformanceAnalyticsCard 
+                   data={analyticsData?.performance}
+                   isLoading={isLoading}
+                   error={error}
+                 />
+               </div>
+             
+               {/* AS-001 #6: Content Effectiveness */}
+               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+                 <ContentEffectivenessCard 
+                   data={analyticsData?.contentEffectiveness}
+                   isLoading={isLoading}
+                   error={error}
+                 />
+               </div>
             </div>
           </div>
 
@@ -196,21 +174,21 @@ const LearnerDashboard = () => {
             →
           </button>
 
-          {/* Carousel Indicators */}
-          <div className="flex justify-center mt-6 gap-2">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentIndex 
-                    ? 'bg-cyan-700 dark:bg-cyan-400 w-8' 
-                    : 'bg-gray-300 dark:bg-gray-600'
-                }`}
-                aria-label={`Go to page ${index + 1}`}
-              />
-            ))}
-          </div>
+           {/* Carousel Indicators */}
+           <div className="flex justify-center mt-6 gap-2">
+             {Array.from({ length: totalCards }, (_, index) => (
+               <button
+                 key={index}
+                 onClick={() => setCurrentIndex(index)}
+                 className={`w-2 h-2 rounded-full transition-all ${
+                   index === currentIndex 
+                     ? 'bg-cyan-700 dark:bg-cyan-400 w-8' 
+                     : 'bg-gray-300 dark:bg-gray-600'
+                 }`}
+                 aria-label={`Go to card ${index + 1}`}
+               />
+             ))}
+           </div>
         </div>
 
         {/* Quick Actions */}

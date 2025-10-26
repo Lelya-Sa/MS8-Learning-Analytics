@@ -11,26 +11,24 @@
 .cards-carousel-wrapper {
   overflow: hidden;
   width: 100%;
+  position: relative;
 }
 
 .cards-carousel {
   display: flex;
   width: 100%;
   transition: transform 0.5s ease-in-out;
-  align-items: stretch;
 }
 
 .cards-carousel > div {
   box-sizing: border-box;
-  display: flex;
+  min-height: 600px;
 }
 
-/* Ensure all cards have the same height */
+/* Ensure all cards have consistent sizing */
 .cards-carousel > div > * {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Carousel Navigation Buttons */
