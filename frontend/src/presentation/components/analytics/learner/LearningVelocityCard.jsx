@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LineChart } from '../../charts/LineChart';
 import { BarChart } from '../../charts/BarChart';
+import { DataTable } from '../../charts/DataTable';
 import StatCard from '../../common/StatCard';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
@@ -32,7 +33,7 @@ export const LearningVelocityCard = ({
   className = '' 
 }) => {
   const [selectedTimeWindow, setSelectedTimeWindow] = useState('30d');
-  const [chartType, setChartType] = useState('line');
+  const [viewType, setViewType] = useState('line');
 
   // Loading state
   if (isLoading) {
@@ -220,17 +221,18 @@ export const LearningVelocityCard = ({
           </div>
         </div>
 
-        {/* Chart Type Selector */}
+        {/* View Type Selector */}
         <div className="chart-controls">
-          <label htmlFor="velocity-chart-type-selector">Chart Type:</label>
+          <label htmlFor="velocity-view-type-selector">View:</label>
           <select
-            id="velocity-chart-type-selector"
-            value={chartType}
-            onChange={(e) => setChartType(e.target.value)}
-            aria-label="Select chart type"
+            id="velocity-view-type-selector"
+            value={viewType}
+            onChange={(e) => setViewType(e.target.value)}
+            aria-label="Select view type"
           >
             <option value="line">Line Chart</option>
             <option value="bar">Bar Chart</option>
+            <option value="table">Data Table</option>
           </select>
         </div>
 
@@ -242,7 +244,7 @@ export const LearningVelocityCard = ({
             role="img"
             aria-label={`Learning velocity trend chart for ${selectedTimeWindow}`}
           >
-            {chartType === 'bar' ? (
+            {viewType === 'bar' ? (
               <BarChart 
                 data={chartData}
                 width={400}
@@ -253,6 +255,14 @@ export const LearningVelocityCard = ({
                 xAxisLabel="Time"
                 yAxisLabel="Velocity"
                 responsive={true}
+              />
+            ) : viewType === 'table' ? (
+              <DataTable 
+                data={velocityHistory}
+                columns={[
+                  { key: 'date', label: 'Date', render: (val) => val ? new Date(val).toLocaleDateString() : '-' },
+                  { key: 'velocity', label: 'Velocity', render: (val) => val || 0 }
+                ]}
               />
             ) : (
               <LineChart 
