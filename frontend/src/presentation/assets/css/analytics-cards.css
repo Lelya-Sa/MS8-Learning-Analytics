@@ -274,19 +274,13 @@
 .velocity-chart-container {
   width: 100%;
   max-width: 100%;
-  min-height: 320px;
-  height: auto;
   position: relative;
   background: transparent;
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
   box-sizing: border-box;
   overflow: visible;
-  margin: 1rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  margin: 0.5rem 0;
 }
 
 /* Make SVG charts responsive */
@@ -300,7 +294,6 @@
 .pie-chart-container svg {
   width: 100% !important;
   max-width: 100% !important;
-  max-height: 280px !important;
   height: auto !important;
   box-sizing: border-box;
 }
@@ -308,8 +301,6 @@
 .bar-chart-container .relative,
 .line-chart-container .relative,
 .chart-container .relative {
-  height: 280px !important;
-  max-height: 280px !important;
   width: 100% !important;
   max-width: 100% !important;
   overflow: visible !important;
@@ -322,8 +313,7 @@
 .chart-container .relative svg {
   width: 100% !important;
   max-width: 100% !important;
-  max-height: 280px !important;
-  height: 280px !important;
+  height: auto !important;
   display: block;
   margin: 0 auto;
 }
@@ -335,14 +325,10 @@
 .chart-container {
   width: 100%;
   max-width: 100%;
-  min-height: 320px;
   box-sizing: border-box;
   overflow: visible;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0.5rem;
+  display: block;
+  padding: 0.25rem;
   margin: 0 auto;
 }
 
