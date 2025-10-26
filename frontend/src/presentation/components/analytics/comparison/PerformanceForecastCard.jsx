@@ -108,16 +108,6 @@ const PerformanceForecastCard = ({
     confidenceHigh: projection.confidenceHigh,
     confidenceLow: projection.confidenceLow
   }));
-      {
-        label: 'Confidence Interval (Low)',
-        data: forecastProjections?.map(projection => projection.confidenceLow) || [],
-        backgroundColor: 'rgba(34, 197, 94, 0.2)',
-        borderColor: 'rgba(34, 197, 94, 0.5)',
-        borderWidth: 1,
-        fill: false,
-      },
-    ],
-  };
 
   const getPerformanceTrend = (trend) => {
     if (trend > 5) return { direction: 'up', color: 'text-green-600', bgColor: 'bg-green-50' };
