@@ -832,13 +832,49 @@
   gap: 0.25rem;
 }
 
-.day-mode .text-green-600,
-.night-mode .text-green-600 {
+.day-mode .trend-indicator.text-green-600,
+.night-mode .trend-indicator.text-green-600 {
   color: #059669;
+  background: #d1fae5;
 }
 
-.night-mode .text-green-600 {
+.night-mode .trend-indicator.text-green-600 {
   color: #10b981;
+  background: #064e3b;
+}
+
+/* Trend indicator color variations */
+.day-mode .trend-indicator.up,
+.night-mode .trend-indicator.up {
+  color: #059669;
+  background: #d1fae5;
+}
+
+.night-mode .trend-indicator.up {
+  color: #10b981;
+  background: #064e3b;
+}
+
+.day-mode .trend-indicator.down,
+.night-mode .trend-indicator.down {
+  color: #dc2626;
+  background: #fee2e2;
+}
+
+.night-mode .trend-indicator.down {
+  color: #fca5a5;
+  background: #7f1d1d;
+}
+
+.day-mode .trend-indicator.stable,
+.night-mode .trend-indicator.stable {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.night-mode .trend-indicator.stable {
+  color: #fde68a;
+  background: #78350f;
 }
 
 .day-mode .metric-values,
