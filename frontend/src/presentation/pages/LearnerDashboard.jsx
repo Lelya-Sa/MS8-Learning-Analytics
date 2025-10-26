@@ -124,7 +124,7 @@ const LearnerDashboard = () => {
           <div className="cards-carousel-wrapper overflow-hidden">
             <div 
               ref={carouselRef}
-              className="cards-carousel flex"
+              className="cards-carousel flex h-full"
               style={{
                 transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
                 transition: 'transform 0.5s ease-in-out',
@@ -132,7 +132,7 @@ const LearnerDashboard = () => {
               }}
             >
               {/* AS-001 #1: Learning Velocity */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
                 <LearningVelocityCard 
                   data={analyticsData?.learningVelocity}
                   isLoading={isLoading}
@@ -141,7 +141,7 @@ const LearnerDashboard = () => {
               </div>
             
               {/* AS-001 #2: Skill Gap Matrix */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
                 <SkillGapMatrixCard 
                   data={analyticsData?.skillGap}
                   isLoading={isLoading}
@@ -150,7 +150,7 @@ const LearnerDashboard = () => {
               </div>
             
               {/* AS-001 #3: Engagement Score */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
                 <EngagementMetricsCard 
                   data={analyticsData?.engagement}
                   isLoading={isLoading}
@@ -159,7 +159,7 @@ const LearnerDashboard = () => {
               </div>
             
               {/* AS-001 #4: Mastery Progress */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
                 <MasteryProgressionCard 
                   data={analyticsData?.mastery}
                   isLoading={isLoading}
@@ -168,7 +168,7 @@ const LearnerDashboard = () => {
               </div>
             
               {/* AS-001 #5: Performance Analytics */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
                 <PerformanceAnalyticsCard 
                   data={analyticsData?.performance}
                   isLoading={isLoading}
@@ -177,7 +177,7 @@ const LearnerDashboard = () => {
               </div>
             
               {/* AS-001 #6: Content Effectiveness */}
-              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem', display: 'flex' }}>
                 <ContentEffectivenessCard 
                   data={analyticsData?.contentEffectiveness}
                   isLoading={isLoading}

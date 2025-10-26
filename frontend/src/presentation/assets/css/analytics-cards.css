@@ -17,10 +17,20 @@
   display: flex;
   width: 100%;
   transition: transform 0.5s ease-in-out;
+  align-items: stretch;
 }
 
 .cards-carousel > div {
   box-sizing: border-box;
+  display: flex;
+}
+
+/* Ensure all cards have the same height */
+.cards-carousel > div > * {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Carousel Navigation Buttons */
