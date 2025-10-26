@@ -168,10 +168,13 @@ app.use('*', (req, res) => {
 
 // Start server only if not in test environment
 if (process.env.NODE_ENV !== 'test') {
-    app.listen(PORT, () => {
-        console.log(`🚀 MS8 Learning Analytics Backend running on port ${PORT}`);
+    // Railway requires binding to 0.0.0.0, not localhost
+    const HOST = process.env.HOST || '0.0.0.0';
+    
+    app.listen(PORT, HOST, () => {
+        console.log(`🚀 MS8 Learning Analytics Backend running on ${HOST}:${PORT}`);
         console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-        console.log(`🔗 Health check: ${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${PORT}`}/api/health`);
+        console.log(`🔗 Health check: http://${HOST}:${PORT}/api/health`);
     });
 }
 
