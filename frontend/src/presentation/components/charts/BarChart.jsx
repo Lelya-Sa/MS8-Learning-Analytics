@@ -270,41 +270,61 @@ export const BarChart = ({
             </text>
           ))}
 
-          {/* Tooltip - positioned adaptively */}
+          {/* Tooltip - positioned adaptively with border sensitivity */}
           {tooltip && (() => {
             // Tooltip dimensions
             const tooltipWidth = 120;
             const tooltipHeight = 60;
             const padding = 10;
+            const offset = 15;
             
-            // Calculate adaptive positioning
-            const isLeftHalf = tooltip.x < width / 2;
-            const isTopHalf = tooltip.y < height / 2;
+            // Border sensitivity zones
+            const leftZone = tooltipWidth + offset;
+            const rightZone = width - (tooltipWidth + offset);
+            const topZone = tooltipHeight + offset;
+            const bottomZone = height - (tooltipHeight + offset);
             
-            // Determine tooltip position to avoid screen edges
-            let tooltipX, tooltipY, textAnchor, pointerX;
+            // Determine adaptive positioning based on cursor position and nearby borders
+            let tooltipX, tooltipY, textAnchor;
             
-            if (isLeftHalf) {
-              // Position to the right of cursor
-              tooltipX = Math.min(tooltip.x + 15, width - tooltipWidth - padding);
+            // X-axis positioning with border sensitivity
+            if (tooltip.x < leftZone) {
+              // Too close to left border - position to the right
+              tooltipX = Math.min(tooltip.x + offset, width - tooltipWidth - padding);
               textAnchor = 'start';
-              pointerX = tooltip.x;
-            } else {
-              // Position to the left of cursor
-              tooltipX = Math.max(tooltip.x - tooltipWidth - 15, padding);
+            } else if (tooltip.x > rightZone) {
+              // Too close to right border - position to the left
+              tooltipX = Math.max(tooltip.x - tooltipWidth - offset, padding);
               textAnchor = 'end';
-              pointerX = tooltip.x;
-            }
-            
-            if (isTopHalf) {
-              // Position below cursor
-              tooltipY = tooltip.y + 25;
             } else {
-              // Position above cursor
-              tooltipY = tooltip.y - tooltipHeight - 25;
+              // Center zone - position based on cursor
+              if (tooltip.x < width / 2) {
+                tooltipX = Math.min(tooltip.x + offset, width - tooltipWidth - padding);
+                textAnchor = 'start';
+              } else {
+                tooltipX = Math.max(tooltip.x - tooltipWidth - offset, padding);
+                textAnchor = 'end';
+              }
             }
             
-            // Ensure tooltip stays within SVG bounds
+            // Y-axis positioning with border sensitivity
+            if (tooltip.y < topZone) {
+              // Too close to top border - position below
+              tooltipY = Math.min(tooltip.y + offset, height - tooltipHeight - padding);
+            } else if (tooltip.y > bottomZone) {
+              // Too close to bottom border - position above
+              tooltipY = Math.max(tooltip.y - tooltipHeight - offset, padding);
+            } else {
+              // Center zone - position based on cursor
+              if (tooltip.y < height / 2) {
+                tooltipY = Math.min(tooltip.y + offset, height - tooltipHeight - padding);
+              } else {
+                tooltipY = Math.max(tooltip.y - tooltipHeight - offset, padding);
+              }
+            }
+            
+            // Final bounds check to ensure tooltip is always within SVG
+            tooltipX = Math.max(padding, Math.min(tooltipX, width - tooltipWidth - padding));
             tooltipY = Math.max(padding, Math.min(tooltipY, height - tooltipHeight - padding));
             
             return (
@@ -321,7 +341,7 @@ export const BarChart = ({
                   strokeWidth="1"
                 />
                 <text
-                  x={tooltipX + (isLeftHalf ? 10 : tooltipWidth - 10)}
+                  x={tooltipX + (textAnchor === 'start' ? 10 : tooltipWidth - 10)}
                   y={tooltipY - tooltipHeight + 20}
                   textAnchor={textAnchor}
                   fill="white"
@@ -331,7 +351,7 @@ export const BarChart = ({
                   {tooltip.label}
                 </text>
                 <text
-                  x={tooltipX + (isLeftHalf ? 10 : tooltipWidth - 10)}
+                  x={tooltipX + (textAnchor === 'start' ? 10 : tooltipWidth - 10)}
                   y={tooltipY - tooltipHeight + 38}
                   textAnchor={textAnchor}
                   fill="#9ca3af"
