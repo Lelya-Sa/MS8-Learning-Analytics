@@ -298,9 +298,16 @@
 .pie-chart-container svg {
   width: 100% !important;
   max-width: 100% !important;
-  max-height: 100% !important;
+  max-height: 280px !important;
   height: auto !important;
   box-sizing: border-box;
+}
+
+.bar-chart-container .relative,
+.line-chart-container .relative,
+.chart-container .relative {
+  height: 280px !important;
+  max-height: 280px !important;
 }
 
 /* Chart container constraints */
@@ -310,13 +317,17 @@
 .chart-container {
   width: 100%;
   max-width: 100%;
-  height: 280px;
-  max-height: 280px;
   box-sizing: border-box;
-  overflow: auto;
+  overflow: visible;
   display: block;
-  padding: 0.5rem;
+  padding: 0.75rem;
   margin: 0.5rem auto;
+}
+
+.chart-container .bar-chart-container,
+.chart-container .line-chart-container {
+  margin: 0;
+  padding: 0;
 }
 
 .bar-chart-container > *,
