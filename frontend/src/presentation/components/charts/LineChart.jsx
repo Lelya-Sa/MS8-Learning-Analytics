@@ -63,18 +63,18 @@ export const LineChart = ({
   const pathData = useMemo(() => {
     if (chartData.length === 0) return '';
     
-    const { xScale, yScale, xMin, yMin } = scales;
+    const { xScale, yScale, xMin, yMin, yMax } = scales;
     
     return chartData.map((point, index) => {
       const x = point.x !== undefined ? point.x : index;
       const y = point.y || 0;
       
       const xPos = margin.left + (x - xMin) * xScale;
-      const yPos = margin.top + scales.yMax * yScale - (y - yMin) * yScale;
+      const yPos = margin.top + chartDimensions.chartHeight - (y - yMin) * yScale;
       
       return `${index === 0 ? 'M' : 'L'} ${xPos} ${yPos}`;
     }).join(' ');
-  }, [chartData, scales, margin]);
+  }, [chartData, scales, margin, chartDimensions]);
 
   const pointData = useMemo(() => {
     if (!showPoints || chartData.length === 0) return [];
@@ -86,7 +86,7 @@ export const LineChart = ({
       const y = point.y || 0;
       
       const xPos = margin.left + (x - xMin) * xScale;
-      const yPos = margin.top + scales.yMax * yScale - (y - yMin) * yScale;
+      const yPos = margin.top + chartDimensions.chartHeight - (y - yMin) * yScale;
       
       return { 
         x: xPos, 
@@ -95,7 +95,7 @@ export const LineChart = ({
         label: point.label || ''
       };
     });
-  }, [chartData, scales, margin, showPoints]);
+  }, [chartData, scales, margin, showPoints, chartDimensions]);
 
   const handlePointHover = (point, index, event) => {
     if (!showTooltip) return;

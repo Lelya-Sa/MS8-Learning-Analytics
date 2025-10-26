@@ -74,8 +74,8 @@ export const BarChart = ({
       const y = point.y || 0;
       
       const xPos = margin.left + (x - xMin) * xScale;
-      const yPos = margin.top + scales.yMax * yScale - (y - yMin) * yScale;
       const barHeight = (y - yMin) * yScale;
+      const yPos = margin.top + chartDimensions.chartHeight - barHeight;
       
       return {
         x: xPos - barWidth / 2,
@@ -86,7 +86,7 @@ export const BarChart = ({
         label: point.label || ''
       };
     });
-  }, [chartData, scales, margin, barSpacing]);
+  }, [chartData, scales, margin, barSpacing, chartDimensions]);
 
   const handleBarHover = (bar, index, event) => {
     if (!showTooltip) return;
