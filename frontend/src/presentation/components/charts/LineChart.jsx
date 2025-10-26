@@ -287,43 +287,98 @@ export const LineChart = ({
             />
           ))}
 
-          {/* Tooltip */}
-          {tooltip && (
-            <g className="tooltip-group">
-              <rect
-                x={tooltip.x - 50}
-                y={tooltip.y - 60}
-                width="100"
-                height="40"
-                rx="4"
-                fill="#1f2937"
-                opacity="0.95"
-              />
-              <text
-                x={tooltip.x}
-                y={tooltip.y - 40}
-                textAnchor="middle"
-                fill="white"
-                fontSize="12"
-                fontWeight="600"
-              >
-                {tooltip.label}
-              </text>
-              <text
-                x={tooltip.x}
-                y={tooltip.y - 25}
-                textAnchor="middle"
-                fill="#9ca3af"
-                fontSize="10"
-              >
-                Value: {tooltip.data?.y || 0}
-              </text>
-              <polygon
-                points={`${tooltip.x},${tooltip.y - 20} ${tooltip.x - 8},${tooltip.y - 10} ${tooltip.x + 8},${tooltip.y - 10}`}
-                fill="#1f2937"
-              />
-            </g>
-          )}
+          {/* Tooltip - positioned adaptively with border sensitivity */}
+          {tooltip && (() => {
+            // Tooltip dimensions
+            const tooltipWidth = 120;
+            const tooltipHeight = 60;
+            const padding = 10;
+            const offset = 15;
+            
+            // Border sensitivity zones
+            const leftZone = tooltipWidth + offset;
+            const rightZone = width - (tooltipWidth + offset);
+            const topZone = tooltipHeight + offset;
+            const bottomZone = height - (tooltipHeight + offset);
+            
+            // Determine adaptive positioning based on cursor position and nearby borders
+            let tooltipX, tooltipY, textAnchor;
+            
+            // X-axis positioning with border sensitivity
+            if (tooltip.x < leftZone) {
+              // Too close to left border - position to the right
+              tooltipX = Math.min(tooltip.x + offset, width - tooltipWidth - padding);
+              textAnchor = 'start';
+            } else if (tooltip.x > rightZone) {
+              // Too close to right border - position to the left
+              tooltipX = Math.max(tooltip.x - tooltipWidth - offset, padding);
+              textAnchor = 'end';
+            } else {
+              // Center zone - position based on cursor
+              if (tooltip.x < width / 2) {
+                tooltipX = Math.min(tooltip.x + offset, width - tooltipWidth - padding);
+                textAnchor = 'start';
+              } else {
+                tooltipX = Math.max(tooltip.x - tooltipWidth - offset, padding);
+                textAnchor = 'end';
+              }
+            }
+            
+            // Y-axis positioning with border sensitivity
+            if (tooltip.y < topZone) {
+              // Too close to top border - position below
+              tooltipY = Math.min(tooltip.y + offset, height - tooltipHeight - padding);
+            } else if (tooltip.y > bottomZone) {
+              // Too close to bottom border - position above
+              tooltipY = Math.max(tooltip.y - tooltipHeight - offset, padding);
+            } else {
+              // Center zone - position based on cursor
+              if (tooltip.y < height / 2) {
+                tooltipY = Math.min(tooltip.y + offset, height - tooltipHeight - padding);
+              } else {
+                tooltipY = Math.max(tooltip.y - tooltipHeight - offset, padding);
+              }
+            }
+            
+            // Final bounds check to ensure tooltip is always within SVG
+            tooltipX = Math.max(padding, Math.min(tooltipX, width - tooltipWidth - padding));
+            tooltipY = Math.max(padding, Math.min(tooltipY, height - tooltipHeight - padding));
+            
+            return (
+              <g className="tooltip-group">
+                <rect
+                  x={tooltipX}
+                  y={tooltipY - tooltipHeight}
+                  width={tooltipWidth}
+                  height={tooltipHeight}
+                  rx="6"
+                  fill="#1f2937"
+                  opacity="0.95"
+                  stroke="#374151"
+                  strokeWidth="1"
+                />
+                <text
+                  x={tooltipX + (textAnchor === 'start' ? 10 : tooltipWidth - 10)}
+                  y={tooltipY - tooltipHeight + 20}
+                  textAnchor={textAnchor}
+                  fill="white"
+                  fontSize="11"
+                  fontWeight="600"
+                >
+                  {tooltip.label}
+                </text>
+                <text
+                  x={tooltipX + (textAnchor === 'start' ? 10 : tooltipWidth - 10)}
+                  y={tooltipY - tooltipHeight + 38}
+                  textAnchor={textAnchor}
+                  fill="#9ca3af"
+                  fontSize="10"
+                >
+                  Value: {tooltip.data?.y || 0}
+                </text>
+              </g>
+            );
+          })()}
 
           {/* Axes Labels */}
           {xAxisLabel && (
