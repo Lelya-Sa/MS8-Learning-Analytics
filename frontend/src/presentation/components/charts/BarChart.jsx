@@ -167,27 +167,31 @@ export const BarChart = ({
           {showGrid && (
             <g className="axis-ticks">
               {/* X-axis ticks */}
-              {barData.map((bar, index) => (
-                <g key={`x-tick-${index}`}>
-                  <line
-                    x1={bar.x + bar.width / 2}
-                    y1={margin.top + chartDimensions.chartHeight}
-                    x2={bar.x + bar.width / 2}
-                    y2={margin.top + chartDimensions.chartHeight + 4}
-                    stroke="#9ca3af"
-                    strokeWidth="1"
-                  />
-                  <text
-                    x={bar.x + bar.width / 2}
-                    y={margin.top + chartDimensions.chartHeight + 16}
-                    textAnchor="middle"
-                    fill="#6b7280"
-                    fontSize="10"
-                  >
-                    {bar.data.x !== undefined ? bar.data.x : index}
-                  </text>
-                </g>
-              ))}
+              {barData.map((bar, index) => {
+                // Ensure proper spacing from y-axis for first tick
+                const tickX = Math.max(bar.x + bar.width / 2, margin.left + 10);
+                return (
+                  <g key={`x-tick-${index}`}>
+                    <line
+                      x1={tickX}
+                      y1={margin.top + chartDimensions.chartHeight}
+                      x2={tickX}
+                      y2={margin.top + chartDimensions.chartHeight + 4}
+                      stroke="#9ca3af"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={tickX}
+                      y={margin.top + chartDimensions.chartHeight + 16}
+                      textAnchor="middle"
+                      fill="#6b7280"
+                      fontSize="10"
+                    >
+                      {bar.data.x !== undefined ? bar.data.x : index}
+                    </text>
+                  </g>
+                );
+              })}
               
               {/* Y-axis ticks */}
               {Array.from({ length: 6 }).map((_, i) => {
