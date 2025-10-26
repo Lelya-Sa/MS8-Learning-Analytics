@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 /**
  * @component BarChart
- * @description Reusable bar chart component for analytics data visualization
+ * @description Reusable bar chart component for analytics data visualization with interactive tooltips
  */
 export const BarChart = ({ 
   data = [],
   width = 400,
-  height = 300,
+  height = 200,
   title = '',
   className = '',
   color = '#10b981',
@@ -20,13 +20,16 @@ export const BarChart = ({
   legend = null,
   margin = { top: 20, right: 20, bottom: 40, left: 40 },
   animate = false,
-  responsive = false,
+  responsive = true,
   theme = null,
   series = ['y'],
   barSpacing = 0.2,
-  borderRadius = 0,
+  borderRadius = 2,
   ...props 
 }) => {
+  const [tooltip, setTooltip] = useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
   const chartData = useMemo(() => {
     if (!data || data.length === 0) return [];
     return data;
@@ -39,23 +42,22 @@ export const BarChart = ({
   }, [width, height, margin]);
 
   const scales = useMemo(() => {
-    if (chartData.length === 0) return { xScale: 0, yScale: 0 };
+    if (chartData.length === 0) return { xScale: 1, yScale: 1, xMin: 0, xMax: 100, yMin: 0, yMax: 100 };
     
     const { chartWidth, chartHeight } = chartDimensions;
     
-    // Calculate scales based on data
-    const xValues = chartData.map(d => d.x);
+    const xValues = chartData.map((d, idx) => d.x !== undefined ? d.x : idx);
     const yValues = chartData.flatMap(d => 
       series.map(s => d[s] || d.y || 0)
     );
     
-    const xMin = Math.min(...xValues.map(x => typeof x === 'number' ? x : 0));
-    const xMax = Math.max(...xValues.map(x => typeof x === 'number' ? x : 1));
+    const xMin = Math.min(...xValues);
+    const xMax = Math.max(...xValues);
     const yMin = Math.min(...yValues);
-    const yMax = Math.max(...yValues);
+    const yMax = Math.max(...yValues, 1);
     
-    const xScale = chartWidth / Math.max(xMax - xMin, 1);
-    const yScale = chartHeight / Math.max(yMax - yMin, 1);
+    const xScale = chartWidth / Math.max(xMax - xMin || 1, 1);
+    const yScale = chartHeight / Math.max(yMax - yMin || 1, 1);
     
     return { xScale, yScale, xMin, xMax, yMin, yMax };
   }, [chartData, chartDimensions, series]);
@@ -63,18 +65,16 @@ export const BarChart = ({
   const barData = useMemo(() => {
     if (chartData.length === 0) return [];
     
-    const { chartWidth, chartHeight } = chartDimensions;
     const { xScale, yScale, xMin, yMin } = scales;
     
-    const barWidth = (chartWidth / chartData.length) * (1 - barSpacing);
+    const barWidth = (chartDimensions.chartWidth / Math.max(chartData.length, 1)) * (1 - barSpacing);
     
     return chartData.map((point, index) => {
-      const x = typeof point.x === 'number' ? point.x : index;
+      const x = point.x !== undefined ? point.x : index;
       const y = point.y || 0;
       
       const xPos = margin.left + (x - xMin) * xScale;
-      const yPos = margin.top + chartHeight - (y - yMin) * yScale;
-      
+      const yPos = margin.top + scales.yMax * yScale - (y - yMin) * yScale;
       const barHeight = (y - yMin) * yScale;
       
       return {
@@ -83,55 +83,44 @@ export const BarChart = ({
         width: barWidth,
         height: barHeight,
         data: point,
-        index
+        label: point.label || ''
       };
     });
-  }, [chartData, chartDimensions, scales, margin, barSpacing]);
+  }, [chartData, scales, margin, barSpacing]);
 
-  const gridLines = useMemo(() => {
-    if (!showGrid) return { vertical: [], horizontal: [] };
+  const handleBarHover = (bar, index, event) => {
+    if (!showTooltip) return;
     
-    const { chartWidth, chartHeight } = chartDimensions;
-    const { xMin, xMax, yMin, yMax } = scales;
-    
-    const verticalLines = [];
-    const horizontalLines = [];
-    
-    // Generate grid lines
-    for (let i = 0; i <= 5; i++) {
-      const x = margin.left + (chartWidth / 5) * i;
-      verticalLines.push({ x1: x, y1: margin.top, x2: x, y2: margin.top + chartHeight });
-    }
-    
-    for (let i = 0; i <= 5; i++) {
-      const y = margin.top + (chartHeight / 5) * i;
-      horizontalLines.push({ x1: margin.left, y1: y, x2: margin.left + chartWidth, y2: y });
-    }
-    
-    return { vertical: verticalLines, horizontal: horizontalLines };
-  }, [chartDimensions, scales, margin, showGrid]);
+    const svgRect = event.currentTarget.closest('svg').getBoundingClientRect();
+    setTooltip({
+      x: bar.x + bar.width / 2,
+      y: bar.y,
+      data: bar.data,
+      label: bar.label
+    });
+    setHoveredIndex(index);
+  };
+
+  const handleBarLeave = () => {
+    setTooltip(null);
+    setHoveredIndex(null);
+  };
 
   const containerStyle = {
     width: responsive ? '100%' : `${width}px`,
-    height: responsive ? 'auto' : `${height}px`,
-    maxWidth: '100%'
+    maxWidth: '100%',
+    position: 'relative'
   };
 
   const svgStyle = {
     width: '100%',
-    height: responsive ? 'auto' : `${height}px`,
+    height: responsive ? '200px' : `${height}px`,
     viewBox: `0 0 ${width} ${height}`
   };
 
   return (
     <div className={`bar-chart-container ${className}`} style={containerStyle} {...props}>
-      {title && (
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-          {title}
-        </h3>
-      )}
-      
-      <div className="relative">
+      <div className="relative" style={{ width: '100%', height: responsive ? '200px' : `${height}px` }}>
         <svg
           style={svgStyle}
           role="img"
@@ -141,64 +130,108 @@ export const BarChart = ({
           {/* Grid Lines */}
           {showGrid && (
             <g className="grid-lines">
-              {gridLines.vertical.map((line, index) => (
-                <line
-                  key={`v-${index}`}
-                  x1={line.x1}
-                  y1={line.y1}
-                  x2={line.x2}
-                  y2={line.y2}
-                  stroke="#e5e7eb"
-                  strokeWidth="1"
-                  opacity="0.3"
-                />
-              ))}
-              {gridLines.horizontal.map((line, index) => (
-                <line
-                  key={`h-${index}`}
-                  x1={line.x1}
-                  y1={line.y1}
-                  x2={line.x2}
-                  y2={line.y2}
-                  stroke="#e5e7eb"
-                  strokeWidth="1"
-                  opacity="0.3"
-                />
-              ))}
+              {Array.from({ length: 6 }).map((_, i) => {
+                const x = margin.left + (chartDimensions.chartWidth / 5) * i;
+                const y = margin.top + (chartDimensions.chartHeight / 5) * i;
+                return (
+                  <g key={i}>
+                    <line
+                      x1={x}
+                      y1={margin.top}
+                      x2={x}
+                      y2={margin.top + chartDimensions.chartHeight}
+                      stroke="#e5e7eb"
+                      strokeWidth="1"
+                      opacity="0.3"
+                    />
+                    <line
+                      x1={margin.left}
+                      y1={y}
+                      x2={margin.left + chartDimensions.chartWidth}
+                      y2={y}
+                      stroke="#e5e7eb"
+                      strokeWidth="1"
+                      opacity="0.3"
+                    />
+                  </g>
+                );
+              })}
             </g>
           )}
 
-          {/* Chart Area */}
-          <g className="chart-area">
-            {/* Bars */}
-            {barData.map((bar, index) => (
-              <rect
-                key={index}
-                x={bar.x}
-                y={bar.y}
-                width={bar.width}
-                height={bar.height}
-                fill={color}
-                rx={borderRadius}
-                ry={borderRadius}
-                className={`hover:opacity-80 transition-all duration-200 cursor-pointer ${animate ? 'animate-pulse' : ''}`}
-                data-tooltip={showTooltip ? JSON.stringify(bar.data) : undefined}
-              />
-            ))}
+          {/* Bars */}
+          {barData.map((bar, index) => (
+            <rect
+              key={index}
+              x={bar.x}
+              y={bar.y}
+              width={Math.max(bar.width, 2)}
+              height={Math.max(bar.height, 1)}
+              fill={color}
+              rx={borderRadius}
+              ry={borderRadius}
+              className="transition-all duration-200 cursor-pointer"
+              style={{
+                opacity: hoveredIndex === index ? 0.8 : 1,
+                transform: hoveredIndex === index ? 'translateY(-2px)' : 'none'
+              }}
+              onMouseEnter={(e) => handleBarHover(bar, index, e)}
+              onMouseLeave={handleBarLeave}
+            />
+          ))}
 
-            {/* Data Labels */}
-            {showLabels && barData.map((bar, index) => (
+          {/* Data Labels */}
+          {showLabels && barData.map((bar, index) => (
+            <text
+              key={`label-${index}`}
+              x={bar.x + bar.width / 2}
+              y={bar.y - 5}
+              textAnchor="middle"
+              fill="#374151"
+              fontSize="10"
+              fontWeight="500"
+            >
+              {bar.data.y}
+            </text>
+          ))}
+
+          {/* Tooltip */}
+          {tooltip && (
+            <g className="tooltip-group">
+              <rect
+                x={tooltip.x - 50}
+                y={tooltip.y - 60}
+                width="100"
+                height="40"
+                rx="4"
+                fill="#1f2937"
+                opacity="0.95"
+              />
               <text
-                key={`label-${index}`}
-                x={bar.x + bar.width / 2}
-                y={bar.y - 5}
+                x={tooltip.x}
+                y={tooltip.y - 40}
                 textAnchor="middle"
-                className="text-xs text-gray-600 dark:text-gray-400"
+                fill="white"
+                fontSize="12"
+                fontWeight="600"
               >
-                {bar.data.y}
+                {tooltip.label}
               </text>
-            ))}
-          </g>
+              <text
+                x={tooltip.x}
+                y={tooltip.y - 25}
+                textAnchor="middle"
+                fill="#9ca3af"
+                fontSize="10"
+              >
+                Value: {tooltip.data?.y || 0}
+              </text>
+              <polygon
+                points={`${tooltip.x},${tooltip.y - 20} ${tooltip.x - 8},${tooltip.y - 10} ${tooltip.x + 8},${tooltip.y - 10}`}
+                fill="#1f2937"
+              />
+            </g>
+          )}
 
           {/* Axes Labels */}
           {xAxisLabel && (
@@ -206,7 +239,8 @@ export const BarChart = ({
               x={width / 2}
               y={height - 10}
               textAnchor="middle"
-              className="text-sm text-gray-600 dark:text-gray-400"
+              fill="#6b7280"
+              fontSize="12"
             >
               {xAxisLabel}
             </text>
@@ -214,11 +248,12 @@ export const BarChart = ({
           
           {yAxisLabel && (
             <text
-              x={10}
+              x="20"
               y={height / 2}
               textAnchor="middle"
-              transform={`rotate(-90, 10, ${height / 2})`}
-              className="text-sm text-gray-600 dark:text-gray-400"
+              fill="#6b7280"
+              fontSize="12"
+              transform={`rotate(-90, 20, ${height / 2})`}
             >
               {yAxisLabel}
             </text>
