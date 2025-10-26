@@ -757,6 +757,8 @@
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  width: 100%;
   /* Hide scrollbar but keep functionality */
   scrollbar-width: none;
   -ms-overflow-style: none;
