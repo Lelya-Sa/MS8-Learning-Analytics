@@ -743,3 +743,86 @@
 .night-mode .card-content h4 {
   color: #f9fafb;
 }
+
+/* Metrics Grid - Compact inline layout */
+.day-mode .metrics-grid,
+.night-mode .metrics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+.day-mode .metric-card,
+.night-mode .metric-card {
+  flex: 1 1 calc(25% - 1rem);
+  min-width: 200px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.night-mode .metric-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.day-mode .metric-card:hover,
+.night-mode .metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.night-mode .metric-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+.day-mode .metric-header,
+.night-mode .metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.day-mode .metric-header h4,
+.night-mode .metric-header h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.night-mode .metric-header h4 {
+  color: #d1d5db;
+}
+
+.day-mode .metric-values,
+.night-mode .metric-values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.day-mode .primary-value,
+.night-mode .primary-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #047857;
+}
+
+.night-mode .primary-value {
+  color: #10b981;
+}
+
+.day-mode .secondary-value,
+.night-mode .secondary-value {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.night-mode .secondary-value {
+  color: #9ca3af;
+}
