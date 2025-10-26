@@ -182,6 +182,66 @@ export const LineChart = ({
             </g>
           )}
 
+          {/* Axis Ticks */}
+          {showGrid && (
+            <g className="axis-ticks">
+              {/* X-axis ticks */}
+              {Array.from({ length: 6 }).map((_, i) => {
+                const x = margin.left + (chartDimensions.chartWidth / 5) * i;
+                return (
+                  <g key={`x-tick-${i}`}>
+                    <line
+                      x1={x}
+                      y1={margin.top + chartDimensions.chartHeight}
+                      x2={x}
+                      y2={margin.top + chartDimensions.chartHeight + 4}
+                      stroke="#9ca3af"
+                      strokeWidth="1"
+                    />
+                    {chartData.length > 0 && chartData[i] && (
+                      <text
+                        x={x}
+                        y={margin.top + chartDimensions.chartHeight + 16}
+                        textAnchor="middle"
+                        fill="#6b7280"
+                        fontSize="10"
+                      >
+                        {chartData[i].x !== undefined ? chartData[i].x : i}
+                      </text>
+                    )}
+                  </g>
+                );
+              })}
+              
+              {/* Y-axis ticks */}
+              {Array.from({ length: 6 }).map((_, i) => {
+                const y = margin.top + chartDimensions.chartHeight - (chartDimensions.chartHeight / 5) * i;
+                const value = scales.yMin + (scales.yMax - scales.yMin) * (i / 5);
+                return (
+                  <g key={`y-tick-${i}`}>
+                    <line
+                      x1={margin.left - 4}
+                      y1={y}
+                      x2={margin.left}
+                      y2={y}
+                      stroke="#9ca3af"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={margin.left - 8}
+                      y={y + 3}
+                      textAnchor="end"
+                      fill="#6b7280"
+                      fontSize="10"
+                    >
+                      {Math.round(value * 10) / 10}
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+          )}
+
           {/* Area under line */}
           <g clipPath="url(#chartClip)">
             <path
