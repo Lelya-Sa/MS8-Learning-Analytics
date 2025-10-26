@@ -274,14 +274,14 @@
 .velocity-chart-container {
   width: 100%;
   max-width: 100%;
-  min-height: 300px;
-  height: auto;
+  height: 280px;
   position: relative;
   background: transparent;
-  padding: 1.5rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
   box-sizing: border-box;
-  overflow: visible;
+  overflow: hidden;
+  margin: 1rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -298,6 +298,7 @@
 .pie-chart-container svg {
   width: 100% !important;
   max-width: 100% !important;
+  max-height: 100% !important;
   height: auto !important;
   box-sizing: border-box;
 }
@@ -308,13 +309,14 @@
 .pie-chart-container {
   width: 100%;
   max-width: 100%;
-  min-height: 350px;
+  height: 280px;
   box-sizing: border-box;
-  overflow: visible;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem 2rem;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
 }
 
 .bar-chart-container > *,
@@ -802,13 +804,13 @@
   position: relative;
   width: 100%;
   max-width: 100%;
-  min-height: 300px;
-  height: auto;
+  height: 280px;
   box-sizing: border-box;
-  overflow: visible;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 1rem 0;
 }
 
 /* Ensure charts have proper spacing */
