@@ -50,14 +50,16 @@ export const BarChart = ({
       series.map(s => d[s] || d.y || 0)
     );
     
-    const yMin = Math.min(...yValues);
+    // Y-axis MUST start at 0 for accurate representation (best practice)
+    const yMin = 0;
     const yMax = Math.max(...yValues, 1);
     
     // Use index-based positioning for better spacing
-    const xScale = chartWidth / Math.max(chartData.length - 1 || 1, 1);
+    // Account for padding at both ends to prevent overlap with axes
+    const xScale = chartWidth / Math.max(chartData.length + 1 || 1, 1);
     const yScale = chartHeight / Math.max(yMax - yMin || 1, 1);
     
-    return { xScale, yScale, xMin: 0, xMax: chartData.length - 1, yMin, yMax };
+    return { xScale, yScale, xMin: 0, xMax: chartData.length + 1, yMin, yMax };
   }, [chartData, chartDimensions, series]);
 
   const barData = useMemo(() => {
@@ -69,13 +71,14 @@ export const BarChart = ({
     const availableWidth = chartDimensions.chartWidth;
     const numBars = chartData.length;
     // Each bar should take 66% of its allocated space, leaving 34% for spacing
-    const barWidth = (availableWidth / Math.max(numBars, 1)) * 0.66;
+    const barWidth = (availableWidth / Math.max(numBars + 1, 1)) * 0.66;
     
     return chartData.map((point, index) => {
       const y = Math.max(point.y || 0, 0); // Ensure y is never negative
       
-      // Use index-based positioning for x-axis to ensure even spacing
-      const xPos = margin.left + index * xScale;
+      // Add padding from left margin to prevent overlap with y-axis
+      // index starts at 1 to leave space before first bar
+      const xPos = margin.left + (index + 1) * xScale;
       const barHeight = (y - yMin) * yScale;
       const yPos = margin.top + chartDimensions.chartHeight - barHeight;
       
@@ -171,8 +174,8 @@ export const BarChart = ({
             <g className="axis-ticks">
               {/* X-axis ticks */}
               {barData.map((bar, index) => {
-                // Ensure proper spacing from y-axis for first tick
-                const tickX = Math.max(bar.x + bar.width / 2, margin.left + 10);
+                // Position ticks at center of each bar (bar position already accounts for padding)
+                const tickX = bar.x + bar.width / 2;
                 return (
                   <g key={`x-tick-${index}`}>
                     <line
