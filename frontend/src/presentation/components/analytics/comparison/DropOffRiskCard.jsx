@@ -42,13 +42,20 @@ const DropOffRiskCard = ({
   // Prepare chart data for engagement patterns - convert to array format
   // MUST be called before any early returns to follow Rules of Hooks
   const chartData = useMemo(() => {
-    if (!engagementPatterns || engagementPatterns.length === 0) return [];
+    if (!engagementPatterns || engagementPatterns.length === 0) {
+      console.log('⚠️ No engagement patterns data available');
+      return [];
+    }
     
-    return engagementPatterns.map((pattern, index) => ({
-      x: pattern.week || index,
+    const mapped = engagementPatterns.map((pattern, index) => ({
+      x: index, // Use index for x-axis positioning
       y: pattern.engagementScore || 0,
-      label: pattern.week || `Week ${index + 1}`
+      label: pattern.week || `Week ${index + 1}`,
+      week: pattern.week
     }));
+    
+    console.log('📊 Chart data prepared:', mapped);
+    return mapped;
   }, [engagementPatterns]);
 
   const handleRefresh = async () => {
@@ -211,7 +218,15 @@ const DropOffRiskCard = ({
              {viewType === 'bar' ? (
                <BarChart
                  data={chartData}
+                 width={400}
+                 height={200}
                  title="Engagement patterns and risk threshold"
+                 color="#10b981"
+                 showGrid={true}
+                 showTooltip={true}
+                 xAxisLabel="Week"
+                 yAxisLabel="Engagement Score"
+                 responsive={true}
                />
              ) : viewType === 'table' ? (
                <DataTable 
@@ -224,7 +239,16 @@ const DropOffRiskCard = ({
              ) : (
                <LineChart
                  data={chartData}
-                 title="Engagement patterns and risk threshold"
+                 width={400}
+                 height={200}
+                 color="#10b981"
+                 strokeWidth={2}
+                 showGrid={true}
+                 showPoints={true}
+                 showTooltip={true}
+                 xAxisLabel="Week"
+                 yAxisLabel="Engagement Score"
+                 responsive={true}
                />
              )}
            </div>
