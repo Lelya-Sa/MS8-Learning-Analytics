@@ -59,7 +59,7 @@ const DropOffRiskCard = ({
   };
 
   const handleChartTypeChange = (event) => {
-    setChartType(event.target.value);
+    setViewType(event.target.value);
   };
 
   if (isLoading) {
@@ -207,27 +207,31 @@ const DropOffRiskCard = ({
             </div>
           </div>
           
-                     <div className="chart-container">
-             {viewType === 'bar' ? (
-               <BarChart
-                 data={chartData}
-                 title="Engagement patterns and risk threshold"
-               />
-             ) : viewType === 'table' ? (
-               <DataTable 
-                 data={engagementPatterns}
-                 columns={[
-                   { key: 'week', label: 'Week', render: (val) => val || '-' },
-                   { key: 'engagementScore', label: 'Engagement Score', render: (val) => val || 0 }
-                 ]}
-               />
-             ) : (
-               <LineChart
-                 data={chartData}
-                 title="Engagement patterns and risk threshold"
-               />
-             )}
-           </div>
+          <div className="chart-container">
+            {viewType === 'bar' ? (
+              <BarChart
+                data={chartData}
+                title="Engagement patterns and risk threshold"
+                width={400}
+                height={200}
+              />
+            ) : viewType === 'table' ? (
+              <DataTable 
+                data={engagementPatterns}
+                columns={[
+                  { key: 'week', label: 'Week', render: (val) => val || '-' },
+                  { key: 'engagementScore', label: 'Engagement Score', render: (val) => val || 0 }
+                ]}
+              />
+            ) : (
+              <LineChart
+                data={chartData}
+                title="Engagement patterns and risk threshold"
+                width={400}
+                height={200}
+              />
+            )}
+          </div>
         </div>
 
         {/* Warning Signals */}
