@@ -1,5 +1,113 @@
 /* Analytics Cards Styles - Consistent with main page and login page */
 
+/* Carousel Container */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  margin: 2rem 0;
+  padding: 0 3rem;
+}
+
+.cards-carousel {
+  display: grid;
+  width: 100%;
+  gap: 1.5rem;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Carousel Navigation Buttons */
+.carousel-container button[aria-label="Previous cards"],
+.carousel-container button[aria-label="Next cards"] {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.night-mode .carousel-container button[aria-label="Previous cards"],
+.night-mode .carousel-container button[aria-label="Next cards"] {
+  background: #1f2937;
+  color: #d1d5db;
+}
+
+.carousel-container button[aria-label="Previous cards"]:hover,
+.carousel-container button[aria-label="Next cards"]:hover {
+  background: #f3f4f6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.night-mode .carousel-container button[aria-label="Previous cards"]:hover,
+.night-mode .carousel-container button[aria-label="Next cards"]:hover {
+  background: #374151;
+}
+
+.carousel-container button[aria-label="Previous cards"] {
+  left: 0;
+}
+
+.carousel-container button[aria-label="Next cards"] {
+  right: 0;
+}
+
+/* Carousel Indicators */
+.carousel-container .flex.justify-center {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.carousel-container .flex.justify-center button {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #d1d5db;
+}
+
+.night-mode .carousel-container .flex.justify-center button {
+  background: #4b5563;
+}
+
+.carousel-container .flex.justify-center button[class*="bg-cyan"] {
+  width: 32px;
+  border-radius: 4px;
+  background: #047857;
+}
+
+.night-mode .carousel-container .flex.justify-center button[class*="bg-cyan"] {
+  background: #10b981;
+}
+
+/* Responsive Carousel */
+@media (max-width: 640px) {
+  .carousel-container {
+    padding: 0 2.5rem;
+  }
+  
+  .carousel-container button[aria-label="Previous cards"],
+  .carousel-container button[aria-label="Next cards"] {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+}
+
 /* Base card wrapper - uses theme classes - for all analytics cards */
 .day-mode [class*="-card"],
 .night-mode [class*="-card"] {
@@ -743,81 +851,23 @@
   color: #f9fafb;
 }
 
-/* Metrics Grid - Compact inline layout with sliding carousel */
+/* Metrics Grid - Compact inline layout */
 .day-mode .metrics-grid,
 .night-mode .metrics-grid {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 0;
-  justify-content: flex-start;
-  align-items: flex-start;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  max-width: 100%;
-  width: 100%;
-  /* Hide scrollbar but keep functionality */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.day-mode .metrics-grid::-webkit-scrollbar,
-.night-mode .metrics-grid::-webkit-scrollbar {
-  display: none;
-}
-
-/* Navigation buttons for metrics carousel */
-.metrics-carousel-nav {
-  display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.carousel-nav-btn {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  background: white;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.night-mode .carousel-nav-btn {
-  background: #1f2937;
-  border-color: #374151;
-  color: #d1d5db;
-}
-
-.carousel-nav-btn:hover {
-  background: #f3f4f6;
-  border-color: #9ca3af;
-}
-
-.night-mode .carousel-nav-btn:hover {
-  background: #374151;
-  border-color: #4b5563;
-}
-
-.carousel-nav-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  align-items: flex-start;
 }
 
 .day-mode .metric-card,
-.night-mode .metric-card,
-.day-mode .stat-card,
-.night-mode .stat-card {
-  flex: 0 0 auto;
-  min-width: 250px;
-  max-width: 280px;
-  width: auto;
+.night-mode .metric-card {
+  flex: 1 1 calc(25% - 1rem);
+  min-width: 200px;
+  max-width: 300px;
+  width: 100%;
   height: auto;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -825,22 +875,22 @@
   border: 1px solid #e5e7eb;
   transition: all 0.2s ease;
   text-align: center;
-  scroll-snap-align: start;
 }
 
-.night-mode .metric-card,
-.night-mode .stat-card {
-  background: #1f2937;
-  border-color: #374151;
+@media (max-width: 1024px) {
+  .day-mode .metric-card,
+  .night-mode .metric-card {
+    flex: 1 1 calc(50% - 1rem);
+    max-width: 250px;
+  }
 }
 
 @media (max-width: 640px) {
   .day-mode .metric-card,
-  .night-mode .metric-card,
-  .day-mode .stat-card,
-  .night-mode .stat-card {
-    min-width: 220px;
-    max-width: 240px;
+  .night-mode .metric-card {
+    flex: 1 1 100%;
+    max-width: none;
+    min-width: unset;
   }
 }
 

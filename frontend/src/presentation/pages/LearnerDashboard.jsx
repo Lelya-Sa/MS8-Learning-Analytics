@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import useSWR from 'swr';
 import { useAuth } from '../../application/state/AuthContext';
 import { apiClient } from '../../infrastructure/api';
@@ -30,6 +30,9 @@ import DropOffRiskCard from '../components/analytics/comparison/DropOffRiskCard'
 const LearnerDashboard = () => {
   const { user } = useAuth();
   const userId = user?.id;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardsPerView, setCardsPerView] = useState(3);
+  const carouselRef = useRef(null);
 
   // Fetch all learner analytics data
   const { data: analyticsData, error, isLoading } = useSWR(
@@ -42,6 +45,42 @@ const LearnerDashboard = () => {
       return data;
     }
   );
+
+  // Calculate cards per view based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCardsPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setCardsPerView(2);
+      } else {
+        setCardsPerView(3);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const totalCards = 6; // Total number of analytics cards
+  const totalPages = Math.ceil(totalCards / cardsPerView);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? totalPages - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === totalPages - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
 
   if (!userId) {
     return (
@@ -70,49 +109,96 @@ const LearnerDashboard = () => {
         {/* Predictive Insights Banner */}
         <DropOffRiskCard userId={userId} />
 
-        {/* Analytics Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* AS-001 #1: Learning Velocity */}
-          <LearningVelocityCard 
-            data={analyticsData?.learningVelocity}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-001 #2: Skill Gap Matrix */}
-          <SkillGapMatrixCard 
-            data={analyticsData?.skillGap}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-001 #3: Engagement Score */}
-          <EngagementMetricsCard 
-            data={analyticsData?.engagement}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-001 #4: Mastery Progress */}
-          <MasteryProgressionCard 
-            data={analyticsData?.mastery}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-001 #5: Performance Analytics */}
-          <PerformanceAnalyticsCard 
-            data={analyticsData?.performance}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-001 #6: Content Effectiveness */}
-          <ContentEffectivenessCard 
-            data={analyticsData?.contentEffectiveness}
-            isLoading={isLoading}
-            error={error}
-          />
+        {/* Analytics Cards Carousel */}
+        <div className="carousel-container relative">
+          {/* Left Navigation Button */}
+          <button
+            onClick={goToPrevious}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Previous cards"
+          >
+            ←
+          </button>
+
+          {/* Cards Container */}
+          <div 
+            ref={carouselRef}
+            className="cards-carousel overflow-hidden"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: `repeat(${cardsPerView}, 1fr)`,
+              gap: '1.5rem',
+              transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
+              transition: 'transform 0.5s ease-in-out',
+            }}
+          >
+            {/* AS-001 #1: Learning Velocity */}
+            <LearningVelocityCard 
+              data={analyticsData?.learningVelocity}
+              isLoading={isLoading}
+              error={error}
+            />
+            
+            {/* AS-001 #2: Skill Gap Matrix */}
+            <SkillGapMatrixCard 
+              data={analyticsData?.skillGap}
+              isLoading={isLoading}
+              error={error}
+            />
+            
+            {/* AS-001 #3: Engagement Score */}
+            <EngagementMetricsCard 
+              data={analyticsData?.engagement}
+              isLoading={isLoading}
+              error={error}
+            />
+            
+            {/* AS-001 #4: Mastery Progress */}
+            <MasteryProgressionCard 
+              data={analyticsData?.mastery}
+              isLoading={isLoading}
+              error={error}
+            />
+            
+            {/* AS-001 #5: Performance Analytics */}
+            <PerformanceAnalyticsCard 
+              data={analyticsData?.performance}
+              isLoading={isLoading}
+              error={error}
+            />
+            
+            {/* AS-001 #6: Content Effectiveness */}
+            <ContentEffectivenessCard 
+              data={analyticsData?.contentEffectiveness}
+              isLoading={isLoading}
+              error={error}
+            />
+          </div>
+
+          {/* Right Navigation Button */}
+          <button
+            onClick={goToNext}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Next cards"
+          >
+            →
+          </button>
+
+          {/* Carousel Indicators */}
+          <div className="flex justify-center mt-6 gap-2">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentIndex 
+                    ? 'bg-cyan-700 dark:bg-cyan-400 w-8' 
+                    : 'bg-gray-300 dark:bg-gray-600'
+                }`}
+                aria-label={`Go to page ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Quick Actions */}
