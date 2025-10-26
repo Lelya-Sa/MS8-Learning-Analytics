@@ -92,8 +92,11 @@ export class UnifiedApiClient {
           
           // Only redirect if not already on login page and not an auth endpoint
           const isAuthEndpoint = error.config?.url?.includes('/auth/login') || 
-                                 error.config?.url?.includes('/auth/register');
+                                 error.config?.url?.includes('/auth/register') ||
+                                 error.config?.url?.includes('/auth/me') ||
+                                 error.config?.url?.includes('/auth/validate');
           
+          // Don't redirect if checking auth status (auth/me, auth/validate)
           if (!isAuthEndpoint && window.location.pathname !== '/login') {
             // Use window.location.href to trigger full page reload and clear state
             window.location.href = '/login';
