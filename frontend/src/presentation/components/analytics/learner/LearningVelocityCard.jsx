@@ -134,7 +134,6 @@ export const LearningVelocityCard = ({
     momentum = 'steady', 
     trend = 'stable', 
     timeWindows = {}, 
-    velocityHistory = [], 
     lastUpdated, 
     isStale = false 
   } = data || {};
@@ -316,20 +315,6 @@ export const LearningVelocityCard = ({
                 responsive={true}
               />
             )}
-            <div 
-              className="trend-line"
-              data-testid="velocity-trend-line"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '10%',
-                right: '10%',
-                height: '2px',
-                background: trend === 'up' ? '#10b981' : trend === 'down' ? '#ef4444' : '#6b7280',
-                transform: 'translateY(-50%)',
-                opacity: 0.7
-              }}
-            />
           </div>
         </div>
 
