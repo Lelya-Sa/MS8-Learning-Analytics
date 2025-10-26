@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import Card from '../../common/Card';
-import BarChart from '../../charts/BarChart';
-import LineChart from '../../charts/LineChart';
+import { BarChart } from '../../charts/BarChart';
+import { LineChart } from '../../charts/LineChart';
+import { DataTable } from '../../charts/DataTable';
 import Button from '../../common/Button';
 import Spinner from '../../common/Spinner';
 import StatCard from '../../common/StatCard';
@@ -26,7 +27,7 @@ const PerformanceForecastCard = ({
   showRefresh = true, 
   onRefresh 
 }) => {
-  const [chartType, setChartType] = useState('line');
+  const [viewType, setViewType] = useState('line');
 
   // Fetch performance forecast data
   const { data, error, isLoading, mutate } = useSWR(
@@ -98,34 +99,15 @@ const PerformanceForecastCard = ({
   const { currentPerformance, forecastProjections, trendAnalysis, confidenceMetrics } = forecastData;
 
   // Prepare chart data for performance trends and forecasts
-  const chartData = {
-    labels: forecastProjections?.map(projection => projection.period) || [],
-    datasets: [
-      {
-        label: 'Historical Performance',
-        data: forecastProjections?.map(projection => projection.historicalScore) || [],
-        backgroundColor: 'rgba(59, 130, 246, 0.8)',
-        borderColor: 'rgba(59, 130, 246, 1)',
-        borderWidth: 2,
-        fill: false,
-      },
-      {
-        label: 'Forecasted Performance',
-        data: forecastProjections?.map(projection => projection.forecastedScore) || [],
-        backgroundColor: 'rgba(34, 197, 94, 0.8)',
-        borderColor: 'rgba(34, 197, 94, 1)',
-        borderWidth: 2,
-        borderDash: [5, 5],
-        fill: false,
-      },
-      {
-        label: 'Confidence Interval (High)',
-        data: forecastProjections?.map(projection => projection.confidenceHigh) || [],
-        backgroundColor: 'rgba(34, 197, 94, 0.2)',
-        borderColor: 'rgba(34, 197, 94, 0.5)',
-        borderWidth: 1,
-        fill: '+1',
-      },
+  const chartData = (forecastProjections || []).map((projection, index) => ({
+    x: index,
+    y: projection.forecastedScore || 0,
+    label: projection.period || `Period ${index + 1}`,
+    forecasted: projection.forecastedScore,
+    historical: projection.historicalScore,
+    confidenceHigh: projection.confidenceHigh,
+    confidenceLow: projection.confidenceLow
+  }));
       {
         label: 'Confidence Interval (Low)',
         data: forecastProjections?.map(projection => projection.confidenceLow) || [],
@@ -222,24 +204,34 @@ const PerformanceForecastCard = ({
           <div className="section-header">
             <h4>Performance Forecast</h4>
             <div className="chart-controls">
-              <label htmlFor="chart-type-selector">Chart Type:</label>
+              <label htmlFor="chart-type-selector">View:</label>
               <select
                 id="chart-type-selector"
-                value={chartType}
-                onChange={handleChartTypeChange}
-                aria-label="Select chart type"
+                value={viewType}
+                onChange={(e) => setViewType(e.target.value)}
+                aria-label="Select view type"
               >
                 <option value="line">Line Chart</option>
                 <option value="bar">Bar Chart</option>
+                <option value="table">Data Table</option>
               </select>
             </div>
           </div>
           
           <div className="chart-container">
-            {chartType === 'line' ? (
+            {viewType === 'line' ? (
               <LineChart
                 data={chartData}
                 ariaLabel="Performance forecast with confidence intervals"
+              />
+            ) : viewType === 'table' ? (
+              <DataTable 
+                data={forecastProjections || []}
+                columns={[
+                  { key: 'period', label: 'Period', render: (val) => val || '-' },
+                  { key: 'forecastedScore', label: 'Forecast', render: (val) => val || 0 },
+                  { key: 'historicalScore', label: 'Historical', render: (val) => val || 0 }
+                ]}
               />
             ) : (
               <BarChart

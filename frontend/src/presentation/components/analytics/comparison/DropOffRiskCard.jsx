@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import Card from '../../common/Card';
 import { BarChart } from '../../charts/BarChart';
 import { LineChart } from '../../charts/LineChart';
+import { DataTable } from '../../charts/DataTable';
 import Button from '../../common/Button';
 import Spinner from '../../common/Spinner';
 import StatCard from '../../common/StatCard';
@@ -26,7 +27,7 @@ const DropOffRiskCard = ({
   showRefresh = true, 
   onRefresh 
 }) => {
-  const [chartType, setChartType] = useState('bar');
+  const [viewType, setViewType] = useState('bar');
 
   // Fetch drop-off risk data
   const { data, error, isLoading, mutate } = useSWR(
@@ -192,24 +193,33 @@ const DropOffRiskCard = ({
           <div className="section-header">
             <h4>Engagement Patterns</h4>
             <div className="chart-controls">
-              <label htmlFor="chart-type-selector">Chart Type:</label>
+              <label htmlFor="chart-type-selector">View:</label>
               <select
                 id="chart-type-selector"
-                value={chartType}
-                onChange={handleChartTypeChange}
-                aria-label="Select chart type"
+                value={viewType}
+                onChange={(e) => setViewType(e.target.value)}
+                aria-label="Select view type"
               >
                 <option value="bar">Bar Chart</option>
                 <option value="line">Line Chart</option>
+                <option value="table">Data Table</option>
               </select>
             </div>
           </div>
           
                      <div className="chart-container">
-             {chartType === 'bar' ? (
+             {viewType === 'bar' ? (
                <BarChart
                  data={chartData}
                  title="Engagement patterns and risk threshold"
+               />
+             ) : viewType === 'table' ? (
+               <DataTable 
+                 data={engagementPatterns}
+                 columns={[
+                   { key: 'week', label: 'Week', render: (val) => val || '-' },
+                   { key: 'engagementScore', label: 'Engagement Score', render: (val) => val || 0 }
+                 ]}
                />
              ) : (
                <LineChart
