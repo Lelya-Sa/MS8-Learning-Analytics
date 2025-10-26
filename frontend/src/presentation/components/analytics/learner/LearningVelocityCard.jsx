@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LineChart } from '../../charts/LineChart';
 import { BarChart } from '../../charts/BarChart';
 import { DataTable } from '../../charts/DataTable';
+import { PieChart } from '../../charts/PieChart';
 import StatCard from '../../common/StatCard';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
@@ -162,6 +163,27 @@ export const LearningVelocityCard = ({
       }))
     : [];
 
+  // Prepare pie chart data from velocity history
+  const pieChartData = useMemo(() => {
+    if (!velocityHistory || !Array.isArray(velocityHistory) || velocityHistory.length === 0) return [];
+    
+    // Group by velocity ranges for pie chart
+    const ranges = [
+      { label: 'Low (0-30%)', value: 0, color: '#ef4444' },
+      { label: 'Medium (30-70%)', value: 0, color: '#f59e0b' },
+      { label: 'High (70-100%)', value: 0, color: '#10b981' }
+    ];
+    
+    velocityHistory.forEach(point => {
+      const velocity = point?.velocity || 0;
+      if (velocity < 30) ranges[0].value += 1;
+      else if (velocity < 70) ranges[1].value += 1;
+      else ranges[2].value += 1;
+    });
+    
+    return ranges;
+  }, [velocityHistory]);
+
   return (
     <div 
       className={`learning-velocity-card ${className}`}
@@ -232,6 +254,7 @@ export const LearningVelocityCard = ({
           >
             <option value="line">Line Chart</option>
             <option value="bar">Bar Chart</option>
+            <option value="pie">Pie Chart</option>
             <option value="table">Data Table</option>
           </select>
         </div>
@@ -254,6 +277,15 @@ export const LearningVelocityCard = ({
                 showTooltip={true}
                 xAxisLabel="Time"
                 yAxisLabel="Velocity"
+                responsive={true}
+              />
+            ) : viewType === 'pie' ? (
+              <PieChart 
+                data={pieChartData}
+                width={300}
+                height={200}
+                showLegend={true}
+                showPercentages={true}
                 responsive={true}
               />
             ) : viewType === 'table' ? (
