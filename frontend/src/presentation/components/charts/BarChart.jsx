@@ -114,18 +114,18 @@ export const BarChart = ({
 
   const svgStyle = {
     width: '100%',
-    height: responsive ? '200px' : `${height}px`,
-    viewBox: `0 0 ${width} ${height}`
+    height: 'auto',
+    preserveAspectRatio: 'xMidYMid meet'
   };
 
   return (
     <div className={`bar-chart-container ${className}`} style={containerStyle} {...props}>
-      <div className="relative" style={{ width: '100%', height: responsive ? '200px' : `${height}px` }}>
+      <div className="relative" style={{ width: '100%', minHeight: '200px' }}>
           <svg
+            viewBox={`0 0 ${width} ${height}`}
             style={svgStyle}
             role="img"
             aria-label={title || 'Bar chart'}
-            className="overflow-hidden"
           >
             <defs>
               <clipPath id="barChartClip">

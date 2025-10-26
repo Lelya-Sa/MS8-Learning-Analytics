@@ -127,18 +127,18 @@ export const LineChart = ({
 
   const svgStyle = {
     width: '100%',
-    height: responsive ? '200px' : `${height}px`,
-    viewBox: `0 0 ${width} ${height}`
+    height: 'auto',
+    preserveAspectRatio: 'xMidYMid meet'
   };
 
   return (
     <div className={`line-chart-container ${className}`} style={containerStyle} {...props}>
-      <div className="relative" style={{ width: '100%', height: responsive ? '200px' : `${height}px` }}>
+      <div className="relative" style={{ width: '100%', minHeight: '200px' }}>
         <svg
+          viewBox={`0 0 ${width} ${height}`}
           style={svgStyle}
           role="img"
           aria-label={title || 'Line chart'}
-          className="overflow-hidden"
         >
           <defs>
             <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
