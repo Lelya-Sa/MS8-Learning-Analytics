@@ -96,10 +96,15 @@ export const BarChart = ({
   const handleBarHover = (bar, index, event) => {
     if (!showTooltip) return;
     
-    const svgRect = event.currentTarget.closest('svg').getBoundingClientRect();
+    // Get mouse position relative to SVG
+    const svgElement = event.currentTarget.closest('svg');
+    const svgRect = svgElement.getBoundingClientRect();
+    const mouseX = event.clientX - svgRect.left;
+    const mouseY = event.clientY - svgRect.top;
+    
     setTooltip({
-      x: bar.x + bar.width / 2,
-      y: bar.y,
+      x: mouseX,
+      y: mouseY,
       data: bar.data,
       label: bar.label
     });
@@ -265,43 +270,78 @@ export const BarChart = ({
             </text>
           ))}
 
-          {/* Tooltip */}
-          {tooltip && (
-            <g className="tooltip-group">
-              <rect
-                x={Math.max(10, Math.min(tooltip.x - 60, width - 130))}
-                y={Math.max(10, tooltip.y - 80)}
-                width="120"
-                height="auto"
-                rx="4"
-                fill="#1f2937"
-                opacity="0.95"
-              />
-              <text
-                x={tooltip.x}
-                y={tooltip.y - 50}
-                textAnchor="middle"
-                fill="white"
-                fontSize="12"
-                fontWeight="600"
-              >
-                {tooltip.label}
-              </text>
-              <text
-                x={tooltip.x}
-                y={tooltip.y - 30}
-                textAnchor="middle"
-                fill="#9ca3af"
-                fontSize="10"
-              >
-                Value: {tooltip.data?.y || 0}
-              </text>
-              <polygon
-                points={`${tooltip.x},${tooltip.y - 20} ${tooltip.x - 8},${tooltip.y - 10} ${tooltip.x + 8},${tooltip.y - 10}`}
-                fill="#1f2937"
-              />
-            </g>
-          )}
+          {/* Tooltip - positioned adaptively */}
+          {tooltip && (() => {
+            // Tooltip dimensions
+            const tooltipWidth = 120;
+            const tooltipHeight = 60;
+            const padding = 10;
+            
+            // Calculate adaptive positioning
+            const isLeftHalf = tooltip.x < width / 2;
+            const isTopHalf = tooltip.y < height / 2;
+            
+            // Determine tooltip position to avoid screen edges
+            let tooltipX, tooltipY, textAnchor, pointerX;
+            
+            if (isLeftHalf) {
+              // Position to the right of cursor
+              tooltipX = Math.min(tooltip.x + 15, width - tooltipWidth - padding);
+              textAnchor = 'start';
+              pointerX = tooltip.x;
+            } else {
+              // Position to the left of cursor
+              tooltipX = Math.max(tooltip.x - tooltipWidth - 15, padding);
+              textAnchor = 'end';
+              pointerX = tooltip.x;
+            }
+            
+            if (isTopHalf) {
+              // Position below cursor
+              tooltipY = tooltip.y + 25;
+            } else {
+              // Position above cursor
+              tooltipY = tooltip.y - tooltipHeight - 25;
+            }
+            
+            // Ensure tooltip stays within SVG bounds
+            tooltipY = Math.max(padding, Math.min(tooltipY, height - tooltipHeight - padding));
+            
+            return (
+              <g className="tooltip-group">
+                <rect
+                  x={tooltipX}
+                  y={tooltipY - tooltipHeight}
+                  width={tooltipWidth}
+                  height={tooltipHeight}
+                  rx="6"
+                  fill="#1f2937"
+                  opacity="0.95"
+                  stroke="#374151"
+                  strokeWidth="1"
+                />
+                <text
+                  x={tooltipX + (isLeftHalf ? 10 : tooltipWidth - 10)}
+                  y={tooltipY - tooltipHeight + 20}
+                  textAnchor={textAnchor}
+                  fill="white"
+                  fontSize="11"
+                  fontWeight="600"
+                >
+                  {tooltip.label}
+                </text>
+                <text
+                  x={tooltipX + (isLeftHalf ? 10 : tooltipWidth - 10)}
+                  y={tooltipY - tooltipHeight + 38}
+                  textAnchor={textAnchor}
+                  fill="#9ca3af"
+                  fontSize="10"
+                >
+                  Value: {tooltip.data?.y || 0}
+                </text>
+              </g>
+            );
+          })()}
 
           {/* Axes Labels */}
           {xAxisLabel && (
