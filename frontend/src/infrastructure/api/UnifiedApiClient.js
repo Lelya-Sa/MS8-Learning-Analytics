@@ -5,11 +5,22 @@
 
 import axios from 'axios';
 
+// Get base URL from environment variables (Vite: import.meta.env)
+const getApiBaseURL = () => {
+  // Try to get from environment variable
+  if (typeof import.meta !== 'undefined' && import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  
+  // Fallback for development
+  return 'http://localhost:3000/api/v1';
+};
+
 export class UnifiedApiClient {
   constructor(config = {}) {
     // Create axios instance with default config
     this.client = axios.create({
-      baseURL: config.baseURL || 'http://localhost:3000/api/v1',
+      baseURL: config.baseURL || getApiBaseURL(),
       timeout: config.timeout || 10000,
       headers: {
         'Content-Type': 'application/json',
