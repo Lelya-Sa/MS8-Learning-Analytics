@@ -79,14 +79,19 @@ jobs:
 
       - name: 📥 Install dependencies
         working-directory: ${{ env.WORKING_DIR }}
-        run: npm ci
+        run: |
+          echo "Installing dependencies..."
+          npm ci
+          echo "Verifying vite installation..."
+          npm list vite || echo "Vite not found in node_modules"
+          which vite || echo "Vite command not in PATH"
+          ls -la node_modules/.bin/ | grep vite || echo "No vite binary found"
 
       - name: 🏗️ Build production bundle
         working-directory: ${{ env.WORKING_DIR }}
         run: npm run build
         env:
           NODE_ENV: production
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
           CI: true
 
       - name: 📊 Upload build artifacts
