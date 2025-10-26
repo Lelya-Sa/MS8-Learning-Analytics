@@ -803,7 +803,9 @@
 
 .day-mode .metric-header,
 .night-mode .metric-header {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 0.75rem;
 }
 
@@ -821,13 +823,8 @@
 
 .day-mode .metric-header .trend-indicator,
 .night-mode .metric-header .trend-indicator {
-  display: block;
   font-size: 0.75rem;
   margin-top: 0.25rem;
-}
-
-.night-mode .metric-header .trend-indicator {
-  color: #9ca3af;
 }
 
 .day-mode .metric-values,
