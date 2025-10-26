@@ -26,7 +26,7 @@ import { Button } from '../../common/Button';
  * @param {string} [props.className] - Additional CSS classes
  * @returns {React.ReactNode} Learning velocity card component
  */
-export const LearningVelocityCard = ({ 
+export const LearningVelocityCard = ({
   data, 
   isLoading = false, 
   error = null, 
@@ -35,6 +35,32 @@ export const LearningVelocityCard = ({
 }) => {
   const [selectedTimeWindow, setSelectedTimeWindow] = useState('30d');
   const [viewType, setViewType] = useState('line');
+
+  // Extract data early to use in useMemo hooks
+  const { 
+    velocityHistory = []
+  } = data || {};
+
+  // Prepare pie chart data from velocity history - must be before early returns
+  const pieChartData = useMemo(() => {
+    if (!velocityHistory || !Array.isArray(velocityHistory) || velocityHistory.length === 0) return [];
+    
+    // Group by velocity ranges for pie chart
+    const ranges = [
+      { label: 'Low (0-30%)', value: 0, color: '#ef4444' },
+      { label: 'Medium (30-70%)', value: 0, color: '#f59e0b' },
+      { label: 'High (70-100%)', value: 0, color: '#10b981' }
+    ];
+    
+    velocityHistory.forEach(point => {
+      const velocity = point?.velocity || 0;
+      if (velocity < 30) ranges[0].value += 1;
+      else if (velocity < 70) ranges[1].value += 1;
+      else ranges[2].value += 1;
+    });
+    
+    return ranges;
+  }, [velocityHistory]);
 
   // Loading state
   if (isLoading) {
@@ -162,27 +188,6 @@ export const LearningVelocityCard = ({
         label: point?.date ? new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''
       }))
     : [];
-
-  // Prepare pie chart data from velocity history
-  const pieChartData = useMemo(() => {
-    if (!velocityHistory || !Array.isArray(velocityHistory) || velocityHistory.length === 0) return [];
-    
-    // Group by velocity ranges for pie chart
-    const ranges = [
-      { label: 'Low (0-30%)', value: 0, color: '#ef4444' },
-      { label: 'Medium (30-70%)', value: 0, color: '#f59e0b' },
-      { label: 'High (70-100%)', value: 0, color: '#10b981' }
-    ];
-    
-    velocityHistory.forEach(point => {
-      const velocity = point?.velocity || 0;
-      if (velocity < 30) ranges[0].value += 1;
-      else if (velocity < 70) ranges[1].value += 1;
-      else ranges[2].value += 1;
-    });
-    
-    return ranges;
-  }, [velocityHistory]);
 
   return (
     <div 
