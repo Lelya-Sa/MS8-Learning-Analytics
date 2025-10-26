@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { LineChart } from '../../charts/LineChart';
 import { BarChart } from '../../charts/BarChart';
 import { DataTable } from '../../charts/DataTable';
