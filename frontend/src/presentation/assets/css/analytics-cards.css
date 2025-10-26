@@ -311,7 +311,10 @@
   height: 280px !important;
   max-height: 280px !important;
   width: 100% !important;
+  max-width: 100% !important;
   overflow: visible !important;
+  margin: 0 auto;
+  display: block;
 }
 
 .bar-chart-container .relative svg,
@@ -321,6 +324,8 @@
   max-width: 100% !important;
   max-height: 280px !important;
   height: 280px !important;
+  display: block;
+  margin: 0 auto;
 }
 
 /* Chart container constraints */
