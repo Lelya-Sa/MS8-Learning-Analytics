@@ -8,11 +8,19 @@
   padding: 0 3rem;
 }
 
-.cards-carousel {
-  display: grid;
+.cards-carousel-wrapper {
+  overflow: hidden;
   width: 100%;
-  gap: 1.5rem;
+}
+
+.cards-carousel {
+  display: flex;
+  width: 100%;
   transition: transform 0.5s ease-in-out;
+}
+
+.cards-carousel > div {
+  box-sizing: border-box;
 }
 
 /* Carousel Navigation Buttons */

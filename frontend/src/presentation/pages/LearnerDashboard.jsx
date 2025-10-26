@@ -121,58 +121,70 @@ const LearnerDashboard = () => {
           </button>
 
           {/* Cards Container */}
-          <div 
-            ref={carouselRef}
-            className="cards-carousel overflow-hidden"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: `repeat(${cardsPerView}, 1fr)`,
-              gap: '1.5rem',
-              transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
-              transition: 'transform 0.5s ease-in-out',
-            }}
-          >
-            {/* AS-001 #1: Learning Velocity */}
-            <LearningVelocityCard 
-              data={analyticsData?.learningVelocity}
-              isLoading={isLoading}
-              error={error}
-            />
+          <div className="cards-carousel-wrapper overflow-hidden">
+            <div 
+              ref={carouselRef}
+              className="cards-carousel flex"
+              style={{
+                transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
+                transition: 'transform 0.5s ease-in-out',
+                width: `${100 * totalCards / cardsPerView}%`,
+              }}
+            >
+              {/* AS-001 #1: Learning Velocity */}
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+                <LearningVelocityCard 
+                  data={analyticsData?.learningVelocity}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
             
-            {/* AS-001 #2: Skill Gap Matrix */}
-            <SkillGapMatrixCard 
-              data={analyticsData?.skillGap}
-              isLoading={isLoading}
-              error={error}
-            />
+              {/* AS-001 #2: Skill Gap Matrix */}
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+                <SkillGapMatrixCard 
+                  data={analyticsData?.skillGap}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
             
-            {/* AS-001 #3: Engagement Score */}
-            <EngagementMetricsCard 
-              data={analyticsData?.engagement}
-              isLoading={isLoading}
-              error={error}
-            />
+              {/* AS-001 #3: Engagement Score */}
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+                <EngagementMetricsCard 
+                  data={analyticsData?.engagement}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
             
-            {/* AS-001 #4: Mastery Progress */}
-            <MasteryProgressionCard 
-              data={analyticsData?.mastery}
-              isLoading={isLoading}
-              error={error}
-            />
+              {/* AS-001 #4: Mastery Progress */}
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+                <MasteryProgressionCard 
+                  data={analyticsData?.mastery}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
             
-            {/* AS-001 #5: Performance Analytics */}
-            <PerformanceAnalyticsCard 
-              data={analyticsData?.performance}
-              isLoading={isLoading}
-              error={error}
-            />
+              {/* AS-001 #5: Performance Analytics */}
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+                <PerformanceAnalyticsCard 
+                  data={analyticsData?.performance}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
             
-            {/* AS-001 #6: Content Effectiveness */}
-            <ContentEffectivenessCard 
-              data={analyticsData?.contentEffectiveness}
-              isLoading={isLoading}
-              error={error}
-            />
+              {/* AS-001 #6: Content Effectiveness */}
+              <div style={{ width: `${100 / totalCards}%`, flexShrink: 0, padding: '0 0.75rem' }}>
+                <ContentEffectivenessCard 
+                  data={analyticsData?.contentEffectiveness}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Right Navigation Button */}
