@@ -124,7 +124,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--debug'
-          working-directory: ${{ env.WORKING_DIR }}
+          working-directory: './frontend'
           scope: ${{ secrets.VERCEL_ORG_ID }}
 
       - name: 💬 Comment PR
@@ -165,7 +165,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
-          working-directory: ${{ env.WORKING_DIR }}
+          working-directory: './frontend'
           scope: ${{ secrets.VERCEL_ORG_ID }}
 
       - name: ✅ Verify deployment
