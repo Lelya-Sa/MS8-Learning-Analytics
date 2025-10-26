@@ -132,15 +132,15 @@ export const EngagementMetricsCard = ({
     );
   }
 
-  // Prepare chart data for LineChart component
-  const chartData = filteredHistory && Array.isArray(filteredHistory)
-    ? filteredHistory.map((point, index) => ({
-        x: index,
-        y: point?.engagement || 0,
-        date: point?.date || '',
-        label: point?.date ? new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''
-      }))
-    : [];
+  // Prepare chart data for LineChart component - use y and label only
+  const chartData = useMemo(() => {
+    if (!filteredHistory || !Array.isArray(filteredHistory)) return [];
+    
+    return filteredHistory.map((point) => ({
+      y: point?.engagement || 0,
+      label: point?.date ? new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''
+    }));
+  }, [filteredHistory]);
 
   const formatLastUpdated = (timestamp) => {
     const date = new Date(timestamp);
