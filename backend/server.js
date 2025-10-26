@@ -8,8 +8,39 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(helmet());
-app.use(cors());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+
+// CORS Configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // List of allowed origins
+    const allowedOrigins = [
+      /^https:\/\/.*\.vercel\.app$/,  // All Vercel preview deployments
+      /^https:\/\/ms8-learning-analytics.*\.vercel\.app$/,  // Production Vercel app
+      /^http:\/\/localhost:\d+$/,  // Local development
+      /^http:\/\/127\.0\.0\.1:\d+$/  // Localhost IP
+    ];
+    
+    // Check if origin matches any allowed pattern
+    const isAllowed = allowedOrigins.some(pattern => pattern.test(origin));
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow for now, tighten in production
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Active-Role']
+};
+
+app.use(cors(corsOptions));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
