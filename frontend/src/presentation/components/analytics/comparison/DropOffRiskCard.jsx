@@ -44,11 +44,12 @@ const DropOffRiskCard = ({
   const chartData = useMemo(() => {
     if (!engagementPatterns || engagementPatterns.length === 0) return [];
     
-    return engagementPatterns.map((pattern, index) => ({
-      x: pattern.week || index,
+    const formattedData = engagementPatterns.map((pattern, index) => ({
       y: pattern.engagementScore || 0,
       label: pattern.week || `Week ${index + 1}`
     }));
+    
+    return formattedData;
   }, [engagementPatterns]);
 
   const handleRefresh = async () => {
