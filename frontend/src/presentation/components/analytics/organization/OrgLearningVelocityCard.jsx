@@ -32,13 +32,15 @@ export const OrgLearningVelocityCard = ({ organizationId, data: propData, isLoad
 
   // Use prop data if provided (for testing), otherwise use hook data
   console.log('🔍 OrgLearningVelocityCard - propData:', propData);
+  console.log('🔍 OrgLearningVelocityCard - hookResult:', hookResult);
   console.log('🔍 OrgLearningVelocityCard - hookResult?.data:', hookResult?.data);
-  const data = propData || hookResult?.data?.data;
+  const data = propData || (hookResult?.data?.data || hookResult?.data);
   console.log('🔍 OrgLearningVelocityCard - final data:', data);
   const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult?.isLoading;
   const error = propError || hookResult?.error;
 
   const getTrendColor = (trend) => {
+    if (!trend) return 'text-gray-600';
     if (trend.includes('up') || trend.includes('increase') || trend.includes('+')) return 'text-green-600';
     if (trend.includes('down') || trend.includes('decrease') || trend.includes('-')) return 'text-red-600';
     return 'text-gray-600';

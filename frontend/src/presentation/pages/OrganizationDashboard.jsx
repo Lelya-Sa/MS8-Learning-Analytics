@@ -46,7 +46,6 @@ const OrganizationDashboard = () => {
       // The API returns { data: {...}, cached: ..., ... }, so we extract the data property
       const data = response.data || response;
       console.log('📦 Extracted Analytics Data:', data);
-      console.log('📦 Learning Velocity Data:', data?.learningVelocity);
       return data;
     }
   );
@@ -104,7 +103,7 @@ const OrganizationDashboard = () => {
       <div className="space-y-8">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4 text-cyan-700 dark:text-cyan-400">
+          <h1 className="text-4xl font-bold mb-4 text-emerald-700 dark:text-emerald-400">
             🏢 Organization Dashboard
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400">
@@ -171,10 +170,10 @@ const OrganizationDashboard = () => {
               
               {/* AS-003 #13: Department Analytics - Placeholder */}
               <div ref={(el) => cardRefs.current[2] = el} style={{ width: '100%', flexShrink: 0 }}>
-                <div className="p-6 rounded-lg border-2 border-dashed bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
+                <div className="p-6 rounded-lg border-2 border-dashed bg-white dark:bg-gray-800 border-emerald-300 dark:border-emerald-600 hover:border-emerald-500 dark:hover:border-emerald-400 transition-colors">
                   <div className="text-center">
                     <div className="text-4xl mb-4">🏢</div>
-                    <h3 className="text-xl font-semibold mb-2 text-cyan-700 dark:text-cyan-400">
+                    <h3 className="text-xl font-semibold mb-2 text-emerald-700 dark:text-emerald-400">
                       Department Analytics
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -248,31 +247,31 @@ const OrganizationDashboard = () => {
 
         {/* Organization Overview Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
-          <div className="p-4 rounded-lg text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
-            <div className="text-2xl font-bold mb-1 text-cyan-700 dark:text-cyan-400">
+          <div className="p-4 rounded-lg text-center bg-white dark:bg-gray-800 border-2 border-emerald-200 dark:border-emerald-600 shadow-sm hover:border-emerald-500 dark:hover:border-emerald-400 transition-colors">
+            <div className="text-2xl font-bold mb-1 text-emerald-700 dark:text-emerald-400">
               1,247
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Total Learners
             </div>
           </div>
-          <div className="p-4 rounded-lg text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
-            <div className="text-2xl font-bold mb-1 text-amber-500 dark:text-amber-400">
+          <div className="p-4 rounded-lg text-center bg-white dark:bg-gray-800 border-2 border-emerald-200 dark:border-emerald-600 shadow-sm hover:border-emerald-500 dark:hover:border-emerald-400 transition-colors">
+            <div className="text-2xl font-bold mb-1 text-emerald-700 dark:text-emerald-400">
               89
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Active Trainers
             </div>
           </div>
-          <div className="p-4 rounded-lg text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
-            <div className="text-2xl font-bold mb-1 text-purple-600 dark:text-purple-400">
+          <div className="p-4 rounded-lg text-center bg-white dark:bg-gray-800 border-2 border-emerald-200 dark:border-emerald-600 shadow-sm hover:border-emerald-500 dark:hover:border-emerald-400 transition-colors">
+            <div className="text-2xl font-bold mb-1 text-emerald-700 dark:text-emerald-400">
               156
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Courses Available
             </div>
           </div>
-          <div className="p-4 rounded-lg text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
+          <div className="p-4 rounded-lg text-center bg-white dark:bg-gray-800 border-2 border-emerald-200 dark:border-emerald-600 shadow-sm hover:border-emerald-500 dark:hover:border-emerald-400 transition-colors">
             <div className="text-2xl font-bold mb-1 text-emerald-600 dark:text-emerald-400">
               92%
             </div>
@@ -284,20 +283,20 @@ const OrganizationDashboard = () => {
 
         {/* Quick Actions */}
         <div className="mt-12 text-center">
-          <h3 className="text-xl font-semibold mb-4 text-cyan-700 dark:text-cyan-400">
+          <h3 className="text-xl font-semibold mb-4 text-emerald-700 dark:text-emerald-400">
             Quick Actions
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="quick-action-btn analytics-btn">
+            <button className="quick-action-btn analytics-btn bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900 dark:hover:bg-emerald-800 border-2 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300">
               👤 User Management
             </button>
-            <button className="quick-action-btn report-btn">
+            <button className="quick-action-btn report-btn bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900 dark:hover:bg-emerald-800 border-2 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300">
               🏢 Department Analytics
             </button>
-            <button className="quick-action-btn achievements-btn">
+            <button className="quick-action-btn achievements-btn bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900 dark:hover:bg-emerald-800 border-2 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300">
               ⚙️ Organization Settings
             </button>
-            <button className="quick-action-btn analytics-btn">
+            <button className="quick-action-btn analytics-btn bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900 dark:hover:bg-emerald-800 border-2 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300">
               📊 Strategic Reports
             </button>
           </div>
