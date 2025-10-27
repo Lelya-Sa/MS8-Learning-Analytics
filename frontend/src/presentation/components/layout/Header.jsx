@@ -96,7 +96,12 @@ const Header = ({ onToggleSidebar, sidebarCollapsed, isMobile }) => {
     };
 
     // Get user's current role or default to first role
-    const currentRole = user.activeRole || user.role || (user.roles && user.roles[0]);
+    let currentRole = user.activeRole || user.role || (user.roles && user.roles[0]);
+    
+    // Normalize role variations (handle both 'org-admin' and 'org_admin')
+    if (currentRole === 'org-admin') {
+      currentRole = 'org_admin';
+    }
     
     // Add role-specific dashboard link
     const dashboardLink = roleDashboardLinks[currentRole];
