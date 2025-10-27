@@ -326,8 +326,8 @@ const PresentationPage = () => {
         <div className="demo-section">
           <div className="demo-nav">
             <Link to="/login" className="demo-button primary">
-              <span className="button-icon">🔐</span>
-              <span>Login to See Dashboards</span>
+              <span className="button-icon">🚀</span>
+              <span>Start Exploring</span>
             </Link>
           </div>
           
@@ -401,13 +401,6 @@ const PresentationPage = () => {
                 <h3>🔒 How Secure</h3>
                 <p>WCAG 2.2 AA compliant with K-anonymity and RBAC</p>
               </div>
-            </div>
-            <div className="contact-info">
-              <p><strong>Ready to explore?</strong> Try the demo dashboards!</p>
-              <Link to="/login" className="cta-button">
-                <span>Start Exploring</span>
-                <span className="cta-icon">→</span>
-              </Link>
             </div>
           </div>
         </div>
