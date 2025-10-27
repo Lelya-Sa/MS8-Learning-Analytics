@@ -11,8 +11,8 @@ const HomePage = () => {
   const { isDarkMode, toggleTheme } = useTheme()
 
   useEffect(() => {
-    // Apply theme class to body
-    document.body.className = isDarkMode ? 'night-mode' : 'day-mode'
+    // Apply theme class to body (both for CSS and Tailwind)
+    document.body.className = isDarkMode ? 'night-mode dark' : 'day-mode'
   }, [isDarkMode])
 
   return (

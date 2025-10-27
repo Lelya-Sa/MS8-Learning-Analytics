@@ -13,7 +13,8 @@ const PresentationPage = () => {
   const totalSlides = 8;
 
   useEffect(() => {
-    document.body.className = isDarkMode ? 'night-mode' : 'day-mode';
+    // Apply theme class to body (both for CSS and Tailwind)
+    document.body.className = isDarkMode ? 'night-mode dark' : 'day-mode';
   }, [isDarkMode]);
 
   const nextSlide = () => {
