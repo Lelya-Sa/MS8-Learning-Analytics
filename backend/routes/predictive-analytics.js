@@ -15,7 +15,7 @@ const router = express.Router();
  * GET /api/v1/predictive/drop-off-risk/:userId
  * Drop-off Risk Prediction
  */
-router.get('/drop-off-risk/:userId', authenticateToken, requireRole(['learner']), [
+router.get('/drop-off-risk/:userId', authenticateToken, requireRole(['learner', 'org_admin', 'org-admin']), [
     param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
 ], handleValidationErrors, async (req, res) => {
     try {
@@ -60,7 +60,7 @@ router.get('/drop-off-risk/:userId', authenticateToken, requireRole(['learner'])
  * GET /api/v1/predictive/forecast/:userId
  * Performance Forecast
  */
-router.get('/forecast/:userId', authenticateToken, requireRole(['learner']), [
+router.get('/forecast/:userId', authenticateToken, requireRole(['learner', 'org_admin', 'org-admin']), [
     param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
 ], handleValidationErrors, async (req, res) => {
     try {
@@ -104,7 +104,7 @@ router.get('/forecast/:userId', authenticateToken, requireRole(['learner']), [
  * GET /api/v1/predictive/recommendations/:userId
  * Personalized Recommendations
  */
-router.get('/recommendations/:userId', authenticateToken, requireRole(['learner']), [
+router.get('/recommendations/:userId', authenticateToken, requireRole(['learner', 'org_admin', 'org-admin']), [
     param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
 ], handleValidationErrors, async (req, res) => {
     try {

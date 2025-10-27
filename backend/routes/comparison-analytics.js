@@ -15,13 +15,13 @@ const router = express.Router();
  * GET /api/v1/comparison/peer/:userId
  * Peer Comparison Analytics
  */
-router.get('/peer/:userId', authenticateToken, requireRole(['learner']), [
+router.get('/peer/:userId', authenticateToken, requireRole(['learner', 'org_admin', 'org-admin']), [
     param('userId').matches(validationRules.userId.matches).withMessage(validationRules.userId.message)
 ], handleValidationErrors, async (req, res) => {
     try {
         const { userId } = req.params;
         
-        if (req.user.userId !== userId && !req.user.roles.includes('org_admin')) {
+        if (req.user.userId !== userId && !req.user.roles.includes('org_admin') && req.user.role !== 'org-admin') {
             return res.status(403).json({
                 error: 'Access denied',
                 code: 'ACCESS_DENIED'
