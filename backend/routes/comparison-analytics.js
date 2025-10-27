@@ -61,8 +61,9 @@ router.get('/skill-demand', authenticateToken, requireRole(['learner', 'trainer'
 ], handleValidationErrors, async (req, res) => {
     try {
         const { skills, timeframe } = req.query;
+        const userId = req.user.userId; // Get userId from authenticated user
         
-        const analytics = comparisonAnalyticsService.getSkillDemand(skills, timeframe);
+        const analytics = comparisonAnalyticsService.getSkillDemand(skills, timeframe, userId);
         if (!analytics) {
             return res.status(404).json({
                 error: 'Analytics not found',

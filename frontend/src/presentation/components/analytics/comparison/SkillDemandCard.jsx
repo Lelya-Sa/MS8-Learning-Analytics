@@ -43,7 +43,7 @@ const SkillDemandCard = ({
   };
 
   const handleChartTypeChange = (event) => {
-    setChartType(event.target.value);
+    setViewType(event.target.value);
   };
 
   if (isLoading) {
@@ -81,7 +81,8 @@ const SkillDemandCard = ({
     );
   }
 
-  const demandData = data?.formattedData || data;
+  // Extract data from API response: { data: {...}, cached: true, ... }
+  const demandData = data?.data || data?.formattedData || data;
   if (!demandData) {
     return (
       <Card className="skill-demand-card">
@@ -96,28 +97,24 @@ const SkillDemandCard = ({
     );
   }
 
-  const { marketTrends, skillRecommendations, growthProjections, userSkillAlignment } = demandData;
-
-  // Prepare chart data for skill demand trends
-  const chartData = {
-    labels: marketTrends?.map(trend => trend.skill) || [],
-    datasets: [
-      {
-        label: 'Current Demand',
-        data: marketTrends?.map(trend => trend.currentDemand) || [],
-        backgroundColor: 'rgba(34, 197, 94, 0.8)',
-        borderColor: 'rgba(34, 197, 94, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Projected Growth',
-        data: marketTrends?.map(trend => trend.projectedGrowth) || [],
-        backgroundColor: 'rgba(59, 130, 246, 0.8)',
-        borderColor: 'rgba(59, 130, 246, 1)',
-        borderWidth: 1,
-      },
-    ],
+  // Extract data from backend structure
+  const { skillDemand, marketInsights, industryTrends } = demandData;
+  
+  // Map backend data to frontend expected structure
+  const marketTrends = skillDemand || [];
+  const userSkillAlignment = {
+    overallAlignment: marketTrends.length > 0 ? Math.round(marketTrends[0].demandScore * 100) : 0,
+    trend: marketTrends.length > 0 ? Math.round(marketTrends[0].trendPercentage || 0) : 0,
+    marketScore: marketTrends.length > 0 ? Math.round(marketTrends[0].demandScore * 100) : 0
   };
+  const trendData = marketTrends || [];
+
+  // Prepare chart data - transform to array format expected by custom BarChart
+  const chartData = marketTrends.map((trend, index) => ({
+    x: index,
+    y: Math.round((trend.demandScore || 0) * 100), // Convert to percentage
+    label: trend.skillName || `Skill ${index + 1}`
+  }));
 
   return (
     <Card className="skill-demand-card" role="region" aria-label="Skill demand analytics">
@@ -146,13 +143,13 @@ const SkillDemandCard = ({
           <div className="metrics-grid">
             <StatCard
               label="High Demand Skills"
-              value={marketTrends?.filter(trend => trend.currentDemand > 80).length || 0}
+              value={marketTrends?.filter(trend => (trend.demandScore || 0) > 0.8).length || 0}
               bgColor="bg-green-50"
               textColor="text-green-700"
             />
             <StatCard
               label="Growing Skills"
-              value={marketTrends?.filter(trend => trend.projectedGrowth > 15).length || 0}
+              value={marketTrends?.filter(trend => (trend.trendPercentage || 0) > 15).length || 0}
               bgColor="bg-blue-50"
               textColor="text-blue-700"
             />
@@ -195,23 +192,27 @@ const SkillDemandCard = ({
           </div>
           
           <div className="chart-container">
-            {viewType === 'bar' ? (
+            {chartData.length === 0 ? (
+              <div className="no-data">No chart data available</div>
+            ) : viewType === 'bar' ? (
               <BarChart
                 data={chartData}
-                ariaLabel="Skill demand trends analysis"
+                title="Skill demand trends analysis"
               />
             ) : viewType === 'table' ? (
               <DataTable 
-                data={trendData || []}
+                data={marketTrends || []}
                 columns={[
-                  { key: 'skill', label: 'Skill', render: (val) => val || '-' },
-                  { key: 'demand', label: 'Demand', render: (val) => val || 0 }
+                  { key: 'skillName', label: 'Skill', render: (val) => val || '-' },
+                  { key: 'demandScore', label: 'Demand', render: (val) => `${Math.round((val || 0) * 100)}%` },
+                  { key: 'trend', label: 'Trend', render: (val) => val || '-' },
+                  { key: 'trendPercentage', label: 'Growth', render: (val) => val ? `${val > 0 ? '+' : ''}${val.toFixed(1)}%` : 'N/A' }
                 ]}
               />
             ) : (
               <LineChart
                 data={chartData}
-                ariaLabel="Skill demand trends analysis"
+                title="Skill demand trends analysis"
               />
             )}
           </div>
@@ -222,24 +223,26 @@ const SkillDemandCard = ({
               <thead>
                 <tr>
                   <th>Skill</th>
-                  <th>Current Demand</th>
-                  <th>Projected Growth</th>
-                  <th>Your Level</th>
-                  <th>Recommendation</th>
+                  <th>Demand Score</th>
+                  <th>Trend</th>
+                  <th>Growth</th>
+                  <th>Job Postings</th>
+                  <th>Avg Salary</th>
                 </tr>
               </thead>
               <tbody>
-                {marketTrends?.map((trend, index) => (
+                {marketTrends?.map((skill, index) => (
                   <tr key={index}>
-                    <td>{trend.skill}</td>
-                    <td>{trend.currentDemand}%</td>
-                    <td>{trend.projectedGrowth}%</td>
-                    <td>{trend.userLevel || 'Beginner'}</td>
+                    <td>{skill.skillName}</td>
+                    <td>{Math.round((skill.demandScore || 0) * 100)}%</td>
                     <td>
-                      <span className={`recommendation-badge ${trend.recommendation === 'Learn' ? 'learn' : trend.recommendation === 'Improve' ? 'improve' : 'maintain'}`}>
-                        {trend.recommendation}
+                      <span className={`trend-badge ${skill.trend}`}>
+                        {skill.trend}
                       </span>
                     </td>
+                    <td>{skill.trendPercentage ? `${skill.trendPercentage > 0 ? '+' : ''}${skill.trendPercentage.toFixed(1)}%` : 'N/A'}</td>
+                    <td>{skill.jobPostings || 0}</td>
+                    <td>${skill.averageSalary?.toLocaleString() || 'N/A'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -247,56 +250,20 @@ const SkillDemandCard = ({
           </div>
         </div>
 
-        {/* Skill Recommendations */}
-        {skillRecommendations && skillRecommendations.length > 0 && (
+        {/* Market Insights */}
+        {marketInsights && marketInsights.length > 0 && (
           <div className="recommendations">
-            <h4>Personalized Recommendations</h4>
-            <div className="recommendations-grid">
-              {skillRecommendations.map((recommendation, index) => (
-                <div key={index} className="recommendation-card">
-                  <div className="recommendation-header">
-                    <h5>{recommendation.skill}</h5>
-                    <span className={`priority-badge ${recommendation.priority.toLowerCase()}`}>
-                      {recommendation.priority}
-                    </span>
-                  </div>
-                  <p className="recommendation-description">{recommendation.description}</p>
-                  <div className="recommendation-metrics">
-                    <span>Demand: {recommendation.demand}%</span>
-                    <span>Growth: {recommendation.growth}%</span>
-                    <span>ROI: {recommendation.roi}</span>
-                  </div>
-                </div>
+            <h4>Market Insights</h4>
+            <ul className="insights-list">
+              {marketInsights.map((insight, index) => (
+                <li key={index} className="insight-item">
+                  <strong>{insight.priority || 'Medium'} Priority:</strong> {insight.insight}
+                  {insight.recommendation && (
+                    <span className="recommendation"> → {insight.recommendation}</span>
+                  )}
+                </li>
               ))}
-            </div>
-          </div>
-        )}
-
-        {/* Growth Projections */}
-        {growthProjections && (
-          <div className="growth-projections">
-            <h4>Growth Projections</h4>
-            <div className="projections-grid">
-              {Object.entries(growthProjections).map(([timeframe, projection]) => (
-                <div key={timeframe} className="projection-card">
-                  <h5>{timeframe}</h5>
-                  <div className="projection-metrics">
-                    <div className="metric">
-                      <span className="metric-label">Market Growth</span>
-                      <span className="metric-value">{projection.marketGrowth}%</span>
-                    </div>
-                    <div className="metric">
-                      <span className="metric-label">Skill Gap</span>
-                      <span className="metric-value">{projection.skillGap}%</span>
-                    </div>
-                    <div className="metric">
-                      <span className="metric-label">Opportunity</span>
-                      <span className="metric-value">{projection.opportunity}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            </ul>
           </div>
         )}
       </div>

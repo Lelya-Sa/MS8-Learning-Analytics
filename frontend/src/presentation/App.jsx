@@ -4,6 +4,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import { Layout } from './components/layout/Layout'
 import ErrorBoundary from './components/common/ErrorBoundary'
 import HomePage from './pages/HomePage'
+import PresentationPage from './pages/PresentationPage'
 import { LoginPage } from './pages/LoginPage'
 import ReportsPage from './pages/ReportsPage'
 import LearnerDashboard from './pages/LearnerDashboard'
@@ -50,6 +51,12 @@ function App() {
         <Route 
           path="/" 
           element={<HomePage />} 
+        />
+        
+        {/* Presentation Page - Project Presentation for Meeting */}
+        <Route 
+          path="/presentation" 
+          element={<PresentationPage />} 
         />
         
         {/* Authentication Page - Login with Multi-Role Support */}

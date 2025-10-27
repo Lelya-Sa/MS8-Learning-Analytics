@@ -12,8 +12,9 @@
 @import './presentation/assets/css/dashboard-layout.css';
 @import './presentation/assets/css/multi-role-dashboard.css';
 @import './presentation/assets/css/pages-common.css';
-@import './presentation/assets/css/reports-page.css';
+@import './presentation/assets/css/reports.css';
 @import './presentation/assets/css/analytics-cards.css';
+@import './presentation/assets/css/presentation.css';
 
 /* Step 3: Import Tailwind directives - Tailwind will use theme.css variables via tailwind.config.js */
 @tailwind base;

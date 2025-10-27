@@ -546,9 +546,17 @@ body {
 /* Microservices Section */
 .microservices-section {
     padding: var(--spacing-2xl) var(--spacing-lg);
-    background: var(--bg-primary);
+    background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 50%, #ecfdf5 100%);
     position: relative;
     overflow: hidden;
+    margin-bottom: 2rem;
+    border-radius: 0.75rem;
+    display: flex;
+    justify-content: center;
+}
+
+.night-mode .microservices-section {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #0f172a 100%);
 }
 
 .microservices-section::before {
@@ -557,8 +565,8 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--primary-cyan), transparent);
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #10b981, transparent);
 }
 
 .microservices-section::after {
@@ -576,6 +584,9 @@ body {
 .microservices-container {
     max-width: 1200px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .microservices-grid {
@@ -586,15 +597,22 @@ body {
 }
 
 .microservice-card {
-    background: var(--gradient-card);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+    border: 3px solid #10b981;
+    border-radius: 0.75rem;
     padding: var(--spacing-lg);
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
+
+.night-mode .microservice-card {
+    background: linear-gradient(135deg, #1f2937 0%, rgba(16, 185, 129, 0.1) 100%);
+    border-color: #10b981;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .microservice-card::before {
@@ -614,8 +632,8 @@ body {
 
 .microservice-card:hover {
     transform: translateY(-8px) scale(1.02);
-    border-color: var(--primary-cyan);
-    box-shadow: 0 20px 40px rgba(8, 145, 178, 0.3);
+    border-color: #34d399;
+    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
 }
 
 .service-icon {
@@ -661,9 +679,17 @@ body {
 /* User Type Selection */
 .user-types {
     padding: var(--spacing-2xl) var(--spacing-lg);
-    background: var(--bg-secondary);
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 50%, #ffffff 100%);
     position: relative;
     overflow: hidden;
+    margin-bottom: 2rem;
+    border-radius: 0.75rem;
+    display: flex;
+    justify-content: center;
+}
+
+.night-mode .user-types {
+    background: linear-gradient(135deg, #1f2937 0%, rgba(16, 185, 129, 0.05) 50%, #1f2937 100%);
 }
 
 .user-types::before {
@@ -693,6 +719,9 @@ body {
 .user-types-container {
     max-width: 1200px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .section-title {
@@ -715,29 +744,53 @@ body {
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
+    width: 80px;
     height: 3px;
-    background: var(--gradient-primary);
+    background: linear-gradient(90deg, transparent, #10b981, transparent);
     border-radius: 2px;
 }
 
 .user-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
     margin-top: var(--spacing-xl);
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Ensure user cards in all sections are properly organized and centered */
+.microservices-section .user-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
 }
 
 .user-card {
-    background: var(--bg-tertiary);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: var(--spacing-xl);
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+    border: 3px solid #10b981;
+    border-radius: 0.75rem;
+    padding: 2rem;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 400px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.night-mode .user-card {
+    background: linear-gradient(135deg, #1f2937 0%, rgba(16, 185, 129, 0.1) 100%);
+    border-color: #10b981;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .user-card::before {
@@ -757,8 +810,8 @@ body {
 
 .user-card:hover {
     transform: translateY(-12px) scale(1.03);
-    border-color: var(--primary-cyan);
-    box-shadow: 0 25px 50px rgba(6, 182, 212, 0.3);
+    border-color: #34d399;
+    box-shadow: 0 25px 50px rgba(16, 185, 129, 0.3);
 }
 
 .user-icon {
@@ -801,33 +854,60 @@ body {
 
 .user-title {
     font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #047857;
+    text-align: center;
+}
+
+.night-mode .user-title {
+    color: #10b981;
 }
 
 .user-description {
     color: var(--text-secondary);
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.6;
+    font-size: 0.95rem;
 }
 
 .user-features {
     list-style: none;
     text-align: left;
+    margin: 1.5rem 0;
+    padding: 0;
+    width: 100%;
 }
 
 .user-features li {
     color: var(--text-muted);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 0.75rem;
     display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
+    align-items: start;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-left: 3px solid transparent;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+.user-features li:hover {
+    background: rgba(16, 185, 129, 0.05);
+    border-left-color: #10b981;
+    transform: translateX(4px);
+}
+
+.night-mode .user-features li:hover {
+    background: rgba(16, 185, 129, 0.1);
 }
 
 .user-features li::before {
     content: '✓';
-    color: var(--accent-green);
+    color: #10b981;
     font-weight: bold;
+    font-size: 1.25rem;
+    flex-shrink: 0;
 }
 
 /* Contextual Chatbot Integration */
@@ -1160,6 +1240,7 @@ body {
     
     .user-cards {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
     
     .hero-stats {
@@ -1185,6 +1266,7 @@ body {
     
     .user-cards {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
     
     .nav-links {
@@ -1249,6 +1331,11 @@ body {
     
     .user-cards {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .user-card {
+        max-width: 100%;
     }
     
     .nav-links {

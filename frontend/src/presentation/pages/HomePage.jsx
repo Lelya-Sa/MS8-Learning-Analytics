@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../../application/state/ThemeContext'
+import logoDaySrc from '../assets/img/logo_day.jpg'
+import logoNightSrc from '../assets/img/logo_night.jpg'
+
+// Fallback emoji icon
+const emojiIcon = '📊'
 
 const HomePage = () => {
   const { isDarkMode, toggleTheme } = useTheme()
@@ -40,7 +45,21 @@ const HomePage = () => {
               className="logo"
               aria-label="MS8 Learning Analytics Home"
             >
-              <span className="logo-icon">📊</span>
+              <img 
+                src={isDarkMode ? logoNightSrc : logoDaySrc}
+                alt="MS8 Learning Analytics Logo"
+                className={`logo-icon ${isDarkMode ? 'logo-night' : 'logo-day'}`}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  const backupIcon = e.target.nextElementSibling;
+                  if (backupIcon && backupIcon.classList.contains('emoji-icon')) {
+                    backupIcon.style.display = 'flex';
+                  }
+                }}
+              />
+              <div className={`logo-icon emoji-icon backup-icon ${isDarkMode ? 'logo-night' : 'logo-day'}`} style={{display: 'none'}}>
+                {emojiIcon}
+              </div>
               <h1>MS8 Learning Analytics</h1>
             </Link>
           </div>
@@ -58,12 +77,6 @@ const HomePage = () => {
                   <a href="#analytics" className="nav-link">
                     <span className="nav-icon">📈</span>
                     <span className="nav-label">Analytics</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#microservices" className="nav-link">
-                    <span className="nav-icon">⚡</span>
-                    <span className="nav-label">Architecture</span>
                   </a>
                 </li>
                 <li>
@@ -102,7 +115,7 @@ const HomePage = () => {
           <div className="hero-content">
             <h1>MS8 Learning Analytics Microservice</h1>
             <p className="subtitle">
-              Comprehensive learning analytics platform with 19 analytics across 3 user roles, powered by Full-Stack Onion Architecture and 9 integrated microservices
+              Comprehensive learning analytics platform with 19 analytics across 3 user roles, advanced performance optimization, and beautiful emerald theme
             </p>
 
             <div className="hero-stats">
@@ -131,6 +144,9 @@ const HomePage = () => {
               <a href="#features" className="btn btn-secondary">
                 Learn More
               </a>
+              <Link to="/presentation" className="btn btn-secondary" style={{borderColor: '#10b981', color: '#10b981'}}>
+                📊 View Presentation
+              </Link>
             </div>
           </div>
 
@@ -233,108 +249,6 @@ const HomePage = () => {
                 <li>📈 Platform Skill Demand Analytics</li>
                 <li>👥 Peer Comparison (Privacy-Preserved)</li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Architecture Highlights Section */}
-      <section id="architecture" className="user-types">
-        <div className="user-types-container">
-          <h2 className="section-title">Full-Stack Onion Architecture</h2>
-          <p className="text-center text-xl max-w-3xl mx-auto text-secondary mb-16">
-            Modern architecture with Dark Emerald theme, 3-layer caching, and performance optimization
-          </p>
-
-          <div className="user-cards">
-            <div className="user-card">
-              <div className="user-icon">🏗️</div>
-              <h3 className="user-title">Onion Architecture</h3>
-              <p className="user-description">Domain → Application → Infrastructure → Presentation layers with dependency inversion</p>
-            </div>
-
-            <div className="user-card">
-              <div className="user-icon">🎨</div>
-              <h3 className="user-title">Dark Emerald Theme</h3>
-              <p className="user-description">WCAG 2.2 AA compliant with day/night mode toggle and accessibility features</p>
-            </div>
-
-            <div className="user-card">
-              <div className="user-icon">⚡</div>
-              <h3 className="user-title">Performance Optimized</h3>
-              <p className="user-description">3-layer caching, 6h staleness check, batch processing, and &lt;2.5s load times</p>
-            </div>
-
-            <div className="user-card">
-              <div className="user-icon">🔐</div>
-              <h3 className="user-title">Security First</h3>
-              <p className="user-description">JWT authentication, RBAC authorization, K-anonymity, and 6-layer security</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Microservices Section */}
-      <section id="microservices" className="microservices-section">
-        <div className="microservices-container">
-          <h2 className="section-title">9 Integrated Microservices</h2>
-          <p className="text-center text-xl max-w-3xl mx-auto text-secondary mb-16">
-            Distributed architecture with circuit breakers, mock fallbacks, and seamless integration
-          </p>
-
-          <div className="microservices-grid">
-            <div className="microservice-card">
-              <div className="service-icon">🔐</div>
-              <h3>Auth (MS12)</h3>
-              <p>JWT authentication and authorization</p>
-            </div>
-
-            <div className="microservice-card">
-              <div className="service-icon">📁</div>
-              <h3>Directory</h3>
-              <p>Users, organizations, KPIs, login logs</p>
-            </div>
-
-            <div className="microservice-card">
-              <div className="service-icon">📚</div>
-              <h3>Course Builder</h3>
-              <p>Courses, enrollment, progress tracking</p>
-            </div>
-
-            <div className="microservice-card">
-              <div className="service-icon">🎨</div>
-              <h3>Content Studio</h3>
-              <p>Content metadata and creation methods</p>
-            </div>
-
-            <div className="microservice-card">
-              <div className="service-icon">✅</div>
-              <h3>Assessment</h3>
-              <p>Test scores, grades, skill acquisition</p>
-            </div>
-
-            <div className="microservice-card">
-              <div className="service-icon">🎯</div>
-              <h3>Skills Engine</h3>
-              <p>Skills, competencies, levels, targets</p>
-            </div>
-
-            <div className="microservice-card">
-              <div className="service-icon">🤖</div>
-              <h3>Learner AI</h3>
-              <p>Learning paths and recommendations</p>
-            </div>
-
-            <div className="microservice-card">
-              <div className="service-icon">💻</div>
-              <h3>DevLab</h3>
-              <p>Practice sessions and mastery completion</p>
-            </div>
-
-            <div className="microservice-card">
-              <div className="service-icon">💬</div>
-              <h3>RAG Assistant (MS9)</h3>
-              <p>AI-powered chatbot and assistance</p>
             </div>
           </div>
         </div>

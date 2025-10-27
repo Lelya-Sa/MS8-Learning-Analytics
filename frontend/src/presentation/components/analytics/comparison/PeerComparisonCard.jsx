@@ -43,7 +43,7 @@ const PeerComparisonCard = ({
   };
 
   const handleChartTypeChange = (event) => {
-    setChartType(event.target.value);
+    setViewType(event.target.value);
   };
 
   if (isLoading) {
@@ -81,7 +81,8 @@ const PeerComparisonCard = ({
     );
   }
 
-  const peerData = data?.formattedData || data;
+  // Extract data from API response: { data: {...}, cached: true, ... }
+  const peerData = data?.data || data?.formattedData || data;
   if (!peerData) {
     return (
       <Card className="peer-comparison-card">
@@ -96,28 +97,40 @@ const PeerComparisonCard = ({
     );
   }
 
-  const { userPerformance, peerComparison, skillBreakdown, recommendations } = peerData;
-
-  // Prepare chart data
-  const chartData = {
-    labels: skillBreakdown?.map(skill => skill.skill) || [],
-    datasets: [
-      {
-        label: 'Your Score',
-        data: skillBreakdown?.map(skill => skill.userScore) || [],
-        backgroundColor: 'rgba(34, 197, 94, 0.8)',
-        borderColor: 'rgba(34, 197, 94, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Peer Average',
-        data: skillBreakdown?.map(skill => skill.peerAverage) || [],
-        backgroundColor: 'rgba(59, 130, 246, 0.8)',
-        borderColor: 'rgba(59, 130, 246, 1)',
-        borderWidth: 1,
-      },
-    ],
+  // Transform backend data structure to match frontend expectations
+  const transformedData = {
+    userPerformance: {
+      score: peerData.userRanking?.percentile || 0,
+      change: 5 // Mock value, could be calculated from trend
+    },
+    peerComparison: {
+      averageScore: peerData.skillComparisons?.[0]?.peerAverage ? 
+        Math.round(peerData.skillComparisons[0].peerAverage * 100) : 0,
+      topPerformerScore: 95, // Mock top performer value
+      userRank: peerData.userRanking?.overall || 0,
+      totalPeers: peerData.userRanking?.totalPeers || 0
+    },
+    skillBreakdown: (peerData.skillComparisons || []).map(skill => ({
+      skill: skill.skillName,
+      skillName: skill.skillName,
+      userScore: Math.round((skill.userLevel || 0) * 100), // Convert to percentage
+      userLevel: skill.userLevel, // Keep original for reference
+      peerAverage: skill.peerAverage,
+      peerMedian: skill.peerMedian,
+      ranking: skill.ranking,
+      percentile: skill.percentile
+    })),
+    recommendations: peerData.recommendations || []
   };
+
+  const { userPerformance, peerComparison, skillBreakdown, recommendations } = transformedData;
+
+  // Prepare chart data - transform to array format expected by custom BarChart
+  const chartData = (skillBreakdown || []).map((skill, index) => ({
+    x: index,
+    y: skill.userScore || 0,
+    label: skill.skill || skill.skillName || `Skill ${index + 1}`
+  }));
 
   return (
     <Card className="peer-comparison-card" role="region" aria-label="Peer comparison analytics">
@@ -184,10 +197,12 @@ const PeerComparisonCard = ({
           </div>
           
           <div className="chart-container">
-            {viewType === 'bar' ? (
+            {chartData.length === 0 ? (
+              <div className="no-data">No chart data available</div>
+            ) : viewType === 'bar' ? (
               <BarChart
                 data={chartData}
-                ariaLabel="Peer comparison skill breakdown"
+                title="Peer comparison skill breakdown"
               />
             ) : viewType === 'table' ? (
               <DataTable 
@@ -200,7 +215,7 @@ const PeerComparisonCard = ({
             ) : (
               <LineChart
                 data={chartData}
-                ariaLabel="Peer comparison skill breakdown"
+                title="Peer comparison skill breakdown"
               />
             )}
           </div>
@@ -220,8 +235,8 @@ const PeerComparisonCard = ({
                 {skillBreakdown?.map((skill, index) => (
                   <tr key={index}>
                     <td>{skill.skill}</td>
-                    <td>{skill.userScore}</td>
-                    <td>{skill.peerAverage}</td>
+                    <td>{skill.userScore}%</td>
+                    <td>{Math.round((skill.peerAverage || 0) * 100)}%</td>
                     <td>{skill.percentile}th</td>
                   </tr>
                 ))}
@@ -237,7 +252,7 @@ const PeerComparisonCard = ({
             <ul className="recommendations-list">
               {recommendations.map((recommendation, index) => (
                 <li key={index} className="recommendation-item">
-                  {recommendation}
+                  <strong>{recommendation.skillName || recommendation.action}:</strong> {recommendation.expectedImpact}
                 </li>
               ))}
             </ul>

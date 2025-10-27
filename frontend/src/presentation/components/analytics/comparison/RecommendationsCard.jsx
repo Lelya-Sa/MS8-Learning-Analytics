@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import Card from '../../common/Card';
-import BarChart from '../../charts/BarChart';
+import { BarChart } from '../../charts/BarChart';
 import Button from '../../common/Button';
 import Spinner from '../../common/Spinner';
 import StatCard from '../../common/StatCard';
@@ -84,7 +84,8 @@ const RecommendationsCard = ({
     );
   }
 
-  const recommendationsData = data?.formattedData || data;
+  // Extract data from API response: { data: {...}, cached: true, ... }
+  const recommendationsData = data?.data || data?.formattedData || data;
   if (!recommendationsData) {
     return (
       <Card className="recommendations-card">
@@ -106,31 +107,12 @@ const RecommendationsCard = ({
     ? recommendations 
     : recommendations?.filter(rec => rec.category === selectedCategory);
 
-  // Prepare chart data for recommendation categories
-  const chartData = {
-    labels: categories?.map(cat => cat.name) || [],
-    datasets: [
-      {
-        label: 'Recommendations Count',
-        data: categories?.map(cat => cat.count) || [],
-        backgroundColor: [
-          'rgba(34, 197, 94, 0.8)',
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(168, 85, 247, 0.8)',
-          'rgba(245, 158, 11, 0.8)',
-          'rgba(239, 68, 68, 0.8)',
-        ],
-        borderColor: [
-          'rgba(34, 197, 94, 1)',
-          'rgba(59, 130, 246, 1)',
-          'rgba(168, 85, 247, 1)',
-          'rgba(245, 158, 11, 1)',
-          'rgba(239, 68, 68, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+  // Prepare chart data - transform to array format expected by custom BarChart
+  const chartData = (categories || []).map((cat, index) => ({
+    x: index,
+    y: cat.count || 0,
+    label: cat.name || `Category ${index + 1}`
+  }));
 
   return (
     <Card className="recommendations-card" role="region" aria-label="AI recommendations analytics">
@@ -219,10 +201,14 @@ const RecommendationsCard = ({
           </div>
           
           <div className="chart-container">
-            <BarChart
-              data={chartData}
-              ariaLabel="Recommendations distribution by category"
-            />
+            {chartData.length === 0 ? (
+              <div className="no-data">No chart data available</div>
+            ) : (
+              <BarChart
+                data={chartData}
+                title="Recommendations distribution by category"
+              />
+            )}
           </div>
         </div>
 

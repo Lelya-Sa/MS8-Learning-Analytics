@@ -51,7 +51,7 @@ export const CourseHealthCard = ({ data, isLoading, error, onRetry, className = 
       <div className={`course-health-card ${className}`} data-testid="course-health-card">
         <div className="card-content">
           <Spinner data-testid="loading-spinner" />
-          <p className="text-center text-gray-500 mt-4">Loading course health data...</p>
+          <p className="text-center text-gray-700 dark:text-gray-300 mt-4">Loading course health data...</p>
         </div>
       </div>
     );
@@ -83,7 +83,7 @@ export const CourseHealthCard = ({ data, isLoading, error, onRetry, className = 
     return (
       <div className={`course-health-card ${className}`} data-testid="course-health-card">
         <div className="card-content">
-          <div className="text-center text-gray-500">
+          <div className="text-center text-gray-700 dark:text-gray-300">
             <span className="text-4xl">📊</span>
             <p className="mt-2">No course health data available</p>
           </div>
@@ -103,13 +103,13 @@ export const CourseHealthCard = ({ data, isLoading, error, onRetry, className = 
 
       <div className="card-content space-y-6">
         {/* Header */}
-        <div className="course-header">
-          <h4 className="text-xl font-bold text-gray-900">{data.courseName}</h4>
+          <div className="course-header">
+          <h4 className="text-xl font-bold text-gray-900 dark:text-white">{data.courseName}</h4>
           <div className="flex items-center mt-2 space-x-4">
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${getHealthColor(data.healthScore)}`}>
               {data.overallHealth?.toUpperCase() || 'UNKNOWN'}
             </span>
-            <span className="text-gray-600">
+            <span className="text-gray-700 dark:text-gray-300">
               Health Score: <span className={`font-bold ${getHealthScoreClass(data.healthScore)}`}>{data.healthScore}</span>/100
             </span>
           </div>
@@ -150,23 +150,23 @@ export const CourseHealthCard = ({ data, isLoading, error, onRetry, className = 
             <div className="satisfaction-grid grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="text-center bg-purple-50 rounded-lg p-4">
                 <div className="text-3xl font-bold text-purple-600">{data.metrics.satisfaction.averageRating}</div>
-                <div className="text-sm text-gray-600 mt-1">Average Rating</div>
+                <div className="text-sm text-emerald-700 dark:text-emerald-400 mt-1">Average Rating</div>
               </div>
               <div className="text-center bg-blue-50 rounded-lg p-4">
                 <div className="text-3xl font-bold text-blue-600">{data.metrics.satisfaction.totalReviews}</div>
-                <div className="text-sm text-gray-600 mt-1">Total Reviews</div>
+                <div className="text-sm text-emerald-700 dark:text-emerald-400 mt-1">Total Reviews</div>
               </div>
               <div className="text-center bg-green-50 rounded-lg p-4">
                 <div className="text-3xl font-bold text-green-600">{data.metrics.satisfaction.nps}</div>
-                <div className="text-sm text-gray-600 mt-1">NPS Score</div>
+                <div className="text-sm text-emerald-700 dark:text-emerald-400 mt-1">NPS Score</div>
               </div>
               <div className="text-center bg-pink-50 rounded-lg p-4">
                 <div className="text-3xl font-bold text-pink-600">{data.metrics.satisfaction.satisfactionScore}</div>
-                <div className="text-sm text-gray-600 mt-1">Satisfaction Score</div>
+                <div className="text-sm text-emerald-700 dark:text-emerald-400 mt-1">Satisfaction Score</div>
               </div>
             </div>
             {data.metrics.satisfaction.ratingTrend && (
-              <div className="mt-4 text-center text-sm text-gray-600">
+              <div className="mt-4 text-center text-sm text-emerald-700 dark:text-emerald-400">
                 {data.metrics.satisfaction.ratingTrend}
               </div>
             )}
@@ -179,7 +179,7 @@ export const CourseHealthCard = ({ data, isLoading, error, onRetry, className = 
             <h4>Drop-off Analysis</h4>
             <div className="dropoff-summary mb-4">
               <div className="text-2xl font-bold text-orange-600">{data.dropOffAnalysis.overallDropOffRate}%</div>
-              <div className="text-sm text-gray-600">Overall Drop-off Rate</div>
+              <div className="text-sm text-emerald-700 dark:text-emerald-400">Overall Drop-off Rate</div>
             </div>
             
             <div className="dropoff-points space-y-4">
@@ -203,7 +203,7 @@ export const CourseHealthCard = ({ data, isLoading, error, onRetry, className = 
                         </span>
                         <h5 className="font-semibold text-gray-900">{dropOff.moduleName}</h5>
                       </div>
-                      <div className="mt-2 text-sm text-gray-600">
+                      <div className="mt-2 text-sm text-emerald-700 dark:text-emerald-400">
                         <span className="font-medium text-red-600">{dropOff.dropOffRate}%</span> drop-off rate •{' '}
                         <span className="font-medium">{dropOff.studentsDropped}</span> students dropped
                       </div>
@@ -330,7 +330,7 @@ export const CourseHealthCard = ({ data, isLoading, error, onRetry, className = 
           </div>
         )}
 
-        <div className="last-updated text-sm text-gray-500 mt-6 text-right">
+        <div className="last-updated text-sm text-emerald-700 dark:text-emerald-400 mt-6 text-right">
           <span className="updated-label">Last updated:</span>{' '}
           <span className="updated-time">
             {data.lastUpdated ? new Date(data.lastUpdated).toLocaleDateString() : 'Unknown'}

@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../application/state/AuthContext';
 import { useTheme } from '../../../application/state/ThemeContext';
+import logoDaySrc from '../../assets/img/logo_day.jpg';
+import logoNightSrc from '../../assets/img/logo_night.jpg';
+
+// Fallback emoji icon
+const emojiIcon = '📊';
 
 /**
  * Header component for the application
@@ -117,7 +122,21 @@ const Header = ({ onToggleSidebar, sidebarCollapsed, isMobile }) => {
         {/* Left Section - Logo */}
         <div className="header-left">
           <div className="logo" data-testid="logo">
-            <div className="logo-icon">📊</div>
+            <img 
+              src={isDarkMode ? logoNightSrc : logoDaySrc}
+              alt="MS8 Learning Analytics Logo"
+              className={`logo-icon ${isDarkMode ? 'logo-night' : 'logo-day'}`}
+              onError={(e) => {
+                e.target.style.display = 'none';
+                const backupIcon = e.target.nextElementSibling;
+                if (backupIcon && backupIcon.classList.contains('emoji-icon')) {
+                  backupIcon.style.display = 'flex';
+                }
+              }}
+            />
+            <div className={`logo-icon emoji-icon backup-icon ${isDarkMode ? 'logo-night' : 'logo-day'}`} style={{display: 'none'}}>
+              {emojiIcon}
+            </div>
             <h1>MS8 Learning Analytics</h1>
           </div>
         </div>

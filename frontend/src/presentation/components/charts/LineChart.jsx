@@ -254,27 +254,31 @@ export const LineChart = ({
             </g>
           )}
 
-          {/* Area under line */}
-          <g clipPath="url(#chartClip)">
-            <path
-              d={`${pathData} L ${margin.left + chartDimensions.chartWidth} ${margin.top + chartDimensions.chartHeight} L ${margin.left} ${margin.top + chartDimensions.chartHeight} Z`}
-              fill="url(#lineGradient)"
-              opacity="0.5"
-            />
-          </g>
+          {/* Area under line - only render if pathData exists */}
+          {pathData && (
+            <g clipPath="url(#chartClip)">
+              <path
+                d={`${pathData} L ${margin.left + chartDimensions.chartWidth} ${margin.top + chartDimensions.chartHeight} L ${margin.left} ${margin.top + chartDimensions.chartHeight} Z`}
+                fill="url(#lineGradient)"
+                opacity="0.5"
+              />
+            </g>
+          )}
 
-          {/* Line Path */}
-          <g clipPath="url(#chartClip)">
-            <path
-              d={pathData}
-              fill="none"
-              stroke={color}
-              strokeWidth={strokeWidth}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={animate ? 'animate-pulse' : ''}
-            />
-          </g>
+          {/* Line Path - only render if pathData exists */}
+          {pathData && (
+            <g clipPath="url(#chartClip)">
+              <path
+                d={pathData}
+                fill="none"
+                stroke={color}
+                strokeWidth={strokeWidth}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={animate ? 'animate-pulse' : ''}
+              />
+            </g>
+          )}
 
           {/* Data Points */}
           {showPoints && pointData.map((point, index) => (

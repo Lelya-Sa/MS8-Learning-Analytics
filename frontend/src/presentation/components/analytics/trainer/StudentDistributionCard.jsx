@@ -57,23 +57,23 @@ export const StudentDistributionCard = ({
 
   if (isLoading) {
     return (
-      <div className={`student-distribution-card animate-pulse p-6 bg-gray-900 text-gray-100 rounded-lg shadow-lg ${className}`} data-testid="student-distribution-card-loading">
+      <div className={`student-distribution-card animate-pulse p-6 ${className}`} data-testid="student-distribution-card-loading">
         <div className="h-8 bg-emerald-700 rounded w-1/3 mb-4"></div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="h-32 bg-gray-700 rounded"></div>
-          <div className="h-32 bg-gray-700 rounded"></div>
-          <div className="h-32 bg-gray-700 rounded"></div>
-          <div className="h-32 bg-gray-700 rounded"></div>
+          <div className="h-32 bg-emerald-100 dark:bg-emerald-900/20 rounded"></div>
+          <div className="h-32 bg-emerald-100 dark:bg-emerald-900/20 rounded"></div>
+          <div className="h-32 bg-emerald-100 dark:bg-emerald-900/20 rounded"></div>
+          <div className="h-32 bg-emerald-100 dark:bg-emerald-900/20 rounded"></div>
         </div>
-        <div className="h-64 bg-gray-700 rounded"></div>
+        <div className="h-64 bg-emerald-100 dark:bg-emerald-900/20 rounded"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={`student-distribution-card bg-red-900 border border-red-700 rounded-lg p-6 text-white ${className}`} data-testid="student-distribution-card-error">
-        <div className="flex items-center text-red-400">
+      <div className={`student-distribution-card bg-red-50 dark:bg-red-900/20 border border-red-700 rounded-lg p-6 text-red-900 dark:text-red-400 ${className}`} data-testid="student-distribution-card-error">
+        <div className="flex items-center text-red-600 dark:text-red-400">
           <span className="text-2xl mr-3">⚠️</span>
           <div>
             <h3 className="font-semibold">Error loading student distribution</h3>
@@ -91,7 +91,7 @@ export const StudentDistributionCard = ({
 
   if (!data || Object.keys(data).length === 0) {
     return (
-      <div className={`student-distribution-card bg-gray-900 border border-gray-700 rounded-lg p-6 text-center text-gray-300 ${className}`} data-testid="student-distribution-card-no-data">
+      <div className={`student-distribution-card bg-white dark:bg-gray-800 border border-emerald-300 dark:border-emerald-700 rounded-lg p-6 text-center text-gray-700 dark:text-emerald-400 ${className}`} data-testid="student-distribution-card-no-data">
         <span className="text-4xl">📊</span>
         <p className="mt-2">No student distribution data available for this course.</p>
       </div>
@@ -99,33 +99,36 @@ export const StudentDistributionCard = ({
   }
 
   return (
-    <div className={`student-distribution-card space-y-6 p-6 bg-gray-900 text-gray-100 rounded-lg shadow-lg ${className}`} data-testid="student-distribution-card" role="region" aria-labelledby="student-distribution-title">
-      {/* Header */}
+    <div className={`student-distribution-card ${className}`} data-testid="student-distribution-card" role="region" aria-labelledby="student-distribution-title">
+      {/* Card Header */}
       <div className="card-header">
-        <h3 className="text-2xl font-bold text-gray-100" id="student-distribution-title">{data.courseName}</h3>
-        <p className="text-gray-300 mt-1">Student Performance Distribution</p>
-        <div className="mt-2 text-sm text-gray-400">
-          Total Students: <span className="font-bold text-gray-100">{data.totalStudents}</span>
+        <div className="header-content">
+          <h3 id="student-distribution-title">{data.courseName}</h3>
+          <p>Student Performance Distribution</p>
+        </div>
+        <div className="total-students">
+          Total Students: <span>{data.totalStudents}</span>
         </div>
       </div>
 
+      {/* Card Content */}
       <div className="card-content">
         {/* Distribution Cards */}
         {data.distribution && Object.keys(data.distribution).length > 0 && (
-          <div className="distribution-section space-y-4">
-            <h4 className="text-lg font-semibold text-gray-100 mb-4">Performance Distribution</h4>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="distribution-section">
+            <h4 className="section-title">Performance Distribution</h4>
+            <div className="distribution-grid">
               {Object.entries(data.distribution).map(([category, stats]) => {
                 const colors = getPerformanceColor(category);
                 return (
-                  <div key={category} className={`${colors.bg} border-2 ${colors.border} rounded-lg p-4`}>
+                  <div key={category} className={`performance-card ${category}`}>
                     <div className="text-center">
                       <div className={`text-sm font-medium ${colors.text} uppercase mb-2`}>
                         {category}
                       </div>
-                      <div className="text-3xl font-bold text-gray-100">{stats.count}</div>
-                      <div className="text-sm text-gray-300 mt-1">{stats.percentage}%</div>
-                      <div className="text-xs text-gray-400 mt-2">{stats.range}</div>
+                      <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.count}</div>
+                      <div className="text-sm text-gray-700 dark:text-gray-300 mt-1">{stats.percentage}%</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-2">{stats.range}</div>
                     </div>
                     <div className="mt-3">
                       <ProgressBar
@@ -144,9 +147,9 @@ export const StudentDistributionCard = ({
 
         {/* Visual Distribution Bar */}
         {data.distribution && Object.keys(data.distribution).length > 0 && (
-          <div className="visual-distribution-section space-y-4">
-            <h4 className="text-lg font-semibold text-gray-100">Visual Distribution</h4>
-            <div className="relative h-12 bg-gray-800 rounded-lg overflow-hidden flex">
+          <div className="visual-distribution-section">
+            <h4 className="section-title">Visual Distribution</h4>
+            <div className="relative h-12 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden flex">
               {Object.entries(data.distribution).map(([category, stats], index) => {
                 const colors = getPerformanceColor(category);
                 return (
@@ -161,7 +164,7 @@ export const StudentDistributionCard = ({
                 );
               })}
             </div>
-            <div className="flex justify-between text-xs text-gray-400">
+            <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
               <span>0%</span>
               <span>25%</span>
               <span>50%</span>
@@ -173,28 +176,28 @@ export const StudentDistributionCard = ({
 
         {/* Key Insights */}
         {data.insights && Object.keys(data.insights).length > 0 && (
-          <div className="insights-section space-y-4">
-            <h4 className="text-lg font-semibold text-gray-100">Key Insights</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              <div className="bg-gray-800 border-2 border-blue-500/30 rounded-lg p-4">
-                <div className="text-2xl font-bold text-blue-400">{data.insights.averageScore || 0}%</div>
-                <div className="text-sm text-gray-300 mt-1">Average Score</div>
+          <div className="insights-section">
+            <h4 className="section-title">Key Insights</h4>
+            <div className="insights-grid">
+              <div className="insight-item blue">
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{data.insights.averageScore || 0}%</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 mt-1">Average Score</div>
               </div>
-              <div className="bg-gray-800 border-2 border-purple-500/30 rounded-lg p-4">
-                <div className="text-2xl font-bold text-purple-400">{data.insights.medianScore || 0}%</div>
-                <div className="text-sm text-gray-300 mt-1">Median Score</div>
+              <div className="insight-item purple">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{data.insights.medianScore || 0}%</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 mt-1">Median Score</div>
               </div>
-              <div className="bg-gray-800 border-2 border-green-500/30 rounded-lg p-4">
-                <div className="text-2xl font-bold text-green-400">{data.insights.passRate || 0}%</div>
-                <div className="text-sm text-gray-300 mt-1">Pass Rate</div>
+              <div className="insight-item green">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">{data.insights.passRate || 0}%</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 mt-1">Pass Rate</div>
               </div>
-              <div className="bg-gray-800 border-2 border-red-500/30 rounded-lg p-4">
-                <div className="text-2xl font-bold text-red-400">{data.insights.atRiskStudents || 0}</div>
-                <div className="text-sm text-gray-300 mt-1">At-Risk Students</div>
+              <div className="insight-item red">
+                <div className="text-2xl font-bold text-red-600 dark:text-red-400">{data.insights.atRiskStudents || 0}</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 mt-1">At-Risk Students</div>
               </div>
-              <div className="bg-gray-800 border-2 border-emerald-500/30 rounded-lg p-4">
-                <div className="text-2xl font-bold text-emerald-400">{data.insights.topPerformers || 0}</div>
-                <div className="text-sm text-gray-300 mt-1">Top Performers</div>
+              <div className="insight-item emerald">
+                <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{data.insights.topPerformers || 0}</div>
+                <div className="text-sm text-gray-700 dark:text-gray-300 mt-1">Top Performers</div>
               </div>
             </div>
           </div>
@@ -202,10 +205,10 @@ export const StudentDistributionCard = ({
 
         {/* Action Items */}
         {data.insights && Object.keys(data.insights).length > 0 && (
-          <div className="action-items-section space-y-4">
-            <h4 className="text-lg font-semibold text-gray-100">Action Items</h4>
-            <div className="bg-gray-800 border-2 border-orange-500/30 rounded-lg p-6">
-              <div className="space-y-2 text-sm text-gray-300">
+          <div className="action-items-section">
+            <h4 className="section-title">Action Items</h4>
+            <div className="action-items-box">
+              <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                 {data.insights.atRiskStudents > 0 && (
                   <div className="flex items-start">
                     <span className="text-red-400 mr-2">•</span>
@@ -230,7 +233,7 @@ export const StudentDistributionCard = ({
         )}
 
         {data.lastUpdated && (
-          <div className="last-updated text-sm text-gray-400 mt-6 text-right">
+          <div className="last-updated text-sm text-emerald-700 dark:text-emerald-400 text-right">
             <span className="updated-label">Last updated:</span>{' '}
             <span className="updated-time">{new Date(data.lastUpdated).toLocaleDateString()}</span>
           </div>

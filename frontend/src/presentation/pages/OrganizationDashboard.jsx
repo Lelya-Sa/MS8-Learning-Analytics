@@ -6,6 +6,11 @@ import DashboardLayout from '../components/layout/DashboardLayout';
 import { OrgLearningVelocityCard } from '../components/analytics/organization/OrgLearningVelocityCard';
 import { StrategicAlignmentCard } from '../components/analytics/organization/StrategicAlignmentCard';
 import { LearningCultureCard } from '../components/analytics/organization/LearningCultureCard';
+import DropOffRiskCard from '../components/analytics/comparison/DropOffRiskCard';
+import PeerComparisonCard from '../components/analytics/comparison/PeerComparisonCard';
+import SkillDemandCard from '../components/analytics/comparison/SkillDemandCard';
+import PerformanceForecastCard from '../components/analytics/comparison/PerformanceForecastCard';
+import RecommendationsCard from '../components/analytics/comparison/RecommendationsCard';
 
 /**
  * Organization Admin Dashboard Page
@@ -45,7 +50,7 @@ const OrganizationDashboard = () => {
     }
   );
 
-  const totalCards = 4; // Organization has 4 cards
+  const totalCards = 9; // Organization has 4 role-specific cards + 5 comparison/predictive cards
 
   // Update wrapper height to match active card height
   useEffect(() => {
@@ -189,6 +194,27 @@ const OrganizationDashboard = () => {
                   isLoading={isLoading}
                   error={error}
                 />
+              </div>
+              
+              {/* Comparison/Predictive Cards - Role-Adaptive */}
+              <div ref={(el) => cardRefs.current[4] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <DropOffRiskCard userId={orgId} role="org-admin" />
+              </div>
+              
+              <div ref={(el) => cardRefs.current[5] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <PeerComparisonCard userId={orgId} role="org-admin" />
+              </div>
+              
+              <div ref={(el) => cardRefs.current[6] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <SkillDemandCard role="org-admin" />
+              </div>
+              
+              <div ref={(el) => cardRefs.current[7] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <PerformanceForecastCard userId={orgId} role="org-admin" />
+              </div>
+              
+              <div ref={(el) => cardRefs.current[8] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <RecommendationsCard userId={orgId} role="org-admin" />
               </div>
             </div>
           </div>

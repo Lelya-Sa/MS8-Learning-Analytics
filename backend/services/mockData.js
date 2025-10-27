@@ -77,6 +77,24 @@ class MockDataService {
 }
 
 class LearnerAnalyticsService {
+    // Helper method to generate user-specific seed based on userId
+    getUserSeed(userId) {
+        if (!userId) return 0;
+        let hash = 0;
+        for (let i = 0; i < userId.length; i++) {
+            hash = ((hash << 5) - hash) + userId.charCodeAt(i);
+            hash = hash & hash;
+        }
+        return Math.abs(hash);
+    }
+
+    // Helper method to get user-specific value within range
+    getUserValue(userId, min, max) {
+        const seed = this.getUserSeed(userId);
+        const range = max - min;
+        return min + (seed % range);
+    }
+
     getOverview(userId) {
         return {
             userId: userId,
@@ -92,99 +110,129 @@ class LearnerAnalyticsService {
     }
 
     getVelocity(userId) {
+        // Generate user-specific velocity between 60-95
+        const baseVelocity = this.getUserValue(userId, 60, 95);
+        const momentumType = this.getUserValue(userId, 0, 3); // 0=steady, 1=accelerating, 2=slowing
+        const momentumTypes = ["steady", "accelerating", "slowing"];
+        const momentum = momentumTypes[momentumType];
+        
+        // Generate historical data with some variation
+        const seed = this.getUserSeed(userId);
+        const historyVariation = seed % 15;
+        const base = baseVelocity - 10;
+        
         return {
-            currentVelocity: 78,          // Updated: Changed from currentPace (0-1) to currentVelocity (0-100)
-            momentum: "accelerating",     // Added: Momentum field
-            trend: "up",                  // Updated: Simplified trend to "up", "down", "stable"
-            timeWindows: {                // Added: Time window data
-                "7d": { velocity: 75, momentum: "steady" },
-                "30d": { velocity: 78, momentum: "accelerating" },
-                "90d": { velocity: 72, momentum: "slowing" }
+            currentVelocity: baseVelocity,
+            momentum: momentum,
+            trend: momentum === "accelerating" ? "up" : (momentum === "slowing" ? "down" : "stable"),
+            timeWindows: {
+                "7d": { velocity: baseVelocity - 3, momentum: "steady" },
+                "30d": { velocity: baseVelocity, momentum: momentum },
+                "90d": { velocity: baseVelocity + 5, momentum: "steady" }
             },
-            velocityHistory: [            // Added: Historical data points
-                { velocity: 70, date: "2024-01-01" },
-                { velocity: 72, date: "2024-01-08" },
-                { velocity: 75, date: "2024-01-15" },
-                { velocity: 78, date: "2024-01-22" }
+            velocityHistory: [
+                { velocity: base, date: "2024-01-01" },
+                { velocity: base + historyVariation, date: "2024-01-08" },
+                { velocity: base + historyVariation * 2, date: "2024-01-15" },
+                { velocity: baseVelocity, date: "2024-01-22" }
             ],
             lastUpdated: "2024-01-22T10:00:00Z",
-            isStale: false                // Added: Stale indicator
+            isStale: false
         };
     }
 
     getSkillGap(userId) {
+        const seed = this.getUserSeed(userId);
+        const skill1Current = this.getUserValue(userId, 2, 4);
+        const skill1Target = 4;
+        const skill1Gap = skill1Target - skill1Current;
+        const skill1Priority = this.getUserValue(userId, 70, 90);
+        
+        const skill2Current = this.getUserValue(userId, 1, 3);
+        const skill2Target = 4;
+        const skill2Gap = skill2Target - skill2Current;
+        const skill2Priority = this.getUserValue(userId, 75, 95);
+        
         return {
-            skills: [                     // Updated: Single skills array combining all skill data
+            skills: [
                 {
-                    id: "skill-1",           // Added: id field
-                    name: "JavaScript",      // Updated: Changed from skillName
-                    category: "Programming", // Added: category field
-                    currentLevel: 3,         // Updated: Changed from masteryLevel (0-1) to currentLevel (0-4)
-                    targetLevel: 4,          // Added: target level
-                    gap: 1,                  // Added: calculated gap
-                    priority: 75,            // Added: priority (0-100)
-                    isCritical: false,       // Added: critical flag
-                    businessImpact: 85,      // Added: business impact score
-                    marketDemand: 90,        // Added: market demand score
-                    prerequisites: 70,       // Added: prerequisites score
-                    careerValue: 85          // Added: career value score
+                    id: "skill-1",
+                    name: "JavaScript",
+                    category: "Programming",
+                    currentLevel: skill1Current,
+                    targetLevel: skill1Target,
+                    gap: skill1Gap,
+                    priority: skill1Priority,
+                    isCritical: skill1Gap >= 2,
+                    businessImpact: this.getUserValue(userId, 80, 95),
+                    marketDemand: this.getUserValue(userId, 85, 100),
+                    prerequisites: this.getUserValue(userId, 65, 85),
+                    careerValue: this.getUserValue(userId, 80, 95)
                 },
                 {
                     id: "skill-2",
                     name: "React",
                     category: "Frontend",
-                    currentLevel: 2,
-                    targetLevel: 4,
-                    gap: 2,
-                    priority: 85,
-                    isCritical: true,        // True because gap >= 2
-                    businessImpact: 90,
-                    marketDemand: 85,
-                    prerequisites: 75,
-                    careerValue: 90
+                    currentLevel: skill2Current,
+                    targetLevel: skill2Target,
+                    gap: skill2Gap,
+                    priority: skill2Priority,
+                    isCritical: skill2Gap >= 2,
+                    businessImpact: this.getUserValue(userId, 85, 95),
+                    marketDemand: this.getUserValue(userId, 80, 95),
+                    prerequisites: this.getUserValue(userId, 70, 85),
+                    careerValue: this.getUserValue(userId, 85, 100)
                 }
             ],
-            categories: ["Programming", "Frontend", "Backend"],  // Added: unique categories array
+            categories: ["Programming", "Frontend", "Backend"],
             lastUpdated: "2024-01-22T10:00:00Z",
             isStale: false
         };
     }
 
     getEngagement(userId) {
+        const overallEng = this.getUserValue(userId, 60, 90);
+        const timeTotal = this.getUserValue(userId, 15, 35);
+        const timeAvg = timeTotal / 12;
+        const interactionCurr = (this.getUserValue(userId, 55, 75)) / 100;
+        const interactionAvg = interactionCurr - 0.05;
+        const completionCurr = (this.getUserValue(userId, 65, 85)) / 100;
+        const completionAvg = completionCurr - 0.04;
+        
         return {
-            overallEngagement: 78,        // Updated: Renamed from overallScore and changed scale (0-100)
-            timeSpent: {                  // Added: Time spent object
-                total: 24.5,              // hours
-                average: 2.1,             // hours per session
-                trend: "increasing"       // "increasing" | "decreasing" | "stable"
-            },
-            interactionRate: {            // Added: Interaction rate object
-                current: 0.65,            // 0-1 scale
-                average: 0.60,
+            overallEngagement: overallEng,
+            timeSpent: {
+                total: timeTotal,
+                average: timeAvg,
                 trend: "increasing"
             },
-            completionRate: {             // Added: Completion rate object
-                current: 0.72,            // 0-1 scale
-                average: 0.68,
+            interactionRate: {
+                current: interactionCurr,
+                average: interactionAvg,
                 trend: "increasing"
             },
-            sessionFrequency: {           // Added: Session frequency object
-                daily: 0.60,              // 0-1 scale
-                weekly: 0.40,
-                monthly: 0.80,
+            completionRate: {
+                current: completionCurr,
+                average: completionAvg,
                 trend: "increasing"
             },
-            contentEngagement: {          // Updated: Changed from activityBreakdown
-                videos: 0.85,             // 0-1 scale
-                quizzes: 0.90,
-                readings: 0.72,
-                discussions: 0.58
+            sessionFrequency: {
+                daily: this.getUserValue(userId, 50, 70) / 100,
+                weekly: this.getUserValue(userId, 30, 50) / 100,
+                monthly: this.getUserValue(userId, 70, 90) / 100,
+                trend: "increasing"
             },
-            engagementHistory: [          // Updated: Changed from weeklyEngagement
-                { engagement: 70, date: "2024-01-01" },
-                { engagement: 72, date: "2024-01-08" },
-                { engagement: 75, date: "2024-01-15" },
-                { engagement: 78, date: "2024-01-22" }
+            contentEngagement: {
+                videos: this.getUserValue(userId, 75, 95) / 100,
+                quizzes: this.getUserValue(userId, 80, 100) / 100,
+                readings: this.getUserValue(userId, 60, 80) / 100,
+                discussions: this.getUserValue(userId, 45, 65) / 100
+            },
+            engagementHistory: [
+                { engagement: overallEng - 8, date: "2024-01-01" },
+                { engagement: overallEng - 6, date: "2024-01-08" },
+                { engagement: overallEng - 3, date: "2024-01-15" },
+                { engagement: overallEng, date: "2024-01-22" }
             ],
             lastUpdated: "2024-01-22T10:00:00Z",
             isStale: false                // Added: Stale indicator
@@ -192,30 +240,35 @@ class LearnerAnalyticsService {
     }
 
     getMastery(userId) {
+        const overallMastery = this.getUserValue(userId, 65, 85) / 100;
+        const catMastery = overallMastery + 0.03;
+        const skillMastery = catMastery + 0.10;
+        const nextProgress = this.getUserValue(userId, 75, 95) / 100;
+        
         return {
-            overallMastery: 0.72,        // Number (0-1) - already correct
-            skillCategories: [           // Updated: Changed from skillMastery
+            overallMastery: overallMastery,
+            skillCategories: [
                 {
                     id: "category-1",
                     name: "Programming",
-                    mastery: 0.75,
+                    mastery: catMastery,
                     progress: 0.15,
                     skills: [
                         {
                             id: "skill-1",
                             name: "JavaScript",
-                            mastery: 0.85,
+                            mastery: skillMastery,
                             trend: "increasing"
                         }
                     ]
                 }
             ],
-            masteryHistory: [            // Added: Historical mastery data
-                { mastery: 0.70, date: "2024-01-01" },
-                { mastery: 0.71, date: "2024-01-08" },
-                { mastery: 0.72, date: "2024-01-15" }
+            masteryHistory: [
+                { mastery: overallMastery - 0.02, date: "2024-01-01" },
+                { mastery: overallMastery - 0.01, date: "2024-01-08" },
+                { mastery: overallMastery, date: "2024-01-15" }
             ],
-            milestones: [                // Added: Milestones array
+            milestones: [
                 {
                     id: "milestone-1",
                     name: "Intermediate",
@@ -224,10 +277,10 @@ class LearnerAnalyticsService {
                     date: "2024-01-01"
                 }
             ],
-            nextMilestone: {             // Updated: Changed from learningPath
+            nextMilestone: {
                 name: "Advanced",
-                progress: 0.85,           // How close to milestone
-                remaining: 0.15           // How much left
+                progress: nextProgress,
+                remaining: 1 - nextProgress
             },
             lastUpdated: "2024-01-22T10:00:00Z",
             isStale: false
@@ -235,46 +288,49 @@ class LearnerAnalyticsService {
     }
 
     getPerformance(userId) {
+        const overallScore = this.getUserValue(userId, 70, 90) / 100;
+        const assessmentScore = overallScore + 0.07;
+        
         return {
-            overallScore: 0.78,           // Updated: Renamed from overallPerformance
-            assessmentResults: [          // Updated: Changed from assessmentScores
+            overallScore: overallScore,
+            assessmentResults: [
                 {
                     id: "assessment-1",
                     title: "JavaScript Fundamentals",
-                    score: 0.85,
-                    correctAnswers: 8,
+                    score: assessmentScore,
+                    correctAnswers: Math.round(assessmentScore * 10),
                     questions: 10,
-                    timeSpent: 45,        // minutes
+                    timeSpent: this.getUserValue(userId, 35, 55),
                     difficulty: "intermediate",
                     category: "Programming",
                     completedAt: "2024-01-22T10:00:00Z"
                 }
             ],
-            performanceHistory: [         // Added: Historical performance data
-                { score: 0.75, date: "2024-01-01" },
-                { score: 0.77, date: "2024-01-08" },
-                { score: 0.78, date: "2024-01-15" }
+            performanceHistory: [
+                { score: overallScore - 0.03, date: "2024-01-01" },
+                { score: overallScore - 0.01, date: "2024-01-08" },
+                { score: overallScore, date: "2024-01-15" }
             ],
-            strengths: [                  // Updated: Changed to objects
+            strengths: [
                 {
                     skill: "Problem Solving",
-                    score: 0.90,
+                    score: overallScore + 0.12,
                     trend: "increasing"
                 }
             ],
-            weaknesses: [                 // Added: Weaknesses array
+            weaknesses: [
                 {
                     skill: "Documentation",
-                    score: 0.60,
+                    score: overallScore - 0.15,
                     trend: "stable"
                 }
             ],
-            improvementAreas: [           // Added: Improvement areas array
+            improvementAreas: [
                 {
                     area: "Testing",
-                    currentScore: 0.65,
+                    currentScore: overallScore - 0.13,
                     targetScore: 0.85,
-                    priority: "high"      // "high" | "medium" | "low"
+                    priority: "high"
                 }
             ],
             lastUpdated: "2024-01-22T10:00:00Z",
@@ -283,38 +339,42 @@ class LearnerAnalyticsService {
     }
 
     getContentEffectiveness(userId) {
+        const overallEff = this.getUserValue(userId, 75, 95) / 100;
+        const videoEff = overallEff + 0.03;
+        const videoComp = overallEff + 0.10;
+        
         return {
-            overallEffectiveness: 0.82,   // Updated: Renamed from contentEffectiveness
-            contentTypes: [               // Updated: Structure for content type objects
+            overallEffectiveness: overallEff,
+            contentTypes: [
                 {
                     id: "content-type-1",
                     name: "Video",
-                    effectiveness: 0.85,
-                    completionRate: 0.92,
-                    engagementScore: 0.90,
-                    completedContent: 12,
+                    effectiveness: videoEff,
+                    completionRate: videoComp,
+                    engagementScore: videoEff + 0.05,
+                    completedContent: this.getUserValue(userId, 10, 15),
                     totalContent: 15,
-                    averageRating: 4.5,
-                    timeSpent: 180,       // minutes
+                    averageRating: (videoEff * 5).toFixed(1),
+                    timeSpent: this.getUserValue(userId, 150, 210),
                     lastAccessed: "2024-01-22T10:00:00Z"
                 },
                 {
                     id: "content-type-2",
                     name: "Interactive",
-                    effectiveness: 0.95,
-                    completionRate: 0.88,
-                    engagementScore: 0.92,
-                    completedContent: 8,
+                    effectiveness: overallEff + 0.13,
+                    completionRate: overallEff + 0.06,
+                    engagementScore: overallEff + 0.10,
+                    completedContent: this.getUserValue(userId, 6, 10),
                     totalContent: 10,
-                    averageRating: 4.8,
-                    timeSpent: 150,
+                    averageRating: ((overallEff + 0.13) * 5).toFixed(1),
+                    timeSpent: this.getUserValue(userId, 120, 180),
                     lastAccessed: "2024-01-22T10:00:00Z"
                 }
             ],
-            effectivenessHistory: [       // Added: Historical effectiveness data
-                { effectiveness: 0.80, date: "2024-01-01" },
-                { effectiveness: 0.81, date: "2024-01-08" },
-                { effectiveness: 0.82, date: "2024-01-15" }
+            effectivenessHistory: [
+                { effectiveness: overallEff - 0.02, date: "2024-01-01" },
+                { effectiveness: overallEff - 0.01, date: "2024-01-08" },
+                { effectiveness: overallEff, date: "2024-01-15" }
             ],
             topPerformingContent: [       // Added: Top performing content
                 {
@@ -348,6 +408,24 @@ class LearnerAnalyticsService {
 }
 
 class TrainerAnalyticsService {
+    // Helper method to generate user-specific seed based on trainerId
+    getUserSeed(trainerId) {
+        if (!trainerId) return 0;
+        let hash = 0;
+        for (let i = 0; i < trainerId.length; i++) {
+            hash = ((hash << 5) - hash) + trainerId.charCodeAt(i);
+            hash = hash & hash;
+        }
+        return Math.abs(hash);
+    }
+
+    // Helper method to get user-specific value within range
+    getUserValue(trainerId, min, max) {
+        const seed = this.getUserSeed(trainerId);
+        const range = max - min;
+        return min + (seed % range);
+    }
+
     getOverview(trainerId) {
         return {
             trainerId: trainerId,
@@ -536,6 +614,24 @@ class TrainerAnalyticsService {
 }
 
 class OrgAnalyticsService {
+    // Helper method to generate user-specific seed based on orgId
+    getUserSeed(orgId) {
+        if (!orgId) return 0;
+        let hash = 0;
+        for (let i = 0; i < orgId.length; i++) {
+            hash = ((hash << 5) - hash) + orgId.charCodeAt(i);
+            hash = hash & hash;
+        }
+        return Math.abs(hash);
+    }
+
+    // Helper method to get user-specific value within range
+    getUserValue(orgId, min, max) {
+        const seed = this.getUserSeed(orgId);
+        const range = max - min;
+        return min + (seed % range);
+    }
+
     getOverview(orgId) {
         return {
             organizationId: orgId,
@@ -805,39 +901,71 @@ class OrgAnalyticsService {
 }
 
 class ComparisonAnalyticsService {
+    // Helper method to generate user-specific seed based on userId
+    getUserSeed(userId) {
+        if (!userId) return 0;
+        let hash = 0;
+        for (let i = 0; i < userId.length; i++) {
+            hash = ((hash << 5) - hash) + userId.charCodeAt(i);
+            hash = hash & hash;
+        }
+        return Math.abs(hash);
+    }
+
+    // Helper method to get user-specific value within range
+    getUserValue(userId, min, max) {
+        const seed = this.getUserSeed(userId);
+        const range = max - min;
+        return min + (seed % range);
+    }
+
     getPeerComparison(userId) {
+        const overallRank = this.getUserValue(userId, 10, 50);
+        const totalPeers = this.getUserValue(userId, 120, 200);
+        const percentile = this.getUserValue(userId, 70, 95);
+        const skillRank = this.getUserValue(userId, 5, 25);
+        const skillPercentile = this.getUserValue(userId, 75, 95);
+        const userSkillLevel = this.getUserValue(userId, 70, 95) / 100;
+        const peerAvg = userSkillLevel - 0.13;
+        const peerMedian = userSkillLevel - 0.10;
+        const velocityRank = this.getUserValue(userId, 10, 30);
+        const velocityPercentile = this.getUserValue(userId, 70, 90);
+        const userVelocity = this.getUserValue(userId, 60, 85) / 100;
+        const peerVelAvg = userVelocity - 0.12;
+        const peerVelMedian = userVelocity - 0.09;
+        
         return {
             userRanking: {
-                overall: 23,
-                totalPeers: 156,
-                percentile: 85
+                overall: overallRank,
+                totalPeers: totalPeers,
+                percentile: percentile
             },
             skillComparisons: [
                 {
                     skillId: "skill-1",
                     skillName: "JavaScript",
-                    userLevel: 0.85,
-                    peerAverage: 0.72,
-                    peerMedian: 0.75,
-                    ranking: 12,
-                    percentile: 88
+                    userLevel: userSkillLevel,
+                    peerAverage: peerAvg,
+                    peerMedian: peerMedian,
+                    ranking: skillRank,
+                    percentile: skillPercentile
                 }
             ],
             performanceComparisons: [
                 {
                     metric: "learning_velocity",
-                    userValue: 0.78,
-                    peerAverage: 0.65,
-                    peerMedian: 0.68,
-                    ranking: 18,
-                    percentile: 82
+                    userValue: userVelocity,
+                    peerAverage: peerVelAvg,
+                    peerMedian: peerVelMedian,
+                    ranking: velocityRank,
+                    percentile: velocityPercentile
                 }
             ],
             anonymizedPeerData: [
                 {
                     peerGroup: "similar_experience",
-                    averageProgress: 0.74,
-                    averageEngagement: 0.81,
+                    averageProgress: userSkillLevel - 0.06,
+                    averageEngagement: userVelocity + 0.03,
                     commonStrengths: ["problem-solving", "code-review"],
                     commonChallenges: ["testing", "documentation"]
                 }
@@ -845,7 +973,7 @@ class ComparisonAnalyticsService {
             insights: [
                 {
                     type: "strength",
-                    message: "You're performing 15% above average in JavaScript skills"
+                    message: `You're performing ${Math.round((userSkillLevel - peerAvg) * 100)}% above average in JavaScript skills`
                 },
                 {
                     type: "opportunity",
@@ -864,38 +992,59 @@ class ComparisonAnalyticsService {
         };
     }
 
-    getSkillDemand(skills, timeframe) {
+    getSkillDemand(skills, timeframe, userId) {
+        // Generate user-specific seed if userId provided
+        const seed = userId ? this.getUserSeed(userId) : 0;
+        const getUserValue = (min, max) => {
+            const range = max - min;
+            return min + (seed % range);
+        };
+
+        // Generate user-specific demand scores
+        const jsDemand = getUserValue(85, 100) / 100;
+        const jsTrend = getUserValue(0, 3); // 0-2 for different trends
+        const trends = ["increasing", "stable", "decreasing"];
+        const jsTrendPercent = jsTrend === 0 ? getUserValue(10, 20) : (jsTrend === 1 ? getUserValue(1, 5) : -getUserValue(1, 5));
+        
+        const reactDemand = getUserValue(80, 95) / 100;
+        const reactTrend = getUserValue(0, 3);
+        const reactTrendPercent = reactTrend === 0 ? getUserValue(5, 12) : (reactTrend === 1 ? getUserValue(0, 3) : -getUserValue(0, 3));
+        
+        const pythonDemand = getUserValue(88, 100) / 100;
+        const pythonTrend = getUserValue(0, 3);
+        const pythonTrendPercent = pythonTrend === 0 ? getUserValue(15, 25) : (pythonTrend === 1 ? getUserValue(0, 2) : -getUserValue(0, 2));
+
         return {
             skillDemand: [
                 {
                     skillId: "skill-1",
                     skillName: "JavaScript",
-                    demandScore: 0.92,
-                    trend: "increasing",
-                    trendPercentage: 15.3,
-                    jobPostings: 1250,
-                    averageSalary: 95000,
-                    growthRate: 0.12
+                    demandScore: jsDemand,
+                    trend: trends[jsTrend],
+                    trendPercentage: jsTrendPercent,
+                    jobPostings: getUserValue(1000, 1500),
+                    averageSalary: getUserValue(90000, 110000),
+                    growthRate: jsDemand * 0.15
                 },
                 {
                     skillId: "skill-2",
                     skillName: "React",
-                    demandScore: 0.88,
-                    trend: "stable",
-                    trendPercentage: 2.1,
-                    jobPostings: 890,
-                    averageSalary: 98000,
-                    growthRate: 0.08
+                    demandScore: reactDemand,
+                    trend: trends[reactTrend],
+                    trendPercentage: reactTrendPercent,
+                    jobPostings: getUserValue(700, 1100),
+                    averageSalary: getUserValue(95000, 105000),
+                    growthRate: reactDemand * 0.12
                 },
                 {
                     skillId: "skill-3",
                     skillName: "Python",
-                    demandScore: 0.95,
-                    trend: "increasing",
-                    trendPercentage: 18.7,
-                    jobPostings: 2100,
-                    averageSalary: 102000,
-                    growthRate: 0.15
+                    demandScore: pythonDemand,
+                    trend: trends[pythonTrend],
+                    trendPercentage: pythonTrendPercent,
+                    jobPostings: getUserValue(1800, 2500),
+                    averageSalary: getUserValue(95000, 115000),
+                    growthRate: pythonDemand * 0.18
                 }
             ],
             marketInsights: [
@@ -932,19 +1081,52 @@ class ComparisonAnalyticsService {
 }
 
 class PredictiveAnalyticsService {
+    // Helper method to generate user-specific seed based on userId
+    getUserSeed(userId) {
+        if (!userId) return 0;
+        let hash = 0;
+        for (let i = 0; i < userId.length; i++) {
+            hash = ((hash << 5) - hash) + userId.charCodeAt(i);
+            hash = hash & hash;
+        }
+        return Math.abs(hash);
+    }
+
+    // Helper method to get user-specific value within range
+    getUserValue(userId, min, max) {
+        const seed = this.getUserSeed(userId);
+        const range = max - min;
+        return min + (seed % range);
+    }
+
     getDropOffRisk(userId) {
+        const overallRisk = this.getUserValue(userId, 20, 85);
+        const engScore = this.getUserValue(userId, 40, 90);
+        const daysSince = this.getUserValue(userId, 1, 10);
+        const riskTrend = this.getUserValue(userId, -15, 10);
+        
+        // Generate engagement patterns
+        const week1Eng = this.getUserValue(userId, 70, 95);
+        const week1Risk = 100 - week1Eng;
+        const week2Eng = week1Eng - this.getUserValue(userId, 5, 15);
+        const week2Risk = 100 - week2Eng;
+        const week3Eng = week2Eng - this.getUserValue(userId, 5, 15);
+        const week3Risk = 100 - week3Eng;
+        const week4Eng = week3Eng - this.getUserValue(userId, 5, 20);
+        const week4Risk = 100 - week4Eng;
+        
         return {
             riskAssessment: {
-                overallRisk: 75,
-                engagementScore: 45,
-                daysSinceLastActivity: 5,
-                trend: -10.5
+                overallRisk: overallRisk,
+                engagementScore: engScore,
+                daysSinceLastActivity: daysSince,
+                trend: riskTrend
             },
             engagementPatterns: [
-                { week: 'Week 1', engagementScore: 85, riskScore: 20, date: '2024-01-01', activity: 'Course Start', duration: '2h' },
-                { week: 'Week 2', engagementScore: 78, riskScore: 35, date: '2024-01-08', activity: 'Module 1', duration: '1.5h' },
-                { week: 'Week 3', engagementScore: 65, riskScore: 50, date: '2024-01-15', activity: 'Module 2', duration: '1h' },
-                { week: 'Week 4', engagementScore: 45, riskScore: 75, date: '2024-01-22', activity: 'Module 3', duration: '30m' },
+                { week: 'Week 1', engagementScore: week1Eng, riskScore: week1Risk, date: '2024-01-01', activity: 'Course Start', duration: '2h' },
+                { week: 'Week 2', engagementScore: week2Eng, riskScore: week2Risk, date: '2024-01-08', activity: 'Module 1', duration: '1.5h' },
+                { week: 'Week 3', engagementScore: week3Eng, riskScore: week3Risk, date: '2024-01-15', activity: 'Module 2', duration: '1h' },
+                { week: 'Week 4', engagementScore: week4Eng, riskScore: week4Risk, date: '2024-01-22', activity: 'Module 3', duration: '30m' },
             ],
             warningSignals: [
                 {
@@ -987,64 +1169,79 @@ class PredictiveAnalyticsService {
     }
 
     getForecast(userId) {
+        const currentScore = this.getUserValue(userId, 70, 90);
+        const baseScore = currentScore - 5;
+        const week1Hist = baseScore;
+        const week1Fcst = currentScore - 3;
+        const week2Hist = currentScore - 2;
+        const week2Fcst = currentScore;
+        const week3Hist = currentScore + 2;
+        const week3Fcst = currentScore + 5;
+        const week4Hist = currentScore + 4;
+        const week4Fcst = currentScore + 8;
+        
+        const overallTrend = this.getUserValue(userId, 5, 15);
+        const velocity = this.getUserValue(userId, 15, 35) / 10;
+        const confidence = this.getUserValue(userId, 75, 95);
+        
         return {
             currentPerformance: {
-                overallScore: 78,
+                overallScore: currentScore,
                 lastUpdated: new Date().toISOString()
             },
             forecastProjections: [
                 { 
                     period: 'Week 1', 
-                    historicalScore: 75, 
-                    forecastedScore: 80, 
-                    confidenceLow: 76, 
-                    confidenceHigh: 84, 
+                    historicalScore: week1Hist, 
+                    forecastedScore: week1Fcst, 
+                    confidenceLow: week1Fcst - 2, 
+                    confidenceHigh: week1Fcst + 4, 
                     probability: 'High',
                     recommendation: 'Continue'
                 },
                 { 
                     period: 'Week 2', 
-                    historicalScore: 78, 
-                    forecastedScore: 82, 
-                    confidenceLow: 78, 
-                    confidenceHigh: 86, 
+                    historicalScore: week2Hist, 
+                    forecastedScore: week2Fcst, 
+                    confidenceLow: week2Fcst - 1, 
+                    confidenceHigh: week2Fcst + 4, 
                     probability: 'Medium',
                     recommendation: 'Improve'
                 },
                 { 
                     period: 'Week 3', 
-                    historicalScore: 80, 
-                    forecastedScore: 85, 
-                    confidenceLow: 80, 
-                    confidenceHigh: 90, 
+                    historicalScore: week3Hist, 
+                    forecastedScore: week3Fcst, 
+                    confidenceLow: week3Fcst, 
+                    confidenceHigh: week3Fcst + 5, 
                     probability: 'High',
                     recommendation: 'Continue'
                 },
                 { 
                     period: 'Week 4', 
-                    historicalScore: 82, 
-                    forecastedScore: 88, 
-                    confidenceLow: 82, 
-                    confidenceHigh: 94, 
+                    historicalScore: week4Hist, 
+                    forecastedScore: week4Fcst, 
+                    confidenceLow: week4Fcst, 
+                    confidenceHigh: week4Fcst + 6, 
                     probability: 'Low',
                     recommendation: 'Monitor'
                 }
             ],
             trendAnalysis: {
-                overallTrend: 8.5,
-                velocity: 2.3,
-                acceleration: 0.5,
-                volatility: 3.2,
-                stability: 0.85,
+                overallTrend: overallTrend,
+                velocity: velocity,
+                acceleration: this.getUserValue(userId, 3, 10) / 10,
+                volatility: this.getUserValue(userId, 25, 40) / 10,
+                stability: this.getUserValue(userId, 75, 95) / 100,
                 seasonality: 'Upward',
                 peakPeriod: 'Week 4'
             },
             confidenceMetrics: {
-                overallConfidence: 87,
-                forecastAccuracy: 92,
-                dataQuality: 95,
-                modelAccuracy: 89,
-                predictionReliability: 85
+                overallConfidence: confidence,
+                forecastAccuracy: confidence + 5,
+                dataQuality: this.getUserValue(userId, 90, 100),
+                modelAccuracy: confidence + 2,
+                predictionReliability: confidence - 2
             },
             metadata: {
                 lastUpdated: new Date().toISOString(),
@@ -1055,17 +1252,35 @@ class PredictiveAnalyticsService {
     }
 
     getRecommendations(userId) {
+        const totalRecs = this.getUserValue(userId, 8, 15);
+        const highPriority = this.getUserValue(userId, 2, 5);
+        const completed = this.getUserValue(userId, 5, 11);
+        const completionRate = Math.round((completed / totalRecs) * 100);
+        const successRate = this.getUserValue(userId, 75, 95);
+        const thisWeek = this.getUserValue(userId, 60, 90);
+        const thisMonth = this.getUserValue(userId, 55, 85);
+        const overall = this.getUserValue(userId, 60, 80);
+        
+        const rec1Confidence = this.getUserValue(userId, 85, 98);
+        const rec2Confidence = this.getUserValue(userId, 70, 85);
+        const rec3Confidence = this.getUserValue(userId, 80, 95);
+        
+        const learningCount = this.getUserValue(userId, 3, 7);
+        const practiceCount = this.getUserValue(userId, 2, 6);
+        const socialCount = this.getUserValue(userId, 1, 4);
+        const assessmentCount = this.getUserValue(userId, 0, 3);
+        
         return {
             summary: {
-                totalRecommendations: 12,
-                highPriorityCount: 3,
-                completedCount: 8,
-                completionRate: 67,
-                successRate: 85,
+                totalRecommendations: totalRecs,
+                highPriorityCount: highPriority,
+                completedCount: completed,
+                completionRate: completionRate,
+                successRate: successRate,
                 progressTracking: {
-                    thisWeek: 75,
-                    thisMonth: 68,
-                    overall: 72
+                    thisWeek: thisWeek,
+                    thisMonth: thisMonth,
+                    overall: overall
                 }
             },
             recommendations: [
@@ -1075,7 +1290,7 @@ class PredictiveAnalyticsService {
                     description: 'Based on your current skill level, completing this course will significantly improve your JavaScript proficiency.',
                     category: 'Learning',
                     priority: 'High',
-                    confidence: 92,
+                    confidence: rec1Confidence,
                     expectedImpact: 'High',
                     timeToComplete: '2-3 weeks',
                     difficulty: 'Medium',
@@ -1090,7 +1305,7 @@ class PredictiveAnalyticsService {
                     description: 'Collaborative learning has shown to improve retention and understanding.',
                     category: 'Social',
                     priority: 'Medium',
-                    confidence: 78,
+                    confidence: rec2Confidence,
                     expectedImpact: 'Medium',
                     timeToComplete: '1 week',
                     difficulty: 'Easy',
@@ -1102,7 +1317,7 @@ class PredictiveAnalyticsService {
                     description: 'Regular practice with algorithmic thinking will enhance your problem-solving skills.',
                     category: 'Practice',
                     priority: 'High',
-                    confidence: 89,
+                    confidence: rec3Confidence,
                     expectedImpact: 'High',
                     timeToComplete: 'Ongoing',
                     difficulty: 'Hard',
@@ -1112,10 +1327,10 @@ class PredictiveAnalyticsService {
                 }
             ],
             categories: [
-                { name: 'Learning', count: 5 },
-                { name: 'Practice', count: 4 },
-                { name: 'Social', count: 2 },
-                { name: 'Assessment', count: 1 }
+                { name: 'Learning', count: learningCount },
+                { name: 'Practice', count: practiceCount },
+                { name: 'Social', count: socialCount },
+                { name: 'Assessment', count: assessmentCount }
             ],
             insights: [
                 {

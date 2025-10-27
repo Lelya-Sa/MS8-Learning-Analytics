@@ -10,6 +10,10 @@ import { MasteryProgressionCard } from '../components/analytics/learner/MasteryP
 import { PerformanceAnalyticsCard } from '../components/analytics/learner/PerformanceAnalyticsCard';
 import { ContentEffectivenessCard } from '../components/analytics/learner/ContentEffectivenessCard';
 import DropOffRiskCard from '../components/analytics/comparison/DropOffRiskCard';
+import PeerComparisonCard from '../components/analytics/comparison/PeerComparisonCard';
+import SkillDemandCard from '../components/analytics/comparison/SkillDemandCard';
+import PerformanceForecastCard from '../components/analytics/comparison/PerformanceForecastCard';
+import RecommendationsCard from '../components/analytics/comparison/RecommendationsCard';
 
 /**
  * Learner Dashboard Page
@@ -48,7 +52,7 @@ const LearnerDashboard = () => {
     }
   );
 
-  const totalCards = 7; // Total number of analytics cards (including Drop-off Risk)
+  const totalCards = 11; // Total number of analytics cards: 6 learner-specific + 1 drop-off risk + 4 comparison/predictive
 
   // Update wrapper height to match active card height
   useEffect(() => {
@@ -184,6 +188,23 @@ const LearnerDashboard = () => {
                    isLoading={isLoading}
                    error={error}
                  />
+               </div>
+               
+               {/* Comparison/Predictive Cards - Role-Adaptive */}
+               <div ref={(el) => cardRefs.current[7] = el} style={{ width: '100%', flexShrink: 0 }}>
+                 <PeerComparisonCard userId={userId} role="learner" />
+               </div>
+               
+               <div ref={(el) => cardRefs.current[8] = el} style={{ width: '100%', flexShrink: 0 }}>
+                 <SkillDemandCard role="learner" />
+               </div>
+               
+               <div ref={(el) => cardRefs.current[9] = el} style={{ width: '100%', flexShrink: 0 }}>
+                 <PerformanceForecastCard userId={userId} role="learner" />
+               </div>
+               
+               <div ref={(el) => cardRefs.current[10] = el} style={{ width: '100%', flexShrink: 0 }}>
+                 <RecommendationsCard userId={userId} role="learner" />
                </div>
             </div>
           </div>

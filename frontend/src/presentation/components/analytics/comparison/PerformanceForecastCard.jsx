@@ -43,7 +43,7 @@ const PerformanceForecastCard = ({
   };
 
   const handleChartTypeChange = (event) => {
-    setChartType(event.target.value);
+    setViewType(event.target.value);
   };
 
   if (isLoading) {
@@ -81,7 +81,8 @@ const PerformanceForecastCard = ({
     );
   }
 
-  const forecastData = data?.formattedData || data;
+  // Extract data from API response: { data: {...}, cached: true, ... }
+  const forecastData = data?.data || data?.formattedData || data;
   if (!forecastData) {
     return (
       <Card className="performance-forecast-card">
@@ -212,7 +213,7 @@ const PerformanceForecastCard = ({
             {viewType === 'line' ? (
               <LineChart
                 data={chartData}
-                ariaLabel="Performance forecast with confidence intervals"
+                title="Performance forecast with confidence intervals"
               />
             ) : viewType === 'table' ? (
               <DataTable 
@@ -226,7 +227,7 @@ const PerformanceForecastCard = ({
             ) : (
               <BarChart
                 data={chartData}
-                ariaLabel="Performance forecast with confidence intervals"
+                title="Performance forecast with confidence intervals"
               />
             )}
           </div>

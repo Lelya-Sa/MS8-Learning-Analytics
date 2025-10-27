@@ -462,9 +462,10 @@
   background-color: #065f46;
 }
 
-/* Global card bottom spacing - Add padding to card content */
-.card-content:last-child {
-  padding-bottom: 3rem;
+/* Global card bottom spacing - Ensure last content has proper spacing */
+.card-content .last-updated {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 /* Card header */
@@ -585,8 +586,7 @@
 /* Card content */
 .card-content {
   padding: 1.5rem;
-  padding-bottom: 3rem;
-  margin-bottom: 2rem;
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -6390,6 +6390,8 @@ span.skill-category {
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .teaching-effectiveness-card:hover {
@@ -6569,6 +6571,687 @@ span.skill-category {
   border-color: #34d399;
   border-left-width: 4px;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Course Performance Card Specific Styling */
+.course-performance-card .summary-section,
+.course-performance-card .insights-section,
+.course-performance-card .recommendations-section {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  border-radius: 0.75rem;
+  border: 2px solid #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Courses Section - No background padding to avoid double padding */
+.course-performance-card .courses-section {
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+/* Ensure courses-list has proper spacing */
+.course-performance-card .courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.course-performance-card .summary-section:hover,
+.course-performance-card .insights-section:hover,
+.course-performance-card .recommendations-section:hover {
+  border-color: #34d399;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.15);
+}
+
+.night-mode .course-performance-card .summary-section,
+.night-mode .course-performance-card .insights-section,
+.night-mode .course-performance-card .recommendations-section {
+  background: linear-gradient(135deg, #1f2937 0%, rgba(16, 185, 129, 0.1) 100%);
+  border: 2px solid #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.night-mode .course-performance-card .summary-section:hover,
+.night-mode .course-performance-card .insights-section:hover,
+.night-mode .course-performance-card .recommendations-section:hover {
+  border-color: #34d399;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+
+.night-mode .course-performance-card .courses-section {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Individual Course Cards */
+.course-performance-card .course-card {
+  border: 3px solid #10b981 !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 50%, #ffffff 100%) !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.course-performance-card .course-card:last-child {
+  margin-bottom: 0;
+}
+
+.course-performance-card .course-card:hover {
+  border-color: #34d399 !important;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
+  transform: translateY(-2px);
+}
+
+.night-mode .course-performance-card .course-card {
+  border: 3px solid #10b981 !important;
+  background: linear-gradient(135deg, #1f2937 0%, rgba(16, 185, 129, 0.15) 50%, #1f2937 100%) !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.night-mode .course-performance-card .course-card:hover {
+  border-color: #34d399 !important;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+
+/* Metric Items in Course Cards */
+.course-performance-card .metric-item {
+  border: 2px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .metric-item:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.course-performance-card .bg-blue-50 {
+  border-color: #3b82f6 !important;
+}
+
+.course-performance-card .bg-green-50 {
+  border-color: #10b981 !important;
+}
+
+.course-performance-card .bg-purple-50 {
+  border-color: #a855f7 !important;
+}
+
+.course-performance-card .bg-orange-50 {
+  border-color: #f59e0b !important;
+}
+
+.night-mode .course-performance-card .metric-item {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.night-mode .course-performance-card .metric-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Insight Items */
+.course-performance-card .insight-item {
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+  border: 2px solid #10b981;
+  border-left: 4px solid #10b981;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .insight-item:hover {
+  transform: translateX(4px);
+  border-left-width: 6px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.night-mode .course-performance-card .insight-item {
+  background: linear-gradient(135deg, #1f2937 0%, rgba(16, 185, 129, 0.15) 100%);
+  border: 2px solid #10b981;
+  border-left: 4px solid #10b981;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+.night-mode .course-performance-card .insight-item:hover {
+  border-color: #34d399;
+  border-left-width: 6px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Recommendations List */
+.course-performance-card .recommendations-list li {
+  padding: 0.875rem 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+  border: 2px solid #10b981;
+  border-left: 4px solid #10b981;
+  border-radius: 0.75rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .recommendations-list li:hover {
+  transform: translateX(4px);
+  border-left-width: 6px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.night-mode .course-performance-card .recommendations-list li {
+  background: linear-gradient(135deg, #1f2937 0%, rgba(16, 185, 129, 0.15) 100%);
+  border: 2px solid #10b981;
+  border-left: 4px solid #10b981;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+.night-mode .course-performance-card .recommendations-list li:hover {
+  border-color: #34d399;
+  border-left-width: 6px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Health Score Display */
+.course-performance-card .health-score {
+  background: linear-gradient(135deg, currentColor, currentColor);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+/* Section Headers in Course Performance */
+.course-performance-card .summary-section h4,
+.course-performance-card .courses-section h4,
+.course-performance-card .insights-section h4,
+.course-performance-card .recommendations-section h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid #10b981;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #047857, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Courses Section header - no background gradient, just color */
+.course-performance-card .courses-section h4 {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: initial;
+  color: #047857;
+}
+
+.night-mode .course-performance-card .summary-section h4,
+.night-mode .course-performance-card .insights-section h4,
+.night-mode .course-performance-card .recommendations-section h4 {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.night-mode .course-performance-card .courses-section h4 {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: initial;
+  color: #10b981;
+}
+
+/* ==================== ALL COURSE PERFORMANCE DESCENDANTS ==================== */
+
+/* Course Header Elements */
+.course-performance-card .course-info h5 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #047857, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .course-info h5:hover {
+  transform: translateX(2px);
+}
+
+.night-mode .course-performance-card .course-info h5 {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Course Meta Elements */
+.course-performance-card .course-meta {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #10b981;
+  margin-bottom: 0.5rem;
+}
+
+.night-mode .course-performance-card .course-meta {
+  border-bottom-color: rgba(16, 185, 129, 0.5);
+}
+
+.course-performance-card .course-id {
+  padding: 0.25rem 0.5rem;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.night-mode .course-performance-card .course-id {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Course Trend Badge */
+.course-performance-card .course-trend {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .text-green-600 {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15);
+  color: white !important;
+}
+
+.course-performance-card .text-red-600 {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
+  color: white !important;
+}
+
+.course-performance-card .text-gray-600 {
+  background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 2px 6px rgba(107, 114, 128, 0.15);
+  color: white !important;
+}
+
+.night-mode .course-performance-card .text-green-600 {
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+}
+
+.night-mode .course-performance-card .text-red-600 {
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+}
+
+.night-mode .course-performance-card .text-gray-600 {
+  box-shadow: 0 2px 6px rgba(107, 114, 128, 0.25);
+}
+
+/* Health Score Display */
+.course-performance-card .course-health {
+  padding: 1rem;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
+  border-radius: 0.75rem;
+  border: 3px solid #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .course-health:hover {
+  border-color: #34d399;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
+}
+
+.night-mode .course-performance-card .course-health {
+  background: rgba(16, 185, 129, 0.15);
+  border: 3px solid #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.night-mode .course-performance-card .course-health:hover {
+  border-color: #34d399;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+
+.course-performance-card .health-label {
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.night-mode .course-performance-card .health-label {
+  color: #9ca3af;
+}
+
+/* Metric Values */
+.course-performance-card .metric-value {
+  background: linear-gradient(135deg, currentColor, currentColor);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .metric-value:hover {
+  filter: brightness(1.2);
+}
+
+/* Metric Labels */
+.course-performance-card .metric-label {
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.025em;
+}
+
+.night-mode .course-performance-card .metric-label {
+  color: #9ca3af;
+}
+
+/* Insight Text */
+.course-performance-card .insight-text {
+  line-height: 1.8;
+  color: #374151;
+  font-weight: 500;
+}
+
+.night-mode .course-performance-card .insight-text {
+  color: #e5e7eb;
+}
+
+.course-performance-card .insight-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.3));
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .insight-item:hover .insight-icon {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 4px 8px rgba(245, 158, 11, 0.5));
+}
+
+/* Recommendations List Text */
+.course-performance-card .recommendations-list li {
+  line-height: 1.8;
+  color: #374151;
+  font-weight: 500;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.course-performance-card .recommendations-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #10b981;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.night-mode .course-performance-card .recommendations-list li {
+  color: #e5e7eb;
+}
+
+.night-mode .course-performance-card .recommendations-list li::before {
+  color: #34d399;
+}
+
+/* All Paragraph Elements in Course Performance */
+.course-performance-card p {
+  line-height: 1.8;
+  color: #374151;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.course-performance-card p:hover {
+  color: #111827;
+}
+
+.night-mode .course-performance-card p {
+  color: #e5e7eb;
+}
+
+.night-mode .course-performance-card p:hover {
+  color: #f9fafb;
+}
+
+/* Health Score Numbers - Color Coded */
+.course-performance-card .text-3xl.font-bold.text-green-600 {
+  background: linear-gradient(135deg, #047857, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.course-performance-card .text-3xl.font-bold.text-yellow-600 {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.course-performance-card .text-3xl.font-bold.text-red-600 {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.night-mode .course-performance-card .text-3xl.font-bold.text-green-600 {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.night-mode .course-performance-card .text-3xl.font-bold.text-yellow-600 {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.night-mode .course-performance-card .text-3xl.font-bold.text-red-600 {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* All H3-H6 in Course Performance */
+.course-performance-card h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #047857, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.night-mode .course-performance-card h3 {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.course-performance-card h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.night-mode .course-performance-card h4 {
+  color: #f9fafb;
+}
+
+.course-performance-card h5 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.night-mode .course-performance-card h5 {
+  color: #f9fafb;
+}
+
+.course-performance-card h6 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.night-mode .course-performance-card h6 {
+  color: #f9fafb;
+}
+
+/* Last Updated Text */
+.course-performance-card .last-updated {
+  padding: 1rem;
+  background: transparent !important;
+  border-radius: 0.5rem;
+  border-top: 2px solid #10b981;
+}
+
+.night-mode .course-performance-card .last-updated {
+  background: transparent !important;
+  border-top-color: #34d399;
+}
+
+.course-performance-card .updated-label,
+.course-performance-card .updated-time {
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .updated-label {
+  color: #6b7280;
+}
+
+.night-mode .course-performance-card .updated-label {
+  color: #9ca3af;
+}
+
+.course-performance-card .updated-time {
+  color: #047857;
+}
+
+.night-mode .course-performance-card .updated-time {
+  color: #10b981;
+}
+
+/* All text color classes in Course Performance */
+.course-performance-card .text-gray-100,
+.course-performance-card .text-gray-300,
+.course-performance-card .text-gray-400,
+.course-performance-card .text-gray-500,
+.course-performance-card .text-gray-600,
+.course-performance-card .text-gray-700,
+.course-performance-card .text-gray-900 {
+  transition: all 0.3s ease;
+}
+
+/* Strong/Bold Text */
+.course-performance-card strong {
+  font-weight: 800;
+  background: linear-gradient(135deg, #047857, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.night-mode .course-performance-card strong {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Span elements */
+.course-performance-card span {
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .font-bold,
+.course-performance-card .font-semibold,
+.course-performance-card .font-medium {
+  font-weight: 700;
+}
+
+/* Grid elements styling */
+.course-performance-card .summary-grid,
+.course-performance-card .courses-grid,
+.course-performance-card .courses-list {
+  gap: 1.5rem;
+}
+
+/* Div elements with specific classes */
+.course-performance-card .course-header {
+  padding: 1rem 0;
+  border-bottom: 2px solid #10b981;
+  margin-bottom: 1.5rem;
+}
+
+.night-mode .course-performance-card .course-header {
+  border-bottom-color: rgba(16, 185, 129, 0.5);
+}
+
+.course-performance-card .flex.items-start,
+.course-performance-card .flex.items-center {
+  transition: all 0.3s ease;
+}
+
+.course-performance-card .text-right {
+  text-align: right;
+}
+
+.course-performance-card .text-center {
+  text-align: center;
+}
+
+.course-performance-card .text-center:hover {
+  transform: scale(1.02);
+}
+
+/* Top Performers/Key Metrics Special Styling */
+.course-performance-card .staleness-indicator {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.night-mode .course-performance-card .staleness-indicator {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 /* Trainer Card Specific Sections */
@@ -7279,14 +7962,14 @@ span.skill-category {
 /* Last Updated Section */
 .course-health-card .last-updated {
   padding: 1rem;
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  background: transparent !important;
   border-radius: 0.5rem;
   border-top: 2px solid #10b981;
 }
 
 .night-mode .course-health-card .last-updated {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border-top-color: rgba(16, 185, 129, 0.5);
+  background: transparent !important;
+  border-top-color: #34d399;
 }
 
 .course-health-card .updated-label,
@@ -7586,12 +8269,494 @@ span.skill-category {
 /* Last updated */
 .student-distribution-card .last-updated {
   padding: 1rem;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+  background: transparent !important;
   border-radius: 0.5rem;
   border-top: 2px solid #10b981;
 }
 
 .night-mode .student-distribution-card .last-updated {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%);
+  background: transparent !important;
   border-top-color: #34d399;
+}
+
+/* ==================== TEACHING EFFECTIVENESS CARD STYLING ==================== */
+
+/* Score Display Section */
+.teaching-effectiveness-card .score-display-section {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+/* Teaching Effectiveness Content Specific Spacing */
+.teaching-effectiveness-card .card-content {
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+/* Ensure last section has proper bottom spacing */
+.teaching-effectiveness-card .bg-blue-50 {
+  margin-bottom: 0;
+}
+
+.teaching-effectiveness-card .last-updated {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  background: transparent !important;
+}
+
+.night-mode .teaching-effectiveness-card .last-updated {
+  border-top-color: #374151;
+  background: transparent !important;
+}
+
+/* ==================== TEACHING EFFECTIVENESS SECTIONS ==================== */
+
+/* Key Metrics Section */
+.teaching-effectiveness-card .key-metrics-section,
+.teaching-effectiveness-card .strengths-improvements-section {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.5rem;
+}
+
+.teaching-effectiveness-card .key-metrics-section:last-child,
+.teaching-effectiveness-card .strengths-improvements-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.night-mode .teaching-effectiveness-card .key-metrics-section,
+.night-mode .teaching-effectiveness-card .strengths-improvements-section {
+  border-bottom-color: #374151;
+}
+
+/* Metric Boxes */
+.teaching-effectiveness-card .metric-box {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  border-left: 4px solid;
+}
+
+.teaching-effectiveness-card .metric-box.purple {
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+  border-color: #a855f7;
+}
+
+.teaching-effectiveness-card .metric-box.blue {
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  border-color: #3b82f6;
+}
+
+.teaching-effectiveness-card .metric-box.emerald {
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+  border-color: #10b981;
+}
+
+.teaching-effectiveness-card .metric-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.night-mode .teaching-effectiveness-card .metric-box {
+  background: #1f2937;
+}
+
+.night-mode .teaching-effectiveness-card .metric-box.purple {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, #1f2937 100%);
+  border-color: #a855f7;
+}
+
+.night-mode .teaching-effectiveness-card .metric-box.blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, #1f2937 100%);
+  border-color: #3b82f6;
+}
+
+.night-mode .teaching-effectiveness-card .metric-box.emerald {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, #1f2937 100%);
+  border-color: #10b981;
+}
+
+.night-mode .teaching-effectiveness-card .metric-box:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Section Boxes */
+.teaching-effectiveness-card .section-box {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  border-top: 3px solid;
+}
+
+.teaching-effectiveness-card .section-box.emerald {
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+  border-color: #10b981;
+}
+
+.teaching-effectiveness-card .section-box.orange {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+  border-color: #f59e0b;
+}
+
+.teaching-effectiveness-card .section-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.night-mode .teaching-effectiveness-card .section-box {
+  background: #1f2937;
+}
+
+.night-mode .teaching-effectiveness-card .section-box.emerald {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, #1f2937 100%);
+  border-color: #10b981;
+}
+
+.night-mode .teaching-effectiveness-card .section-box.orange {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, #1f2937 100%);
+  border-color: #f59e0b;
+}
+
+.night-mode .teaching-effectiveness-card .section-box:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Performance Summary Section */
+.teaching-effectiveness-card .performance-summary-section {
+  padding: 1.5rem 0;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 1.5rem;
+}
+
+.night-mode .teaching-effectiveness-card .performance-summary-section {
+  border-top-color: #374151;
+}
+
+.teaching-effectiveness-card .section-header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.night-mode .teaching-effectiveness-card .section-header-title {
+  color: #f9fafb;
+}
+
+.teaching-effectiveness-card .summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.teaching-effectiveness-card .summary-item {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  border-left: 3px solid;
+}
+
+.teaching-effectiveness-card .summary-item.purple {
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+  border-color: #a855f7;
+}
+
+.teaching-effectiveness-card .summary-item.emerald {
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+  border-color: #10b981;
+}
+
+.teaching-effectiveness-card .summary-item.blue {
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  border-color: #3b82f6;
+}
+
+.teaching-effectiveness-card .summary-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.night-mode .teaching-effectiveness-card .summary-item {
+  background: #1f2937;
+}
+
+.night-mode .teaching-effectiveness-card .summary-item.purple {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, #1f2937 100%);
+  border-color: #a855f7;
+}
+
+.night-mode .teaching-effectiveness-card .summary-item.emerald {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, #1f2937 100%);
+  border-color: #10b981;
+}
+
+.night-mode .teaching-effectiveness-card .summary-item.blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, #1f2937 100%);
+  border-color: #3b82f6;
+}
+
+.night-mode .teaching-effectiveness-card .summary-item:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* ==================== STUDENT DISTRIBUTION CARD ==================== */
+
+/* Card Header */
+.student-distribution-card .card-header {
+  border-bottom: 3px solid #10b981;
+  padding: 1.5rem;
+  margin-bottom: 0;
+}
+
+.student-distribution-card .total-students {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+.student-distribution-card .total-students span {
+  font-weight: 700;
+  color: #047857;
+}
+
+.night-mode .student-distribution-card .total-students {
+  color: #9ca3af;
+}
+
+.night-mode .student-distribution-card .total-students span {
+  color: #10b981;
+}
+
+/* Section Titles */
+.student-distribution-card .section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #10b981;
+}
+
+.night-mode .student-distribution-card .section-title {
+  color: #f9fafb;
+  border-bottom-color: #10b981;
+}
+
+/* Sections */
+.student-distribution-card .distribution-section,
+.student-distribution-card .visual-distribution-section,
+.student-distribution-card .insights-section {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.5rem;
+}
+
+.student-distribution-card .distribution-section:last-child,
+.student-distribution-card .visual-distribution-section:last-child,
+.student-distribution-card .insights-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.night-mode .student-distribution-card .distribution-section,
+.night-mode .student-distribution-card .visual-distribution-section,
+.night-mode .student-distribution-card .insights-section {
+  border-bottom-color: #374151;
+}
+
+/* Distribution Grid */
+.student-distribution-card .distribution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+/* Performance Cards */
+.student-distribution-card .performance-card {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  border-left: 4px solid;
+  text-align: center;
+}
+
+.student-distribution-card .performance-card.excellent {
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+  border-color: #10b981;
+}
+
+.student-distribution-card .performance-card.good {
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  border-color: #3b82f6;
+}
+
+.student-distribution-card .performance-card.average {
+  background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%);
+  border-color: #f59e0b;
+}
+
+.student-distribution-card .performance-card.struggling {
+  background: linear-gradient(135deg, #fee2e2 0%, #ffffff 100%);
+  border-color: #ef4444;
+}
+
+.student-distribution-card .performance-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.night-mode .student-distribution-card .performance-card {
+  background: #1f2937;
+}
+
+.night-mode .student-distribution-card .performance-card.excellent {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, #1f2937 100%);
+  border-color: #10b981;
+}
+
+.night-mode .student-distribution-card .performance-card.good {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, #1f2937 100%);
+  border-color: #3b82f6;
+}
+
+.night-mode .student-distribution-card .performance-card.average {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, #1f2937 100%);
+  border-color: #f59e0b;
+}
+
+.night-mode .student-distribution-card .performance-card.struggling {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, #1f2937 100%);
+  border-color: #ef4444;
+}
+
+.night-mode .student-distribution-card .performance-card:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Insights Grid */
+.student-distribution-card .insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+/* Insight Items */
+.student-distribution-card .insight-item {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  border-left: 3px solid;
+}
+
+.student-distribution-card .insight-item.blue {
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  border-color: #3b82f6;
+}
+
+.student-distribution-card .insight-item.purple {
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+  border-color: #a855f7;
+}
+
+.student-distribution-card .insight-item.green {
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+  border-color: #10b981;
+}
+
+.student-distribution-card .insight-item.red {
+  background: linear-gradient(135deg, #fee2e2 0%, #ffffff 100%);
+  border-color: #ef4444;
+}
+
+.student-distribution-card .insight-item.emerald {
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+  border-color: #10b981;
+}
+
+.student-distribution-card .insight-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.night-mode .student-distribution-card .insight-item {
+  background: #1f2937;
+}
+
+.night-mode .student-distribution-card .insight-item.blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, #1f2937 100%);
+  border-color: #3b82f6;
+}
+
+.night-mode .student-distribution-card .insight-item.purple {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, #1f2937 100%);
+  border-color: #a855f7;
+}
+
+.night-mode .student-distribution-card .insight-item.green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, #1f2937 100%);
+  border-color: #10b981;
+}
+
+.night-mode .student-distribution-card .insight-item.red {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, #1f2937 100%);
+  border-color: #ef4444;
+}
+
+.night-mode .student-distribution-card .insight-item.emerald {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, #1f2937 100%);
+  border-color: #10b981;
+}
+
+.night-mode .student-distribution-card .insight-item:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Action Items Section */
+.student-distribution-card .action-items-section {
+  padding: 1.5rem 0;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 1.5rem;
+}
+
+.night-mode .student-distribution-card .action-items-section {
+  border-top-color: #374151;
+}
+
+.student-distribution-card .action-items-box {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+  border-left: 4px solid #f59e0b;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.night-mode .student-distribution-card .action-items-box {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, #1f2937 100%);
+  border-color: #f59e0b;
+}
+
+/* Last Updated */
+.student-distribution-card .last-updated {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  background: transparent !important;
+}
+
+.night-mode .student-distribution-card .last-updated {
+  border-top-color: #374151;
+  background: transparent !important;
 }

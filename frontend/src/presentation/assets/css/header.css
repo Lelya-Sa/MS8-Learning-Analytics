@@ -60,12 +60,39 @@
 }
 
 .logo-icon {
-    font-size: 1.5rem;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
     flex-shrink: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-icon:hover {
+    transform: scale(1.1);
+}
+
+.logo-day {
+    filter: drop-shadow(0 2px 4px rgba(4, 120, 87, 0.3));
+}
+
+.logo-night {
+    filter: drop-shadow(0 2px 4px rgba(52, 211, 153, 0.3));
+}
+
+/* Emoji fallback styling */
+.emoji-icon {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Show backup emoji if image fails */
+.backup-icon {
+    position: absolute;
+    left: 0;
 }
 
 .logo h1 {

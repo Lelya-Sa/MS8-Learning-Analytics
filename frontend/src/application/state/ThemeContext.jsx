@@ -59,8 +59,8 @@ export const ThemeProvider = ({ children, defaultTheme = THEMES.LIGHT }) => {
           isDarkMode
         });
         
-        // Apply theme to body immediately
-        document.body.className = isDarkMode ? 'night-mode' : 'day-mode';
+        // Apply theme to body immediately (both CSS night-mode and Tailwind dark classes)
+        document.body.className = isDarkMode ? 'night-mode dark' : 'day-mode';
       } catch (error) {
         console.warn('Failed to load theme from localStorage:', error);
         const isDarkMode = getIsDarkMode(defaultTheme);
@@ -69,8 +69,8 @@ export const ThemeProvider = ({ children, defaultTheme = THEMES.LIGHT }) => {
           isDarkMode
         });
         
-        // Apply theme to body
-        document.body.className = isDarkMode ? 'night-mode' : 'day-mode';
+        // Apply theme to body (both CSS night-mode and Tailwind dark classes)
+        document.body.className = isDarkMode ? 'night-mode dark' : 'day-mode';
       }
     };
 
@@ -88,8 +88,8 @@ export const ThemeProvider = ({ children, defaultTheme = THEMES.LIGHT }) => {
           isDarkMode: e.matches
         }));
         
-        // Apply theme to body
-        document.body.className = e.matches ? 'night-mode' : 'day-mode';
+        // Apply theme to body (both CSS night-mode and Tailwind dark classes)
+        document.body.className = e.matches ? 'night-mode dark' : 'day-mode';
       }
     };
 
@@ -120,8 +120,8 @@ export const ThemeProvider = ({ children, defaultTheme = THEMES.LIGHT }) => {
       isDarkMode
     });
     
-    // Apply theme to body
-    document.body.className = isDarkMode ? 'night-mode' : 'day-mode';
+    // Apply theme to body (both CSS night-mode and Tailwind dark classes)
+    document.body.className = isDarkMode ? 'night-mode dark' : 'day-mode';
   }, [getIsDarkMode]);
 
   // Toggle theme function

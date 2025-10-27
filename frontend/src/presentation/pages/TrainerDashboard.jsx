@@ -7,6 +7,11 @@ import { CoursePerformanceCard } from '../components/analytics/trainer/CoursePer
 import { CourseHealthCard } from '../components/analytics/trainer/CourseHealthCard';
 import { StudentDistributionCard } from '../components/analytics/trainer/StudentDistributionCard';
 import { TeachingEffectivenessCard } from '../components/analytics/trainer/TeachingEffectivenessCard';
+import DropOffRiskCard from '../components/analytics/comparison/DropOffRiskCard';
+import PeerComparisonCard from '../components/analytics/comparison/PeerComparisonCard';
+import SkillDemandCard from '../components/analytics/comparison/SkillDemandCard';
+import PerformanceForecastCard from '../components/analytics/comparison/PerformanceForecastCard';
+import RecommendationsCard from '../components/analytics/comparison/RecommendationsCard';
 
 /**
  * Trainer Dashboard Page
@@ -46,7 +51,7 @@ const TrainerDashboard = () => {
   // Extract courseId from the first course in coursePerformance or use a default
   const courseId = analyticsData?.coursePerformance?.courses?.[0]?.id || 'default-course';
   
-  const totalCards = 4; // Trainer has 4 cards
+  const totalCards = 9; // Trainer has 4 role-specific cards + 5 comparison/predictive cards
 
   // Update wrapper height to match active card height
   useEffect(() => {
@@ -182,6 +187,27 @@ const TrainerDashboard = () => {
                   isLoading={isLoading}
                   error={error}
                 />
+              </div>
+              
+              {/* Comparison/Predictive Cards - Role-Adaptive */}
+              <div ref={(el) => cardRefs.current[4] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <DropOffRiskCard userId={trainerId} role="trainer" />
+              </div>
+              
+              <div ref={(el) => cardRefs.current[5] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <PeerComparisonCard userId={trainerId} role="trainer" />
+              </div>
+              
+              <div ref={(el) => cardRefs.current[6] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <SkillDemandCard role="trainer" />
+              </div>
+              
+              <div ref={(el) => cardRefs.current[7] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <PerformanceForecastCard userId={trainerId} role="trainer" />
+              </div>
+              
+              <div ref={(el) => cardRefs.current[8] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <RecommendationsCard userId={trainerId} role="trainer" />
               </div>
             </div>
           </div>
