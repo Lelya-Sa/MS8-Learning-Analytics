@@ -178,6 +178,7 @@ frontend/
 │   │   │   ├── OrganizationDashboard.jsx    # Org admin dashboard
 │   │   │   ├── ReportsPage.jsx              # Report generation
 │   │   │   ├── PresentationPage.jsx         # Meeting presentation
+│   │   │   ├── SettingsPage.jsx             # User settings
 │   │   │   └── NotFoundPage.jsx             # 404 page
 │   │   │
 │   │   ├── components/       # Reusable components
@@ -233,15 +234,43 @@ frontend/
 │   │   ├── interfaces/    # Service interfaces
 │   │   └── models/        # Domain models
 │   │
+│   ├── test/              # Test Suite
+│   │   ├── application/   # Application layer tests
+│   │   │   ├── hooks/     # Hook tests (useGamification.test.js)
+│   │   │   ├── services/  # Service tests (GamificationService.test.js)
+│   │   │   ├── auth-context.test.jsx
+│   │   │   ├── auth-service.test.js
+│   │   │   └── theme-context.test.jsx
+│   │   │
+│   │   ├── infrastructure/ # Infrastructure tests
+│   │   │
+│   │   ├── presentation/  # Component tests
+│   │   │   ├── components/ # Component-level tests
+│   │   │   │   ├── analytics/  # 22 analytics card tests
+│   │   │   │   ├── auth/      # Auth component tests
+│   │   │   │   ├── optimization/
+│   │   │   │   └── reports/   # Report component tests
+│   │   │   ├── pages/     # Page tests (SettingsPage.test.jsx)
+│   │   │   └── login-page.test.jsx
+│   │   │
+│   │   ├── mocks/         # Mock data and services
+│   │   │   ├── api-client.js
+│   │   │   ├── handlers.js
+│   │   │   └── server.js
+│   │   │
+│   │   └── setup.js       # Test configuration
+│   │
+│   ├── __mocks__/         # Jest mocks
 │   ├── styles.css         # Main CSS entry point
 │   └── main.jsx           # React entry point
 │
 ├── public/                # Static public assets
 ├── dist/                  # Production build output
-├── tests/                 # Test files
 ├── package.json           # Dependencies
 ├── vite.config.js         # Vite configuration
 ├── tailwind.config.js     # Tailwind CSS configuration
+├── jest.config.cjs        # Jest test configuration
+├── babel.config.cjs       # Babel configuration
 └── vercel.json            # Vercel deployment configuration
 ```
 
@@ -726,20 +755,81 @@ git push origin feature/new-feature
 
 ## 🧪 Testing
 
-### Test Coverage
+### Frontend Testing Structure
 
-- **Unit Tests**: Individual components and functions
-- **Integration Tests**: API endpoints
-- **E2E Tests**: User flows (coming soon)
+The frontend uses **Jest** and **React Testing Library** for testing. Test files are organized in the `src/test/` directory:
+
+```
+src/test/
+├── application/          # Application layer tests
+│   ├── hooks/          # Custom hook tests
+│   │   └── useGamification.test.js
+│   ├── services/        # Service tests
+│   │   └── GamificationService.test.js
+│   ├── auth-context.test.jsx
+│   ├── auth-service.test.js
+│   └── theme-context.test.jsx
+│
+├── presentation/         # UI component tests
+│   ├── components/     # Component-level tests
+│   │   ├── analytics/ # 22 analytics card tests
+│   │   ├── auth/      # Auth component tests
+│   │   └── reports/   # Report component tests
+│   ├── pages/         # Page-level tests
+│   └── login-page.test.jsx
+│
+├── mocks/              # Mock services and data
+│   ├── api-client.js
+│   ├── handlers.js
+│   └── server.js
+│
+└── setup.js           # Test configuration
+```
+
+### Test Configuration
+
+- **Jest Config**: `jest.config.cjs` - Main test configuration
+- **Babel Config**: `babel.config.cjs` - JSX/ES6 transpilation
+- **Coverage Threshold**: 85% for branches, functions, lines, statements
+- **Test Environment**: `jsdom` for React component testing
 
 ### Running Tests
 
 ```bash
 # Backend
-cd backend && npm test
+cd backend
+npm test                  # Run all tests
+npm run test:watch        # Watch mode
+npm run test:coverage     # Coverage report
 
 # Frontend
-cd frontend && npm test
+cd frontend
+npm test                  # Run all tests
+npm run test:watch        # Watch mode
+npm run test:coverage     # Coverage report
+```
+
+### Test Types
+
+- **Unit Tests**: Individual components and functions
+- **Integration Tests**: API endpoints and service interactions
+- **Component Tests**: React component rendering and interactions
+- **E2E Tests**: User flows (coming soon)
+
+### Example Test File
+
+```javascript
+// src/test/application/services/GamificationService.test.js
+import { render, screen } from '@testing-library/react';
+import GamificationService from '@/application/services/GamificationService';
+
+describe('GamificationService', () => {
+  it('should fetch user points', async () => {
+    const service = new GamificationService();
+    const points = await service.getUserPoints('user-id');
+    expect(points).toBeGreaterThanOrEqual(0);
+  });
+});
 ```
 
 ---

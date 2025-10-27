@@ -215,9 +215,40 @@
 /* Slide 1: Welcome */
 .presentation-welcome {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 500px;
+    gap: 3rem;
+}
+
+.welcome-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.presentation-logo-img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    border-radius: 50%;
+    box-shadow: 0 10px 40px rgba(6, 95, 70, 0.4);
+    transition: all 0.3s ease;
+}
+
+.presentation-logo-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 50px rgba(6, 95, 70, 0.6);
+}
+
+.night-mode .presentation-logo-img {
+    box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
+}
+
+.night-mode .presentation-logo-img:hover {
+    box-shadow: 0 15px 50px rgba(16, 185, 129, 0.6);
 }
 
 .welcome-content {

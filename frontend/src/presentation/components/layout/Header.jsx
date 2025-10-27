@@ -38,9 +38,12 @@ const Header = ({ onToggleSidebar, sidebarCollapsed, isMobile }) => {
       await switchRole(role);
       setUserMenuOpen(false);
       
+      // Normalize role for comparison (handle both 'org-admin' and 'org_admin')
+      const normalizedRole = role === 'org-admin' ? 'org_admin' : role;
+      
       // Navigate to the appropriate dashboard based on role
       let dashboardPath = '/dashboard';
-      switch (role) {
+      switch (normalizedRole) {
         case 'learner':
           dashboardPath = '/dashboard/learner';
           break;
@@ -53,6 +56,8 @@ const Header = ({ onToggleSidebar, sidebarCollapsed, isMobile }) => {
         default:
           dashboardPath = '/dashboard/learner';
       }
+      
+      console.log(`Switching to role: ${role}, navigating to: ${dashboardPath}`);
       
       navigate(dashboardPath);
     } catch (error) {

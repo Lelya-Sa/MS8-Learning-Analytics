@@ -41,6 +41,23 @@ const PresentationPage = () => {
       subtitle: "By Lelya Salman",
       content: (
         <div className="presentation-welcome">
+          <div className="welcome-logo">
+            <img 
+              src={isDarkMode ? logoNightSrc : logoDaySrc}
+              alt="MS8 Learning Analytics Logo"
+              className={`presentation-logo-img ${isDarkMode ? 'logo-night' : 'logo-day'}`}
+              onError={(e) => {
+                e.target.style.display = 'none';
+                const backupIcon = e.target.nextElementSibling;
+                if (backupIcon && backupIcon.classList.contains('emoji-backup-icon')) {
+                  backupIcon.style.display = 'flex';
+                }
+              }}
+            />
+            <div className={`emoji-backup-icon presentation-logo-img ${isDarkMode ? 'logo-night' : 'logo-day'}`} style={{display: 'none', fontSize: '120px', alignItems: 'center', justifyContent: 'center', width: '200px', height: '200px'}}>
+              {emojiIcon}
+            </div>
+          </div>
           <div className="welcome-content">
             <h2>Welcome to My Presentation</h2>
             <p>Building a comprehensive learning analytics platform with modern architecture and best practices</p>
@@ -284,7 +301,11 @@ const PresentationPage = () => {
                 <div className="tree-item">│   ├── assets/ (CSS, images)</div>
                 <div className="tree-item">│   ├── components/ (19 analytics cards)</div>
                 <div className="tree-item">│   └── pages/ (8 page components)</div>
-                <div className="tree-item">└── 153 files total</div>
+                <div className="tree-item">├── test/ (Test Suite)</div>
+                <div className="tree-item">│   ├── application/ (Hook & service tests)</div>
+                <div className="tree-item">│   ├── presentation/ (Component tests)</div>
+                <div className="tree-item">│   └── mocks/ (Mock data)</div>
+                <div className="tree-item">└── 153+ files total (with tests)</div>
               </div>
             </div>
             <div className="structure-item">
