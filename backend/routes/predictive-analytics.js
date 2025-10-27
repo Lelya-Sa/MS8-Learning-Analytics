@@ -21,12 +21,14 @@ router.get('/drop-off-risk/:userId', authenticateToken, requireRole(['learner', 
     try {
         const { userId } = req.params;
         
-        // Check if user can access this resource (own data or admin)
-        const canAccess = req.user.userId === userId || 
-                         (req.user.roles && req.user.roles.includes('org_admin')) ||
-                         (req.user.role === 'org-admin');
+        // Check if user can access this resource (own data or org-admin)
+        const isOwnData = req.user.userId === userId || req.user.id === userId;
+        const isOrgAdmin = req.user.role === 'org_admin' || 
+                          req.user.role === 'org-admin' || 
+                          (req.user.roles && req.user.roles.includes('org_admin')) ||
+                          (req.user.roles && req.user.roles.includes('org-admin'));
         
-        if (!canAccess) {
+        if (!isOwnData && !isOrgAdmin) {
             return res.status(403).json({
                 error: 'Access denied',
                 code: 'ACCESS_DENIED'
@@ -66,11 +68,14 @@ router.get('/forecast/:userId', authenticateToken, requireRole(['learner', 'org_
     try {
         const { userId } = req.params;
         
-        const canAccess = req.user.userId === userId || 
-                         (req.user.roles && req.user.roles.includes('org_admin')) ||
-                         (req.user.role === 'org-admin');
+        // Check if user can access this resource (own data or org-admin)
+        const isOwnData = req.user.userId === userId || req.user.id === userId;
+        const isOrgAdmin = req.user.role === 'org_admin' || 
+                          req.user.role === 'org-admin' || 
+                          (req.user.roles && req.user.roles.includes('org_admin')) ||
+                          (req.user.roles && req.user.roles.includes('org-admin'));
         
-        if (!canAccess) {
+        if (!isOwnData && !isOrgAdmin) {
             return res.status(403).json({
                 error: 'Access denied',
                 code: 'ACCESS_DENIED'
@@ -110,11 +115,14 @@ router.get('/recommendations/:userId', authenticateToken, requireRole(['learner'
     try {
         const { userId } = req.params;
         
-        const canAccess = req.user.userId === userId || 
-                         (req.user.roles && req.user.roles.includes('org_admin')) ||
-                         (req.user.role === 'org-admin');
+        // Check if user can access this resource (own data or org-admin)
+        const isOwnData = req.user.userId === userId || req.user.id === userId;
+        const isOrgAdmin = req.user.role === 'org_admin' || 
+                          req.user.role === 'org-admin' || 
+                          (req.user.roles && req.user.roles.includes('org_admin')) ||
+                          (req.user.roles && req.user.roles.includes('org-admin'));
         
-        if (!canAccess) {
+        if (!isOwnData && !isOrgAdmin) {
             return res.status(403).json({
                 error: 'Access denied',
                 code: 'ACCESS_DENIED'

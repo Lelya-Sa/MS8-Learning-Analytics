@@ -21,7 +21,14 @@ router.get('/peer/:userId', authenticateToken, requireRole(['learner', 'org_admi
     try {
         const { userId } = req.params;
         
-        if (req.user.userId !== userId && !req.user.roles.includes('org_admin') && req.user.role !== 'org-admin') {
+        // Check if user can access this resource (own data or org-admin)
+        const isOwnData = req.user.userId === userId || req.user.id === userId;
+        const isOrgAdmin = req.user.role === 'org_admin' || 
+                          req.user.role === 'org-admin' || 
+                          (req.user.roles && req.user.roles.includes('org_admin')) ||
+                          (req.user.roles && req.user.roles.includes('org-admin'));
+        
+        if (!isOwnData && !isOrgAdmin) {
             return res.status(403).json({
                 error: 'Access denied',
                 code: 'ACCESS_DENIED'
