@@ -615,6 +615,10 @@
     font-size: 1.25rem;
     transition: all 0.3s ease;
     box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 1000;
+    position: relative;
 }
 
 .demo-button:hover {
