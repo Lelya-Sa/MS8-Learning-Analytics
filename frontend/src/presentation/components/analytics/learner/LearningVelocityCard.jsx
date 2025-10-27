@@ -272,26 +272,30 @@ export const LearningVelocityCard = ({
             aria-label={`Learning velocity trend chart for ${selectedTimeWindow}`}
           >
             {viewType === 'bar' ? (
-              <BarChart 
-                data={chartData}
-                width={400}
-                height={200}
-                color="#047857"
-                showGrid={true}
-                showTooltip={true}
-                xAxisLabel="Time"
-                yAxisLabel="Velocity"
-                responsive={true}
-              />
+              <div className="bar-chart-container">
+                <BarChart 
+                  data={chartData}
+                  width={400}
+                  height={200}
+                  color="#047857"
+                  showGrid={true}
+                  showTooltip={true}
+                  xAxisLabel="Time"
+                  yAxisLabel="Velocity"
+                  responsive={true}
+                />
+              </div>
             ) : viewType === 'pie' ? (
-              <PieChart 
-                data={pieChartData}
-                width={300}
-                height={200}
-                showLegend={true}
-                showPercentages={true}
-                responsive={true}
-              />
+              <div className="pie-chart-container">
+                <PieChart 
+                  data={pieChartData}
+                  width={300}
+                  height={200}
+                  showLegend={true}
+                  showPercentages={true}
+                  responsive={true}
+                />
+              </div>
             ) : viewType === 'table' ? (
               <DataTable 
                 data={velocityHistory}
@@ -301,19 +305,21 @@ export const LearningVelocityCard = ({
                 ]}
               />
             ) : (
-              <LineChart 
-                data={chartData}
-                width={400}
-                height={200}
-                color="#047857"
-                strokeWidth={2}
-                showGrid={true}
-                showPoints={true}
-                showTooltip={true}
-                xAxisLabel="Time"
-                yAxisLabel="Velocity"
-                responsive={true}
-              />
+              <div className="line-chart-container">
+                <LineChart 
+                  data={chartData}
+                  width={400}
+                  height={200}
+                  color="#047857"
+                  strokeWidth={2}
+                  showGrid={true}
+                  showPoints={true}
+                  showTooltip={true}
+                  xAxisLabel="Time"
+                  yAxisLabel="Velocity"
+                  responsive={true}
+                />
+              </div>
             )}
           </div>
         </div>

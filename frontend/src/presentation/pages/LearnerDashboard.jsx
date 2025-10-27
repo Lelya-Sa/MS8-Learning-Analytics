@@ -33,6 +33,8 @@ const LearnerDashboard = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsPerView, setCardsPerView] = useState(3);
   const carouselRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const cardRefs = useRef([]);
 
   // Fetch all learner analytics data
   const { data: analyticsData, error, isLoading } = useSWR(
@@ -47,6 +49,25 @@ const LearnerDashboard = () => {
   );
 
   const totalCards = 7; // Total number of analytics cards (including Drop-off Risk)
+
+  // Update wrapper height to match active card height
+  useEffect(() => {
+    const updateHeight = () => {
+      if (wrapperRef.current && cardRefs.current[currentIndex]) {
+        const activeCard = cardRefs.current[currentIndex];
+        const cardHeight = activeCard.offsetHeight;
+        wrapperRef.current.style.height = `${cardHeight}px`;
+      }
+    };
+
+    // Update height when index changes
+    updateHeight();
+    
+    // Update height when window resizes
+    window.addEventListener('resize', updateHeight);
+    
+    return () => window.removeEventListener('resize', updateHeight);
+  }, [currentIndex]);
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => 
@@ -96,23 +117,23 @@ const LearnerDashboard = () => {
           </button>
 
           {/* Cards Container */}
-          <div className="cards-carousel-wrapper overflow-hidden">
+          <div ref={wrapperRef} className="cards-carousel-wrapper overflow-hidden">
             <div 
               ref={carouselRef}
               className="cards-carousel flex"
               style={{
                 transform: `translateX(-${currentIndex * 100}%)`,
-                transition: 'transform 0.5s ease-in-out',
-                width: `${totalCards * 100}%`,
+                transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            
               }}
             >
                {/* Drop-off Risk Analysis */}
-               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+               <div ref={(el) => cardRefs.current[0] = el} style={{ width: '100%', flexShrink: 0 }}>
                  <DropOffRiskCard userId={userId} />
                </div>
 
                {/* AS-001 #1: Learning Velocity */}
-               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+               <div ref={(el) => cardRefs.current[1] = el} style={{ width: '100%', flexShrink: 0 }}>
                  <LearningVelocityCard 
                    data={analyticsData?.learningVelocity}
                    isLoading={isLoading}
@@ -121,7 +142,7 @@ const LearnerDashboard = () => {
                </div>
              
                {/* AS-001 #2: Skill Gap Matrix */}
-               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+               <div ref={(el) => cardRefs.current[2] = el} style={{ width: '100%', flexShrink: 0 }}>
                  <SkillGapMatrixCard 
                    data={analyticsData?.skillGap}
                    isLoading={isLoading}
@@ -130,7 +151,7 @@ const LearnerDashboard = () => {
                </div>
              
                {/* AS-001 #3: Engagement Score */}
-               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+               <div ref={(el) => cardRefs.current[3] = el} style={{ width: '100%', flexShrink: 0 }}>
                  <EngagementMetricsCard 
                    data={analyticsData?.engagement}
                    isLoading={isLoading}
@@ -139,7 +160,7 @@ const LearnerDashboard = () => {
                </div>
              
                {/* AS-001 #4: Mastery Progress */}
-               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+               <div ref={(el) => cardRefs.current[4] = el} style={{ width: '100%', flexShrink: 0 }}>
                  <MasteryProgressionCard 
                    data={analyticsData?.mastery}
                    isLoading={isLoading}
@@ -148,7 +169,7 @@ const LearnerDashboard = () => {
                </div>
              
                {/* AS-001 #5: Performance Analytics */}
-               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+               <div ref={(el) => cardRefs.current[5] = el} style={{ width: '100%', flexShrink: 0 }}>
                  <PerformanceAnalyticsCard 
                    data={analyticsData?.performance}
                    isLoading={isLoading}
@@ -157,7 +178,7 @@ const LearnerDashboard = () => {
                </div>
              
                {/* AS-001 #6: Content Effectiveness */}
-               <div style={{ width: '100%', flexShrink: 0, padding: '0 0.75rem' }}>
+               <div ref={(el) => cardRefs.current[6] = el} style={{ width: '100%', flexShrink: 0 }}>
                  <ContentEffectivenessCard 
                    data={analyticsData?.contentEffectiveness}
                    isLoading={isLoading}
@@ -200,17 +221,17 @@ const LearnerDashboard = () => {
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
             <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-cyan-700 hover:bg-cyan-800 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+              className="quick-action-btn analytics-btn"
             >
               📊 View Detailed Analytics
             </button>
             <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-amber-500 hover:bg-amber-600 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+              className="quick-action-btn report-btn"
             >
               📄 Generate Report
             </button>
             <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-purple-600 hover:bg-purple-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              className="quick-action-btn achievements-btn"
             >
               🏆 View Achievements
             </button>

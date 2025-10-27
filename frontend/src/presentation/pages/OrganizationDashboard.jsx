@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import useSWR from 'swr';
 import { useAuth } from '../../application/state/AuthContext';
 import { apiClient } from '../../infrastructure/api';
@@ -26,6 +26,11 @@ const OrganizationDashboard = () => {
   console.log('👤 Organization Dashboard - User:', user);
   const orgId = user?.organization_id || user?.organizationId || user?.id;
   console.log('🏢 Organization Dashboard - Org ID:', orgId);
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const cardRefs = useRef([]);
 
   // Fetch all organization analytics data
   const { data: analyticsData, error, isLoading } = useSWR(
@@ -39,6 +44,43 @@ const OrganizationDashboard = () => {
       return data;
     }
   );
+
+  const totalCards = 4; // Organization has 4 cards
+
+  // Update wrapper height to match active card height
+  useEffect(() => {
+    const updateHeight = () => {
+      if (wrapperRef.current && cardRefs.current[currentIndex]) {
+        const activeCard = cardRefs.current[currentIndex];
+        const cardHeight = activeCard.offsetHeight;
+        wrapperRef.current.style.height = `${cardHeight}px`;
+      }
+    };
+
+    // Update height when index changes
+    updateHeight();
+    
+    // Update height when window resizes
+    window.addEventListener('resize', updateHeight);
+    
+    return () => window.removeEventListener('resize', updateHeight);
+  }, [currentIndex]);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? totalCards - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === totalCards - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
 
   if (!orgId) {
     return (
@@ -80,47 +122,101 @@ const OrganizationDashboard = () => {
           </div>
         </div>
 
-        {/* Analytics Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* AS-003 #11: Org Learning Velocity */}
-          <OrgLearningVelocityCard 
-            organizationId={orgId}
-            data={analyticsData?.learningVelocity}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-003 #12: Strategic Alignment */}
-          <StrategicAlignmentCard 
-            organizationId={orgId}
-            data={analyticsData?.strategicAlignment}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-003 #13: Department Analytics - Placeholder */}
-          <div className="p-6 rounded-lg border-2 border-dashed bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
-            <div className="text-center">
-              <div className="text-4xl mb-4">🏢</div>
-              <h3 className="text-xl font-semibold mb-2 text-cyan-700 dark:text-cyan-400">
-                Department Analytics
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Coming Soon: Detailed department-level analytics and comparisons
-              </p>
-              <div className="mt-4 text-xs text-gray-500 dark:text-gray-500">
-                AS-003 #13: Department Analytics
+        {/* Analytics Cards Carousel */}
+        <div className="carousel-container relative">
+          {/* Left Navigation Button */}
+          <button
+            onClick={goToPrevious}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Previous cards"
+          >
+            ←
+          </button>
+
+          {/* Cards Container */}
+          <div ref={wrapperRef} className="cards-carousel-wrapper overflow-hidden">
+            <div 
+              ref={carouselRef}
+              className="cards-carousel flex"
+              style={{
+                transform: `translateX(-${currentIndex * 100}%)`,
+                transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              }}
+            >
+              {/* AS-003 #11: Org Learning Velocity */}
+              <div ref={(el) => cardRefs.current[0] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <OrgLearningVelocityCard 
+                  organizationId={orgId}
+                  data={analyticsData?.learningVelocity}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+              
+              {/* AS-003 #12: Strategic Alignment */}
+              <div ref={(el) => cardRefs.current[1] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <StrategicAlignmentCard 
+                  organizationId={orgId}
+                  data={analyticsData?.strategicAlignment}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+              
+              {/* AS-003 #13: Department Analytics - Placeholder */}
+              <div ref={(el) => cardRefs.current[2] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <div className="p-6 rounded-lg border-2 border-dashed bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
+                  <div className="text-center">
+                    <div className="text-4xl mb-4">🏢</div>
+                    <h3 className="text-xl font-semibold mb-2 text-cyan-700 dark:text-cyan-400">
+                      Department Analytics
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Coming Soon: Detailed department-level analytics and comparisons
+                    </p>
+                    <div className="mt-4 text-xs text-gray-500 dark:text-gray-500">
+                      AS-003 #13: Department Analytics
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* AS-003 #14: Learning Culture */}
+              <div ref={(el) => cardRefs.current[3] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <LearningCultureCard 
+                  organizationId={orgId}
+                  data={analyticsData?.learningCulture}
+                  isLoading={isLoading}
+                  error={error}
+                />
               </div>
             </div>
           </div>
-          
-          {/* AS-003 #14: Learning Culture */}
-          <LearningCultureCard 
-            organizationId={orgId}
-            data={analyticsData?.learningCulture}
-            isLoading={isLoading}
-            error={error}
-          />
+
+          {/* Right Navigation Button */}
+          <button
+            onClick={goToNext}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Next cards"
+          >
+            →
+          </button>
+
+          {/* Carousel Indicators */}
+          <div className="flex justify-center gap-2 mt-6">
+            {Array.from({ length: totalCards }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`h-2 transition-all duration-300 rounded-full ${
+                  index === currentIndex 
+                    ? 'w-8 bg-emerald-500' 
+                    : 'w-2 bg-gray-300 dark:bg-gray-600'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Organization Overview Stats */}
@@ -165,24 +261,16 @@ const OrganizationDashboard = () => {
             Quick Actions
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-cyan-700 hover:bg-cyan-800 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-            >
+            <button className="quick-action-btn analytics-btn">
               👤 User Management
             </button>
-            <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-amber-500 hover:bg-amber-600 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
-            >
+            <button className="quick-action-btn report-btn">
               🏢 Department Analytics
             </button>
-            <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-purple-600 hover:bg-purple-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-            >
+            <button className="quick-action-btn achievements-btn">
               ⚙️ Organization Settings
             </button>
-            <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-emerald-600 hover:bg-emerald-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-            >
+            <button className="quick-action-btn analytics-btn">
               📊 Strategic Reports
             </button>
           </div>

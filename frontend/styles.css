@@ -20,11 +20,23 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: auto;
+}
+
+#root {
+    transform: scale(0.75);
+    transform-origin: top left;
+    width: 133.33%;
+    min-height: 133.33vh;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--background-color);
+    overflow-x: auto;
 }
 
 .container {

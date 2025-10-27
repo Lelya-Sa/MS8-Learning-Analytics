@@ -273,21 +273,61 @@ export const SkillGapMatrixCard = ({
         {/* Heatmap Visualization */}
         <div className="heatmap-section">
           <h4>Skills Heatmap</h4>
+          <p className="heatmap-description">
+            Visual representation of your skill gaps. Each cell represents a skill with colors indicating urgency.
+          </p>
+          
+          {/* Heatmap Legend */}
+          <div className="heatmap-legend">
+            <div className="legend-item">
+              <div className="legend-color low"></div>
+              <span className="legend-label">Low Gap</span>
+              <span className="legend-description">Minimal gap, no immediate attention needed</span>
+            </div>
+            <div className="legend-item">
+              <div className="legend-color medium"></div>
+              <span className="legend-label">Medium Gap</span>
+              <span className="legend-description">Moderate gap, consider improvement</span>
+            </div>
+            <div className="legend-item">
+              <div className="legend-color high"></div>
+              <span className="legend-label">High Gap</span>
+              <span className="legend-description">Significant gap, prioritize learning</span>
+            </div>
+            <div className="legend-item">
+              <div className="legend-color critical"></div>
+              <span className="legend-label">Critical Gap</span>
+              <span className="legend-description">Urgent gap, requires immediate action</span>
+            </div>
+          </div>
+
           <div 
             className="heatmap-grid"
             data-testid="skill-heatmap"
             role="img"
             aria-label="Skills heatmap showing gap levels and priorities"
           >
-            {filteredSkills.map(skill => (
-              <div
-                key={`heatmap-${skill.id}`}
-                className={`heatmap-cell ${getGapColor(skill.gap, skill.priority)}`}
-                data-testid={`heatmap-cell-${skill.id}`}
-                title={`${skill.name}: Gap ${skill.gap}, Priority ${skill.priority}%`}
-              />
-            ))}
+            {filteredSkills.map(skill => {
+              const shortName = skill.name.length > 10 ? skill.name.substring(0, 8) + '..' : skill.name;
+              return (
+                <div
+                  key={`heatmap-${skill.id}`}
+                  className={`heatmap-cell ${getGapColor(skill.gap, skill.priority)}`}
+                  data-testid={`heatmap-cell-${skill.id}`}
+                  title={`${skill.name}: Gap Level ${skill.gap}, Priority ${skill.priority}% - ${skill.category}`}
+                  aria-label={`Skill: ${skill.name}, Gap: ${skill.gap}, Priority: ${skill.priority}%`}
+                >
+                  <span className="heatmap-skill-icon">{getGapColor(skill.gap, skill.priority) === 'critical' ? '🔴' : 
+                    getGapColor(skill.gap, skill.priority) === 'high' ? '🟠' : 
+                    getGapColor(skill.gap, skill.priority) === 'medium' ? '🟡' : '🟢'}</span>
+                  <span className="heatmap-skill-name">{shortName}</span>
+                </div>
+              );
+            })}
           </div>
+          <p className="heatmap-footer">
+            Hover over cells to see skill details. Click to view comprehensive gap analysis.
+          </p>
         </div>
 
         {/* Summary Stats */}
@@ -386,23 +426,32 @@ export const SkillGapMatrixCard = ({
         <Modal
           isOpen={true}
           onClose={() => setShowExportModal(false)}
-          title="Export Format"
+          title="Export Skill Gap Data"
+          size="small"
         >
           <div className="export-options">
-            <p>Choose export format for skill gap data:</p>
+            <div className="export-description">
+              <p className="export-intro">Choose your preferred export format:</p>
+              <p className="export-subtitle">Export your complete skill gap analysis with all details and visualizations.</p>
+            </div>
             <div className="export-buttons">
               <Button 
                 onClick={() => handleExport('pdf')}
                 variant="primary"
+                className="export-pdf-btn"
               >
-                Export as PDF
+                📄 Export as PDF
               </Button>
               <Button 
                 onClick={() => handleExport('csv')}
                 variant="secondary"
+                className="export-csv-btn"
               >
-                Export as CSV
+                📊 Export as CSV
               </Button>
+            </div>
+            <div className="export-info">
+              <p className="export-note">💡 The export will include all filtered skills, gap levels, priorities, and metadata.</p>
             </div>
           </div>
         </Modal>

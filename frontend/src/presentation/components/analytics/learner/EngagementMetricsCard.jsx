@@ -63,6 +63,20 @@ export const EngagementMetricsCard = ({
     return engagementHistory;
   }, [engagementHistory, selectedPeriod]);
 
+  // Prepare chart data for LineChart component - use y and label only
+  const chartData = useMemo(() => {
+    if (!filteredHistory || !Array.isArray(filteredHistory) || filteredHistory.length === 0) {
+      return [];
+    }
+    
+    const formatted = filteredHistory.map((point) => ({
+      y: point?.engagement || 0,
+      label: point?.date ? new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''
+    }));
+    
+    return formatted;
+  }, [filteredHistory]);
+
   // Loading state
   if (isLoading) {
     return (
@@ -129,24 +143,6 @@ export const EngagementMetricsCard = ({
       </div>
     );
   }
-
-  // Prepare chart data for LineChart component - use y and label only
-  const chartData = useMemo(() => {
-    if (!filteredHistory || !Array.isArray(filteredHistory) || filteredHistory.length === 0) {
-      console.log('📊 No engagement history data available');
-      return [];
-    }
-    
-    const formatted = filteredHistory.map((point) => ({
-      y: point?.engagement || 0,
-      label: point?.date ? new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''
-    }));
-    
-    console.log('📊 Engagement History:', filteredHistory);
-    console.log('📊 Formatted Chart Data:', formatted);
-    
-    return formatted;
-  }, [filteredHistory]);
 
   const formatLastUpdated = (timestamp) => {
     const date = new Date(timestamp);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import useSWR from 'swr';
 import { useAuth } from '../../application/state/AuthContext';
 import { apiClient } from '../../infrastructure/api';
@@ -25,6 +25,11 @@ import { TeachingEffectivenessCard } from '../components/analytics/trainer/Teach
 const TrainerDashboard = () => {
   const { user } = useAuth();
   const trainerId = user?.id;
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const cardRefs = useRef([]);
 
   // Fetch all trainer analytics data
   const { data: analyticsData, error, isLoading } = useSWR(
@@ -40,6 +45,43 @@ const TrainerDashboard = () => {
 
   // Extract courseId from the first course in coursePerformance or use a default
   const courseId = analyticsData?.coursePerformance?.courses?.[0]?.id || 'default-course';
+  
+  const totalCards = 4; // Trainer has 4 cards
+
+  // Update wrapper height to match active card height
+  useEffect(() => {
+    const updateHeight = () => {
+      if (wrapperRef.current && cardRefs.current[currentIndex]) {
+        const activeCard = cardRefs.current[currentIndex];
+        const cardHeight = activeCard.offsetHeight;
+        wrapperRef.current.style.height = `${cardHeight}px`;
+      }
+    };
+
+    // Update height when index changes
+    updateHeight();
+    
+    // Update height when window resizes
+    window.addEventListener('resize', updateHeight);
+    
+    return () => window.removeEventListener('resize', updateHeight);
+  }, [currentIndex]);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? totalCards - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === totalCards - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
 
   if (!trainerId) {
     return (
@@ -80,38 +122,94 @@ const TrainerDashboard = () => {
           </div>
         </div>
 
-        {/* Analytics Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* AS-002 #7: Course Performance */}
-          <CoursePerformanceCard 
-            data={analyticsData?.coursePerformance}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-002 #8: Course Health */}
-          <CourseHealthCard 
-            data={analyticsData?.courseHealth}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-002 #9: Student Distribution */}
-          <StudentDistributionCard 
-            trainerId={trainerId}
-            courseId={courseId}
-            data={analyticsData?.studentDistribution}
-            isLoading={isLoading}
-            error={error}
-          />
-          
-          {/* AS-002 #10: Teaching Effectiveness */}
-          <TeachingEffectivenessCard 
-            trainerId={trainerId}
-            data={analyticsData?.teachingEffectiveness}
-            isLoading={isLoading}
-            error={error}
-          />
+        {/* Analytics Cards Carousel */}
+        <div className="carousel-container relative">
+          {/* Left Navigation Button */}
+          <button
+            onClick={goToPrevious}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Previous cards"
+          >
+            ←
+          </button>
+
+          {/* Cards Container */}
+          <div ref={wrapperRef} className="cards-carousel-wrapper overflow-hidden">
+            <div 
+              ref={carouselRef}
+              className="cards-carousel flex"
+              style={{
+                transform: `translateX(-${currentIndex * 100}%)`,
+                transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                marginTop: '10px',
+                marginBottom: '10px',
+              }}
+            >
+              {/* AS-002 #7: Course Performance */}
+              <div ref={(el) => cardRefs.current[0] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <CoursePerformanceCard 
+                  data={analyticsData?.coursePerformance}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+              
+              {/* AS-002 #8: Course Health */}
+              <div ref={(el) => cardRefs.current[1] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <CourseHealthCard 
+                  data={analyticsData?.courseHealth}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+              
+              {/* AS-002 #9: Student Distribution */}
+              <div ref={(el) => cardRefs.current[2] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <StudentDistributionCard 
+                  trainerId={trainerId}
+                  courseId={courseId}
+                  data={analyticsData?.studentDistribution}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+              
+              {/* AS-002 #10: Teaching Effectiveness */}
+              <div ref={(el) => cardRefs.current[3] = el} style={{ width: '100%', flexShrink: 0 }}>
+                <TeachingEffectivenessCard 
+                  trainerId={trainerId}
+                  data={analyticsData?.teachingEffectiveness}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Right Navigation Button */}
+          <button
+            onClick={goToNext}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Next cards"
+          >
+            →
+          </button>
+
+          {/* Carousel Indicators */}
+          <div className="flex justify-center gap-2 mt-6">
+            {Array.from({ length: totalCards }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`h-2 transition-all duration-300 rounded-full ${
+                  index === currentIndex 
+                    ? 'w-8 bg-emerald-500' 
+                    : 'w-2 bg-gray-300 dark:bg-gray-600'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Quick Actions */}
@@ -120,24 +218,16 @@ const TrainerDashboard = () => {
             Quick Actions
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-cyan-700 hover:bg-cyan-800 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-            >
+            <button className="quick-action-btn analytics-btn">
               👥 Manage Students
             </button>
-            <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-amber-500 hover:bg-amber-600 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
-            >
+            <button className="quick-action-btn report-btn">
               📚 Course Management
             </button>
-            <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-purple-600 hover:bg-purple-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-            >
+            <button className="quick-action-btn achievements-btn">
               📊 Detailed Analytics
             </button>
-            <button 
-              className="px-6 py-3 rounded-lg font-medium transition-colors duration-200 bg-emerald-600 hover:bg-emerald-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-            >
+            <button className="quick-action-btn analytics-btn">
               📄 Generate Report
             </button>
           </div>

@@ -215,6 +215,9 @@ const DropOffRiskCard = ({
                 title="Engagement patterns and risk threshold"
                 width={400}
                 height={200}
+                xAxisLabel="Time"
+                yAxisLabel="Engagement Score"
+                responsive={true}
               />
             ) : viewType === 'table' ? (
               <DataTable 
@@ -230,6 +233,9 @@ const DropOffRiskCard = ({
                 title="Engagement patterns and risk threshold"
                 width={400}
                 height={200}
+                xAxisLabel="Time"
+                yAxisLabel="Engagement Score"
+                responsive={true}
               />
             )}
           </div>

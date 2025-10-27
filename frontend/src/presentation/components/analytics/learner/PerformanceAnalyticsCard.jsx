@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { LineChart } from '../../charts/LineChart';
+import { BarChart } from '../../charts/BarChart';
+import { DataTable } from '../../charts/DataTable';
 import StatCard from '../../common/StatCard';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
@@ -35,6 +37,7 @@ export const PerformanceAnalyticsCard = ({
   className = '' 
 }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [viewType, setViewType] = useState('line');
 
   // Extract data early (before any early returns) to follow Rules of Hooks
   const { 
@@ -363,27 +366,68 @@ export const PerformanceAnalyticsCard = ({
 
         {/* Performance History Chart */}
         <div className="chart-section">
-          <h4>Performance Trend</h4>
+          <div className="section-header">
+            <h4>Performance Trend</h4>
+            <div className="chart-controls">
+              <label htmlFor="performance-view-type-selector">View:</label>
+              <select
+                id="performance-view-type-selector"
+                value={viewType}
+                onChange={(e) => setViewType(e.target.value)}
+                aria-label="Select view type"
+              >
+                <option value="line">Line Chart</option>
+                <option value="bar">Bar Chart</option>
+                <option value="table">Data Table</option>
+              </select>
+            </div>
+          </div>
           <div 
             className="performance-chart"
             data-testid="performance-chart"
             role="img"
             aria-label={`Performance trend showing ${performancePercentage}% overall performance`}
           >
-            <LineChart 
-              data={chartData}
-              width={400}
-              height={200}
-              color="#047857"
-              strokeWidth={2}
-              showGrid={true}
-              showPoints={true}
-              showTooltip={true}
-              xAxisLabel="Time"
-              yAxisLabel="Performance %"
-              responsive={true}
-            />
-            {chartData.map((point, index) => (
+            {viewType === 'bar' ? (
+              <div className="bar-chart-container">
+                <BarChart 
+                  data={chartData}
+                  width={400}
+                  height={200}
+                  color="#047857"
+                  showGrid={true}
+                  showTooltip={true}
+                  xAxisLabel="Time"
+                  yAxisLabel="Performance %"
+                  responsive={true}
+                />
+              </div>
+            ) : viewType === 'table' ? (
+              <DataTable 
+                data={performanceHistory}
+                columns={[
+                  { key: 'date', label: 'Date', render: (val) => val ? new Date(val).toLocaleDateString() : '-' },
+                  { key: 'score', label: 'Score', render: (val) => val ? `${Math.round(val * 100)}%` : '0%' }
+                ]}
+              />
+            ) : (
+              <div className="line-chart-container">
+                <LineChart 
+                  data={chartData}
+                  width={400}
+                  height={200}
+                  color="#047857"
+                  strokeWidth={2}
+                  showGrid={true}
+                  showPoints={true}
+                  showTooltip={true}
+                  xAxisLabel="Time"
+                  yAxisLabel="Performance %"
+                  responsive={true}
+                />
+              </div>
+            )}
+            {viewType === 'line' && chartData.map((point, index) => (
               <div
                 key={index}
                 className="chart-point"

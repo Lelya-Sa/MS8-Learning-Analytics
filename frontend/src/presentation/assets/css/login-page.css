@@ -166,11 +166,11 @@
 
 .login-card {
     width: 100%;
-    max-width: 480px;
+    max-width: 650px;
     background: var(--gradient-card);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: var(--spacing-2xl);
+    padding: var(--spacing-md);
     box-shadow: var(--shadow-card);
     backdrop-filter: blur(20px);
     position: relative;
@@ -195,13 +195,21 @@
 /* Login Card Header */
 .login-card-header {
     text-align: center;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-sm);
+}
+
+.login-card-header h1,
+.login-card-header p {
+    margin: 0;
+    padding: 0;
 }
 
 .login-welcome-icon {
-    font-size: 3rem;
-    margin-bottom: var(--spacing-md);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
     animation: loginPulse 2s ease-in-out infinite;
+    display: block;
+    line-height: 1;
 }
 
 @keyframes loginPulse {
@@ -211,9 +219,11 @@
 
 .login-title {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: var(--spacing-sm);
+    margin: 0;
+    margin-bottom: 0.25rem;
+    line-height: 1.1;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -222,17 +232,19 @@
 
 .login-subtitle {
     color: var(--text-secondary);
-    font-size: 1rem;
+    font-size: 0.85rem;
     margin: 0;
+    padding: 0;
+    line-height: 1.2;
 }
 
 /* Login Form */
 .login-form {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-sm);
 }
 
 .form-group {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 0.75rem;
 }
 
 .form-label {
@@ -241,8 +253,8 @@
     gap: var(--spacing-xs);
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: var(--spacing-xs);
-    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
 }
 
 .form-label-icon {
@@ -251,12 +263,12 @@
 
 .form-input {
     width: 100%;
-    padding: var(--spacing-md);
+    padding: 0.5rem;
     border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     background: var(--bg-secondary);
     color: var(--text-primary);
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
     box-sizing: border-box;
 }
@@ -344,12 +356,12 @@
 /* Login Button */
 .login-button {
     width: 100%;
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: 0.6rem var(--spacing-md);
     background: var(--gradient-primary);
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -404,15 +416,15 @@
     background: var(--bg-secondary);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
+    padding: 0.75rem;
+    margin-bottom: var(--spacing-sm);
 }
 
 .demo-credentials-header {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 0.5rem;
 }
 
 .demo-credentials-icon {
@@ -420,20 +432,21 @@
 }
 
 .demo-credentials-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
 }
 
 .demo-credentials-password {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
     flex-wrap: wrap;
+    line-height: 1.2;
 }
 
 .demo-password-code {
@@ -450,14 +463,14 @@
 .demo-credentials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-sm);
+    gap: 0.5rem;
 }
 
 .demo-credential-button {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-sm);
+    gap: var(--spacing-xs);
+    padding: 0.5rem;
     background: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
@@ -504,7 +517,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
 }
 
 .forgot-password-link {

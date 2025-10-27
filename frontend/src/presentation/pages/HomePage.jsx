@@ -91,10 +91,6 @@ const HomePage = () => {
                 <span className="login-icon">🔐</span>
                 <span>Login</span>
               </Link>
-              <Link to="/analytics" className="dashboard-button">
-                <span className="dashboard-icon">📊</span>
-                <span>Dashboard</span>
-              </Link>
             </div>
           </div>
         </div>

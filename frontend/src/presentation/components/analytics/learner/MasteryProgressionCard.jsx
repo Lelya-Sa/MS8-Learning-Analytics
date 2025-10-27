@@ -354,17 +354,19 @@ export const MasteryProgressionCard = ({
             aria-label={`Mastery trend showing ${masteryPercentage}% overall mastery`}
           >
             {viewType === 'bar' ? (
-              <BarChart 
-                data={chartData}
-                width={400}
-                height={200}
-                color="#047857"
-                showGrid={true}
-                showTooltip={true}
-                xAxisLabel="Time"
-                yAxisLabel="Mastery %"
-                responsive={true}
-              />
+              <div className="bar-chart-container">
+                <BarChart 
+                  data={chartData}
+                  width={400}
+                  height={200}
+                  color="#047857"
+                  showGrid={true}
+                  showTooltip={true}
+                  xAxisLabel="Time"
+                  yAxisLabel="Mastery %"
+                  responsive={true}
+                />
+              </div>
             ) : viewType === 'table' ? (
               <DataTable 
                 data={masteryHistory}
@@ -374,19 +376,21 @@ export const MasteryProgressionCard = ({
                 ]}
               />
             ) : (
-              <LineChart 
-                data={chartData}
-                width={400}
-                height={200}
-                color="#047857"
-                strokeWidth={2}
-                showGrid={true}
-                showPoints={true}
-                showTooltip={true}
-                xAxisLabel="Time"
-                yAxisLabel="Mastery %"
-                responsive={true}
-              />
+              <div className="line-chart-container">
+                <LineChart 
+                  data={chartData}
+                  width={400}
+                  height={200}
+                  color="#047857"
+                  strokeWidth={2}
+                  showGrid={true}
+                  showPoints={true}
+                  showTooltip={true}
+                  xAxisLabel="Time"
+                  yAxisLabel="Mastery %"
+                  responsive={true}
+                />
+              </div>
             )}
             {chartData.map((point, index) => (
               <div

@@ -217,10 +217,10 @@ const Header = ({ onToggleSidebar, sidebarCollapsed, isMobile }) => {
                 <span className="login-icon">🔑</span>
                 <span>Login</span>
               </NavLink>
-              <NavLink to="/dashboard" className="dashboard-button">
+              {/* <NavLink to="/dashboard" className="dashboard-button">
                 <span className="dashboard-icon">📊</span>
                 <span>Dashboard</span>
-              </NavLink>
+              </NavLink> */}
             </div>
           )}
         </div>

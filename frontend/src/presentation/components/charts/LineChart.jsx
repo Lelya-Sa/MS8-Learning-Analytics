@@ -136,6 +136,11 @@ export const LineChart = ({
     preserveAspectRatio: 'xMidYMid meet'
   };
 
+  // Calculate border-sensitive positions for axis labels
+  const xAxisLabelY = height - 8; // Position above bottom border
+  const yAxisLabelX = Math.max(8, margin.left / 4); // Position well inside left margin
+  const yAxisLabelY = height / 2; // Center vertically
+
   return (
     <div className={`line-chart-container ${className}`} style={containerStyle} {...props}>
       <div className="relative" style={{ width: '100%', minHeight: '200px' }}>
@@ -208,7 +213,7 @@ export const LineChart = ({
                     {chartData.length > 0 && chartData[i] && (
                       <text
                         x={x}
-                        y={margin.top + chartDimensions.chartHeight + 16}
+                        y={margin.top + chartDimensions.chartHeight + 12}
                         textAnchor="middle"
                         fill="#6b7280"
                         fontSize="10"
@@ -235,7 +240,7 @@ export const LineChart = ({
                       strokeWidth="1"
                     />
                     <text
-                      x={margin.left - 8}
+                      x={margin.left - 12}
                       y={y + 3}
                       textAnchor="end"
                       fill="#6b7280"
@@ -384,10 +389,11 @@ export const LineChart = ({
           {xAxisLabel && (
             <text
               x={width / 2}
-              y={height - 10}
+              y={xAxisLabelY}
               textAnchor="middle"
               fill="#6b7280"
-              fontSize="12"
+              fontSize="11"
+              fontWeight="500"
             >
               {xAxisLabel}
             </text>
@@ -395,12 +401,13 @@ export const LineChart = ({
           
           {yAxisLabel && (
             <text
-              x="20"
-              y={height / 2}
+              x={yAxisLabelX}
+              y={yAxisLabelY}
               textAnchor="middle"
               fill="#6b7280"
-              fontSize="12"
-              transform={`rotate(-90, 20, ${height / 2})`}
+              fontSize="11"
+              fontWeight="500"
+              transform={`rotate(-90, ${yAxisLabelX}, ${yAxisLabelY})`}
             >
               {yAxisLabel}
             </text>
