@@ -169,8 +169,10 @@ MS8-Learning-Analytics/
 ```
 frontend/
 ├── src/
-│   ├── presentation/          # UI Layer (React Components)
-│   │   ├── pages/            # Route pages
+│   │
+│   ├── presentation/          # 🎨 UI LAYER (React Components)
+│   │   │
+│   │   ├── pages/            # 📄 Route Pages (8 files)
 │   │   │   ├── HomePage.jsx                 # Landing page
 │   │   │   ├── LoginPage.jsx                # Authentication
 │   │   │   ├── LearnerDashboard.jsx         # Learner dashboard
@@ -181,65 +183,179 @@ frontend/
 │   │   │   ├── SettingsPage.jsx             # User settings
 │   │   │   └── NotFoundPage.jsx             # 404 page
 │   │   │
-│   │   ├── components/       # Reusable components
-│   │   │   ├── analytics/    # Analytics cards
-│   │   │   │   ├── learner/        # 6 learner analytics cards
-│   │   │   │   ├── trainer/        # 4 trainer analytics cards
-│   │   │   │   ├── organization/   # 4 org analytics cards
-│   │   │   │   └── comparison/     # 5 comparison cards
-│   │   │   ├── auth/         # Authentication components
-│   │   │   ├── charts/       # Chart.js wrappers
-│   │   │   ├── common/       # Shared UI components
-│   │   │   ├── gamification/ # Gamification UI
-│   │   │   ├── layout/       # Layout components (Header, Footer, etc.)
-│   │   │   ├── optimization/ # Performance optimization
-│   │   │   └── reports/      # Report generation UI
+│   │   ├── components/       # 🧩 Reusable Components (19+ components)
+│   │   │   │
+│   │   │   ├── analytics/    # 📊 Analytics Cards (19 cards)
+│   │   │   │   ├── learner/                 # 6 learner cards
+│   │   │   │   │   ├── PerformanceAnalyticsCard.jsx
+│   │   │   │   │   ├── EngagementMetricsCard.jsx
+│   │   │   │   │   ├── LearningVelocityCard.jsx
+│   │   │   │   │   ├── SkillGapMatrixCard.jsx
+│   │   │   │   │   ├── MasteryProgressionCard.jsx
+│   │   │   │   │   └── ContentEffectivenessCard.jsx
+│   │   │   │   │
+│   │   │   │   ├── trainer/                 # 4 trainer cards
+│   │   │   │   │   ├── TeachingEffectivenessCard.jsx
+│   │   │   │   │   ├── CourseHealthCard.jsx
+│   │   │   │   │   ├── StudentDistributionCard.jsx
+│   │   │   │   │   └── CoursePerformanceCard.jsx
+│   │   │   │   │
+│   │   │   │   ├── organization/            # 4 org cards
+│   │   │   │   │   ├── OrgLearningVelocityCard.jsx
+│   │   │   │   │   ├── StrategicAlignmentCard.jsx
+│   │   │   │   │   ├── LearningCultureCard.jsx
+│   │   │   │   │   └── OrgBenchmarkingCard.jsx
+│   │   │   │   │
+│   │   │   │   └── comparison/              # 5 comparison cards
+│   │   │   │       ├── PeerComparisonCard.jsx
+│   │   │   │       ├── PerformanceForecastCard.jsx
+│   │   │   │       ├── SkillDemandCard.jsx
+│   │   │   │       ├── RecommendationsCard.jsx
+│   │   │   │       └── DropOffRiskCard.jsx
+│   │   │   │
+│   │   │   ├── auth/         # 🔐 Authentication (3 files)
+│   │   │   │   ├── ProtectedRoute.jsx
+│   │   │   │   ├── RoleSelector.jsx
+│   │   │   │   └── RoleSwitcher.jsx
+│   │   │   │
+│   │   │   ├── charts/       # 📈 Chart Components (Chart.js wrappers)
+│   │   │   │   ├── BarChart.jsx
+│   │   │   │   ├── LineChart.jsx
+│   │   │   │   ├── PieChart.jsx
+│   │   │   │   ├── AnalyticsChart.jsx
+│   │   │   │   └── DataTable.jsx
+│   │   │   │
+│   │   │   ├── common/       # 🧰 Shared UI Components (11 files)
+│   │   │   │   ├── Button.jsx
+│   │   │   │   ├── Card.jsx
+│   │   │   │   ├── Input.jsx
+│   │   │   │   ├── Modal.jsx
+│   │   │   │   ├── Toast.jsx
+│   │   │   │   ├── Spinner.jsx
+│   │   │   │   ├── ProgressBar.jsx
+│   │   │   │   ├── StatCard.jsx
+│   │   │   │   ├── GradientSection.jsx
+│   │   │   │   ├── ErrorBoundary.jsx
+│   │   │   │   └── ApiErrorHandler.jsx
+│   │   │   │
+│   │   │   ├── gamification/ # 🎮 Gamification (4 files)
+│   │   │   │   ├── AchievementBadge.jsx
+│   │   │   │   ├── PointsDisplay.jsx
+│   │   │   │   ├── StreakDisplay.jsx
+│   │   │   │   └── LeaderboardTable.jsx
+│   │   │   │
+│   │   │   ├── layout/       # 🏗️ Layout Components (9 files)
+│   │   │   │   ├── Header.jsx
+│   │   │   │   ├── Footer.jsx
+│   │   │   │   ├── Sidebar.jsx
+│   │   │   │   ├── Navigation.jsx
+│   │   │   │   ├── Layout.jsx
+│   │   │   │   ├── AppLayout.jsx
+│   │   │   │   ├── DashboardLayout.jsx
+│   │   │   │   ├── MainLayout.jsx
+│   │   │   │   └── MainContent.jsx
+│   │   │   │
+│   │   │   ├── optimization/ # ⚡ Performance (1 file)
+│   │   │   │   └── PerformanceOptimizer.jsx
+│   │   │   │
+│   │   │   ├── reports/      # 📄 Reports (3 files)
+│   │   │   │   ├── ReportGenerator.jsx
+│   │   │   │   ├── ReportPreview.jsx
+│   │   │   │   └── ReportHistory.jsx
+│   │   │   │
+│   │   │   └── tables/      # 📋 Data Tables (1 file)
+│   │   │       └── DataTable.jsx
 │   │   │
-│   │   ├── assets/          # Static assets
-│   │   │   ├── css/         # Component-specific styles
-│   │   │   └── img/         # Images
+│   │   ├── assets/          # 🎨 Static Assets
+│   │   │   ├── css/        # Stylesheets (12 CSS files)
+│   │   │   │   ├── theme.css              # CSS variables & theme
+│   │   │   │   ├── landing.css            # Landing page styles
+│   │   │   │   ├── login-page.css         # Login page styles
+│   │   │   │   ├── header.css             # Header styles
+│   │   │   │   ├── footer.css             # Footer styles
+│   │   │   │   ├── navigation.css         # Navigation styles
+│   │   │   │   ├── dashboard-layout.css   # Dashboard layout
+│   │   │   │   ├── multi-role-dashboard.css # Multi-role styles
+│   │   │   │   ├── pages-common.css       # Common page styles
+│   │   │   │   ├── analytics-cards.css    # Analytics card styles
+│   │   │   │   ├── reports.css            # Report page styles
+│   │   │   │   └── presentation.css       # Presentation styles
+│   │   │   │
+│   │   │   └── img/        # Images
+│   │   │       ├── logo_day.jpg
+│   │   │       └── logo_night.jpg
+│   │   │
+│   │   ├── layouts/         # 📐 Layout Templates (empty for now)
+│   │   │
+│   │   ├── utils/           # 🔧 Utility Functions
+│   │   │   └── chartUtils.js
 │   │   │
 │   │   └── App.jsx          # Main app component with routing
 │   │
-│   ├── application/         # Business Logic Layer
-│   │   ├── hooks/          # Custom React hooks
+│   ├── application/         # 💼 BUSINESS LOGIC LAYER
+│   │   │
+│   │   ├── hooks/          # 🪝 Custom React Hooks
 │   │   │   ├── useAuth.js            # Authentication logic
 │   │   │   ├── useAnalytics.js       # Analytics data fetching
 │   │   │   ├── useGamification.js    # Gamification logic
 │   │   │   ├── useApiError.js        # API error handling
 │   │   │   └── useReports.js         # Report generation
 │   │   │
-│   │   ├── services/       # Business services
+│   │   ├── services/       # 🛠️ Business Services
 │   │   │   ├── AuthService.js        # Auth operations
 │   │   │   ├── analyticsService.js   # Analytics operations
 │   │   │   ├── GamificationService.js # Gamification operations
-│   │   │   └── api.js                # API client
+│   │   │   ├── IAnalyticsService.js   # Service interfaces
+│   │   │   ├── ICacheService.js       # Cache interface
+│   │   │   ├── api.js                 # API client
+│   │   │   └── DIContainer.js         # Dependency injection
 │   │   │
-│   │   ├── state/          # State management (Context API)
+│   │   ├── state/          # 🗂️ State Management (Context API)
 │   │   │   ├── AuthContext.jsx       # Auth state
 │   │   │   └── ThemeContext.jsx      # Theme state
 │   │   │
-│   │   └── useCases/       # Use cases (business logic)
-│   │       ├── AuthUseCase.js
-│   │       ├── GetLearnerAnalyticsUseCase.js
-│   │       └── RefreshAnalyticsUseCase.js
+│   │   ├── useCases/       # 📋 Use Cases (Business Logic)
+│   │   │   ├── AuthUseCase.js
+│   │   │   ├── GetLearnerAnalyticsUseCase.js
+│   │   │   ├── RefreshAnalyticsUseCase.js
+│   │   │   ├── SwitchRoleUseCase.js
+│   │   │   ├── RefreshAnalyticsUseCase.test.js
+│   │   │   └── SwitchRoleUseCase.test.js
+│   │   │
+│   │   └── utils/          # 🔧 Application Utilities
+│   │       └── env.js
 │   │
-│   ├── infrastructure/     # External Services Layer
-│   │   ├── api/           # API clients and adapters
-│   │   ├── cache/         # Caching mechanisms
-│   │   └── external/      # External service integrations
+│   ├── infrastructure/     # 🔌 INFRASTRUCTURE LAYER
+│   │   │
+│   │   ├── api/           # 🌐 API Clients & Adapters
+│   │   │   ├── AnalyticsServiceAdapter.js
+│   │   │   ├── UnifiedApiClient.js
+│   │   │   ├── LocalStorageCacheAdapter.js
+│   │   │   ├── index.js
+│   │   │   ├── ApiClient.test.js
+│   │   │   └── LocalStorageCacheAdapter.test.js
+│   │   │
+│   │   ├── config/        # ⚙️ Configuration
+│   │   │
+│   │   ├── external/      # 🔗 External Services
+│   │   │
+│   │   └── utils/         # 🔧 Infrastructure Utilities
 │   │
-│   ├── domain/            # Core Business Logic
+│   ├── domain/            # 🏛️ DOMAIN LAYER (Core Business Logic)
 │   │   ├── entities/      # Business entities
 │   │   ├── interfaces/    # Service interfaces
 │   │   └── models/        # Domain models
 │   │
-│   ├── test/              # Test Suite
+│   ├── test/              # 🧪 TEST SUITE
+│   │   │
 │   │   ├── application/   # Application layer tests
-│   │   │   ├── hooks/     # Hook tests (useGamification.test.js)
-│   │   │   ├── services/  # Service tests (GamificationService.test.js)
+│   │   │   ├── hooks/     # Hook tests
+│   │   │   │   └── useGamification.test.js
+│   │   │   ├── services/  # Service tests
+│   │   │   │   └── GamificationService.test.js
 │   │   │   ├── auth-context.test.jsx
 │   │   │   ├── auth-service.test.js
+│   │   │   ├── hooks.test.jsx
 │   │   │   └── theme-context.test.jsx
 │   │   │
 │   │   ├── infrastructure/ # Infrastructure tests
@@ -250,28 +366,50 @@ frontend/
 │   │   │   │   ├── auth/      # Auth component tests
 │   │   │   │   ├── optimization/
 │   │   │   │   └── reports/   # Report component tests
-│   │   │   ├── pages/     # Page tests (SettingsPage.test.jsx)
+│   │   │   ├── pages/     # Page tests
+│   │   │   │   └── SettingsPage.test.jsx
+│   │   │   ├── dark-emerald-theme.test.jsx
+│   │   │   ├── layout-components.test.jsx
 │   │   │   └── login-page.test.jsx
 │   │   │
-│   │   ├── mocks/         # Mock data and services
+│   │   ├── mocks/         # Mock data & services
 │   │   │   ├── api-client.js
 │   │   │   ├── handlers.js
 │   │   │   └── server.js
 │   │   │
-│   │   └── setup.js       # Test configuration
+│   │   ├── setup.js       # Test configuration
+│   │   ├── config.js      # Test config
+│   │   └── utils/         # Test utilities
 │   │
-│   ├── __mocks__/         # Jest mocks
+│   ├── __mocks__/         # 🎭 Jest Mocks
+│   │   └── infrastructure/api/index.js
+│   │
 │   ├── styles.css         # Main CSS entry point
-│   └── main.jsx           # React entry point
+│   └── main.jsx          # React entry point
 │
-├── public/                # Static public assets
-├── dist/                  # Production build output
-├── package.json           # Dependencies
-├── vite.config.js         # Vite configuration
-├── tailwind.config.js     # Tailwind CSS configuration
-├── jest.config.cjs        # Jest test configuration
-├── babel.config.cjs       # Babel configuration
-└── vercel.json            # Vercel deployment configuration
+├── public/                # 🌐 Public Static Assets
+│   └── img/
+│       ├── logo_day.jpg
+│       └── logo_night.jpg
+│
+├── dist/                  # 📦 Production Build Output
+│   ├── assets/
+│   └── index.html
+│
+├── coverage/              # 📊 Test Coverage Reports
+│   └── lcov-report/
+│
+├── package.json           # 📦 Dependencies
+├── package-lock.json      # 🔒 Lock file
+├── vite.config.js         # ⚡ Vite configuration
+├── tailwind.config.js     # 🎨 Tailwind CSS configuration
+├── postcss.config.js      # 🖌️ PostCSS configuration
+├── jest.config.cjs        # 🧪 Jest test configuration
+├── babel.config.cjs       # 🔄 Babel configuration
+├── jsconfig.json          # ⚙️ JavaScript config
+├── index.html             # Entry HTML
+├── env.example            # Environment variables example
+└── vercel.json            # 🚀 Vercel deployment configuration
 ```
 
 ### Key Frontend Components

@@ -41,7 +41,7 @@ export const OrgLearningVelocityCard = ({ organizationId, data: propData, isLoad
     return 'text-gray-600';
   };
 
-  const className = "bg-white rounded-lg shadow-md p-6"; // Define a base class name
+  const className = ""; // Use emerald theme card styling from CSS
 
   if (isLoading) {
     return (

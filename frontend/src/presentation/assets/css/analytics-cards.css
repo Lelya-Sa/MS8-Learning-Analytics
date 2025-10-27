@@ -8058,8 +8058,8 @@ span.skill-category {
 .student-distribution-card .distribution-section .grid > div {
   border: 3px solid !important;
   border-radius: 0.75rem;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.15) 0%, rgba(5, 150, 105, 0.1) 100%) !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -8103,11 +8103,12 @@ span.skill-category {
 }
 
 .night-mode .student-distribution-card .distribution-section .grid > div {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.25) 0%, rgba(5, 150, 105, 0.2) 100%) !important;
 }
 
 .night-mode .student-distribution-card .distribution-section .grid > div:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
 }
 
 /* Numbers in distribution cards */
@@ -8129,7 +8130,7 @@ span.skill-category {
 /* Visual Distribution Bar */
 .student-distribution-card .visual-distribution-section {
   padding: 1.5rem;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.15) 0%, rgba(5, 150, 105, 0.1) 100%);
   border-radius: 0.75rem;
   border: 3px solid #10b981;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
@@ -8138,12 +8139,13 @@ span.skill-category {
 .night-mode .student-distribution-card .visual-distribution-section {
   border: 3px solid #10b981;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.25) 0%, rgba(5, 150, 105, 0.2) 100%);
 }
 
 .student-distribution-card .relative.h-12 {
   border-radius: 0.5rem;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(16, 185, 129, 0.2);
+  box-shadow: inset 0 2px 4px rgba(16, 185, 129, 0.1);
 }
 
 .student-distribution-card .relative.h-12 > div {
@@ -8160,8 +8162,8 @@ span.skill-category {
 /* Insights Section */
 .student-distribution-card .insights-section .grid > div {
   border: 3px solid !important;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.2) 0%, rgba(5, 150, 105, 0.15) 100%) !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
@@ -8212,11 +8214,12 @@ span.skill-category {
 }
 
 .night-mode .student-distribution-card .insights-section .grid > div {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.3) 0%, rgba(5, 150, 105, 0.25) 100%) !important;
 }
 
 .night-mode .student-distribution-card .insights-section .grid > div:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
 }
 
 /* Insight numbers */
@@ -8763,4 +8766,210 @@ span.skill-category {
 .night-mode .student-distribution-card .last-updated {
   border-top-color: #374151;
   background: transparent !important;
+}
+
+/* ==================== ORGANIZATION CARDS STYLING ==================== */
+
+/* Base card styling for all organization cards */
+.org-learning-velocity-card,
+.strategic-alignment-card,
+.learning-culture-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #e5e7eb;
+}
+
+.org-learning-velocity-card:hover,
+.strategic-alignment-card:hover,
+.learning-culture-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3), 0 8px 10px -6px rgba(16, 185, 129, 0.3);
+  border-color: #10b981;
+}
+
+.night-mode .org-learning-velocity-card,
+.night-mode .strategic-alignment-card,
+.night-mode .learning-culture-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.night-mode .org-learning-velocity-card:hover,
+.night-mode .strategic-alignment-card:hover,
+.night-mode .learning-culture-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4), 0 8px 10px -6px rgba(16, 185, 129, 0.4);
+  border-color: #34d399;
+}
+
+/* Card headers for organization cards */
+.org-learning-velocity-card .card-header,
+.strategic-alignment-card .card-header,
+.learning-culture-card .card-header {
+  border-bottom: 3px solid #10b981;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.night-mode .org-learning-velocity-card .card-header,
+.night-mode .strategic-alignment-card .card-header,
+.night-mode .learning-culture-card .card-header {
+  border-bottom-color: #34d399;
+}
+
+/* Section titles with emerald theme */
+.org-learning-velocity-card .section-title,
+.strategic-alignment-card .section-title,
+.learning-culture-card .section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #10b981;
+}
+
+.night-mode .org-learning-velocity-card .section-title,
+.night-mode .strategic-alignment-card .section-title,
+.night-mode .learning-culture-card .section-title {
+  color: #f9fafb;
+  border-bottom-color: #34d399;
+}
+
+/* Department breakdown cards with emerald accents */
+.org-learning-velocity-card .department-section .grid > div,
+.strategic-alignment-card .strategic-goals-section .border-2 {
+  border: 2px solid #e5e7eb;
+  background: #ffffff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.org-learning-velocity-card .department-section .grid > div:hover,
+.strategic-alignment-card .strategic-goals-section .border-2:hover {
+  border-color: #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.night-mode .org-learning-velocity-card .department-section .grid > div,
+.night-mode .strategic-alignment-card .strategic-goals-section .border-2 {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.night-mode .org-learning-velocity-card .department-section .grid > div:hover,
+.night-mode .strategic-alignment-card .strategic-goals-section .border-2:hover {
+  border-color: #34d399;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+/* Staleness indicator with emerald theme */
+.org-learning-velocity-card .staleness-indicator,
+.strategic-alignment-card .staleness-indicator,
+.learning-culture-card .staleness-indicator {
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  color: #047857;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid #10b981;
+}
+
+.night-mode .org-learning-velocity-card .staleness-indicator,
+.night-mode .strategic-alignment-card .staleness-indicator,
+.night-mode .learning-culture-card .staleness-indicator {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+  color: #34d399;
+  border-color: #34d399;
+}
+
+/* ROI section emerald accents */
+.org-learning-velocity-card .roi-section {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+  border: 2px solid #10b981;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.night-mode .org-learning-velocity-card .roi-section {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%);
+  border-color: #34d399;
+}
+
+/* Strategic goals cards with emerald theme */
+.strategic-alignment-card .strategic-goals-section .border-2:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, #ffffff 100%);
+}
+
+.night-mode .strategic-alignment-card .strategic-goals-section .border-2:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, #1f2937 100%);
+}
+
+/* Gap analysis with emerald theme */
+.strategic-alignment-card .gap-analysis-section {
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  background: #ffffff;
+}
+
+.night-mode .strategic-alignment-card .gap-analysis-section {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.strategic-alignment-card .gap-analysis-section:hover {
+  border-color: #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.night-mode .strategic-alignment-card .gap-analysis-section:hover {
+  border-color: #34d399;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+/* Learning culture dimensions with emerald accents */
+.learning-culture-card .culture-dimensions-section > div {
+  border: 2px solid;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.learning-culture-card .culture-dimensions-section > div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.night-mode .learning-culture-card .culture-dimensions-section > div:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+/* Last updated with emerald theme */
+.org-learning-velocity-card .last-updated,
+.strategic-alignment-card .last-updated,
+.learning-culture-card .last-updated {
+  border-top: 2px solid #e5e7eb;
+  padding-top: 1rem;
+  margin-top: 1.5rem;
+  background: transparent !important;
+}
+
+.night-mode .org-learning-velocity-card .last-updated,
+.night-mode .strategic-alignment-card .last-updated,
+.night-mode .learning-culture-card .last-updated {
+  border-top-color: #374151;
+}
+
+.org-learning-velocity-card .last-updated span,
+.strategic-alignment-card .last-updated span,
+.learning-culture-card .last-updated span {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.night-mode .org-learning-velocity-card .last-updated span,
+.night-mode .strategic-alignment-card .last-updated span,
+.night-mode .learning-culture-card .last-updated span {
+  color: #34d399;
 }

@@ -33,7 +33,7 @@ export const LearningCultureCard = ({ organizationId, data: propData, isLoading:
   const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult.isLoading;
   const error = propError || hookResult.error;
 
-  const className = "bg-white rounded-lg shadow-md p-6"; // Define a base class name
+  const className = ""; // Use emerald theme card styling from CSS
 
   if (isLoading) {
     return (
@@ -83,7 +83,7 @@ export const LearningCultureCard = ({ organizationId, data: propData, isLoading:
   }
 
   return (
-    <div className="learning-culture-card bg-white rounded-lg shadow-md p-6" data-testid="learning-culture-card" role="region" aria-labelledby="learning-culture-title">
+    <div className="learning-culture-card" data-testid="learning-culture-card" role="region" aria-labelledby="learning-culture-title">
       <div className="card-header">
         <h3 id="learning-culture-title" className="text-2xl font-bold text-gray-900">Learning Culture Metrics</h3>
         <div className="staleness-indicator">

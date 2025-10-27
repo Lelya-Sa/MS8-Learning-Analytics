@@ -646,52 +646,58 @@ class OrgAnalyticsService {
 
     getLearningVelocity(orgId) {
         return {
-            overallVelocity: 0.76,
+            staleness: "fresh",
+            period: "Q1 2024",
+            overview: {
+                totalEmployees: 1247,
+                participationRate: 78,
+                skillsAcquiredThisQuarter: 2847,
+                activelyLearning: 972,
+                certificationsEarned: 156
+            },
+            roiMetrics: {
+                roi: 285,
+                costPerSkillAcquired: 125.50,
+                trainingInvestment: 356750,
+                productivityGains: 1423000,
+                calculationMethod: "Baseline comparison with prior quarter",
+                averageTimeToSkill: "6.5 weeks"
+            },
             departmentBreakdown: [
                 {
                     departmentId: "dept-1",
                     departmentName: "Engineering",
-                    velocity: 0.82,
-                    learnerCount: 45,
-                    averageProgress: 0.78
+                    totalEmployees: 420,
+                    participationRate: 92,
+                    completionRate: 85,
+                    skillsAcquired: 1420,
+                    trend: "+15% increase"
                 },
                 {
                     departmentId: "dept-2",
                     departmentName: "Marketing",
-                    velocity: 0.71,
-                    learnerCount: 23,
-                    averageProgress: 0.65
+                    totalEmployees: 190,
+                    participationRate: 75,
+                    completionRate: 68,
+                    skillsAcquired: 450,
+                    trend: "+8% increase"
+                },
+                {
+                    departmentId: "dept-3",
+                    departmentName: "Sales",
+                    totalEmployees: 320,
+                    participationRate: 88,
+                    completionRate: 82,
+                    skillsAcquired: 987,
+                    trend: "+12% increase"
                 }
             ],
             trends: {
-                velocity: "increasing",
-                trendPercentage: 12.5,
-                timePeriod: "last_3_months"
+                quarterOverQuarter: "+15.2%",
+                yearOverYear: "+28.5%",
+                peakLearningMonth: "January 2024"
             },
-            benchmarks: {
-                industryAverage: 0.68,
-                topPerformers: 0.89,
-                percentile: 78
-            },
-            insights: [
-                {
-                    type: "positive",
-                    message: "Engineering department shows 15% above average velocity"
-                },
-                {
-                    type: "opportunity",
-                    message: "Marketing department could benefit from additional learning resources"
-                }
-            ],
-            recommendations: [
-                {
-                    departmentId: "dept-2",
-                    departmentName: "Marketing",
-                    action: "increase_learning_budget",
-                    priority: "medium",
-                    estimatedImpact: "10% velocity increase"
-                }
-            ]
+            lastUpdated: new Date().toISOString()
         };
     }
 

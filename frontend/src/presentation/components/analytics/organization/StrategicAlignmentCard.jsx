@@ -34,7 +34,7 @@ export const StrategicAlignmentCard = ({ organizationId, data: propData, isLoadi
   const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult.isLoading;
   const error = propError || hookResult.error;
 
-  const className = "bg-white rounded-lg shadow-md p-6"; // Define a base class name
+  const className = ""; // Use emerald theme card styling from CSS
 
   if (isLoading) {
     return (
@@ -84,7 +84,7 @@ export const StrategicAlignmentCard = ({ organizationId, data: propData, isLoadi
   }
 
   return (
-    <div className="strategic-alignment-card bg-white rounded-lg shadow-md p-6" data-testid="strategic-alignment-card" role="region" aria-labelledby="strategic-alignment-title">
+    <div className="strategic-alignment-card" data-testid="strategic-alignment-card" role="region" aria-labelledby="strategic-alignment-title">
       <div className="card-header">
         <h3 id="strategic-alignment-title" className="text-2xl font-bold text-gray-900">Strategic Alignment Tracking</h3>
         <div className="staleness-indicator">
