@@ -29,7 +29,7 @@ import { Button } from '../../common/Button';
 export const LearningCultureCard = ({ organizationId, data: propData, isLoading: propIsLoading, error: propError, onRetry }) => {
   const hookResult = useLearningCulture(organizationId);
 
-  const data = propData || hookResult.data?.data?.learningCulture;
+  const data = propData || hookResult.data?.data;
   const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult.isLoading;
   const error = propError || hookResult.error;
 

@@ -30,7 +30,7 @@ import { Button } from '../../common/Button';
 export const StrategicAlignmentCard = ({ organizationId, data: propData, isLoading: propIsLoading, error: propError, onRetry }) => {
   const hookResult = useStrategicAlignment(organizationId);
 
-  const data = propData || hookResult.data?.data?.strategicAlignment;
+  const data = propData || hookResult.data?.data;
   const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult.isLoading;
   const error = propError || hookResult.error;
 
