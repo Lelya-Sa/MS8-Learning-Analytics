@@ -31,7 +31,10 @@ export const OrgLearningVelocityCard = ({ organizationId, data: propData, isLoad
   const hookResult = useOrgLearningVelocity(organizationId);
 
   // Use prop data if provided (for testing), otherwise use hook data
+  console.log('🔍 OrgLearningVelocityCard - propData:', propData);
+  console.log('🔍 OrgLearningVelocityCard - hookResult?.data:', hookResult?.data);
   const data = propData || hookResult?.data?.data;
+  console.log('🔍 OrgLearningVelocityCard - final data:', data);
   const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult?.isLoading;
   const error = propError || hookResult?.error;
 

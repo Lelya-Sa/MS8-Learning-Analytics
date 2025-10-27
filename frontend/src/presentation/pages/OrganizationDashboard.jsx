@@ -46,6 +46,7 @@ const OrganizationDashboard = () => {
       // The API returns { data: {...}, cached: ..., ... }, so we extract the data property
       const data = response.data || response;
       console.log('📦 Extracted Analytics Data:', data);
+      console.log('📦 Learning Velocity Data:', data?.learningVelocity);
       return data;
     }
   );
