@@ -89,9 +89,7 @@ const Header = ({ onToggleSidebar, sidebarCollapsed, isMobile }) => {
       org_admin: [
         { path: '/dashboard/organization', label: 'My Dashboard', icon: '📊' },
         { path: '/courses', label: 'Courses', icon: '📚' },
-        { path: '/workers', label: 'Workers', icon: '👷' },
-        { path: '/organization', label: 'Organization', icon: '🏢' },
-        { path: '/users', label: 'Users', icon: '👤' }
+        { path: '/workers', label: 'Workers', icon: '👷' }
       ]
     };
 
