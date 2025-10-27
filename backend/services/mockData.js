@@ -645,6 +645,7 @@ class OrgAnalyticsService {
     }
 
     getLearningVelocity(orgId) {
+        // Updated structure for OrgLearningVelocityCard compatibility
         return {
             staleness: "fresh",
             period: "Q1 2024",
