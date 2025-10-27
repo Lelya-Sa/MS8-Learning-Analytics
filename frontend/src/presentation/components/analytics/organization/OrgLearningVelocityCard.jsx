@@ -34,8 +34,14 @@ export const OrgLearningVelocityCard = ({ organizationId, data: propData, isLoad
   console.log('🔍 OrgLearningVelocityCard - propData:', propData);
   console.log('🔍 OrgLearningVelocityCard - hookResult:', hookResult);
   console.log('🔍 OrgLearningVelocityCard - hookResult?.data:', hookResult?.data);
+  
+  // PRIORITY: Use prop data first (passed from OrganizationDashboard)
+  // Fall back to hook data (from useOrgLearningVelocity hook)
   const data = propData || (hookResult?.data?.data || hookResult?.data);
   console.log('🔍 OrgLearningVelocityCard - final data:', data);
+  console.log('🔍 OrgLearningVelocityCard - has data.overview?', !!data?.overview);
+  console.log('🔍 OrgLearningVelocityCard - has data.roiMetrics?', !!data?.roiMetrics);
+  
   const isLoading = propIsLoading !== undefined ? propIsLoading : hookResult?.isLoading;
   const error = propError || hookResult?.error;
 
