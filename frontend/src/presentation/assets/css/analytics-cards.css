@@ -6,9 +6,9 @@
   width: 100%;
   max-width: 100%;
   margin: 2rem auto;
-  padding: 0 4rem;
+  padding: 0 5rem;
   height: auto;
-  overflow: hidden;
+  overflow: visible;
   box-sizing: border-box;
   z-index: 1;
 }
@@ -129,11 +129,11 @@
 }
 
 .carousel-container button[aria-label="Previous cards"] {
-  left: -0.5rem;
+  left: 0.5rem;
 }
 
 .carousel-container button[aria-label="Next cards"] {
-  right: -0.5rem;
+  right: 0.5rem;
 }
 
 /* Carousel Indicators - Modern dot navigation */
