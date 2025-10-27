@@ -157,6 +157,45 @@ const PresentationPage = () => {
               </div>
             </div>
           </div>
+          <div className="journey-figma-link" style={{ marginTop: '30px', textAlign: 'center', pointerEvents: 'auto' }}>
+            <p style={{ marginBottom: '10px', fontSize: '1.1rem' }}>
+              📎 <strong>View Full Design & Architecture in Figma:</strong>
+            </p>
+            <a 
+              href="https://www.figma.com/board/gPOWvvDximLv0t9ioEpQVl/Learning-Analytics-Project?node-id=0-1&p=f&t=oug1NXxZq1k8OeGL-0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="figma-button"
+              style={{
+                display: 'inline-block',
+                padding: '12px 24px',
+                backgroundColor: 'var(--primary-color, #10b981)',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                cursor: 'pointer',
+                pointerEvents: 'auto',
+                zIndex: 10,
+                position: 'relative'
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(e.currentTarget.href, '_blank', 'noopener,noreferrer');
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              Open Figma Design →
+            </a>
+          </div>
         </div>
       )
     },
@@ -346,7 +385,7 @@ const PresentationPage = () => {
       content: (
         <div className="demo-section">
           <div className="demo-nav">
-            <Link to="/login" className="demo-button primary">
+            <Link to="/" className="demo-button primary">
               <span className="button-icon">🚀</span>
               <span>Start Exploring</span>
             </Link>
