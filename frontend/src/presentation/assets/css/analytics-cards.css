@@ -10,6 +10,7 @@
   height: auto;
   overflow: hidden;
   box-sizing: border-box;
+  z-index: 1;
 }
 
 /* Carousel Wrapper - Adapts to active card height */
@@ -24,6 +25,7 @@
   transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
   padding: 0.5rem 0;
+  z-index: 2;
 }
 
 /* Main Carousel - Flex container with smooth sliding */
@@ -50,6 +52,8 @@
   max-width: 100%;
   overflow: hidden;
   padding: 0.5rem 0;
+  position: relative;
+  z-index: 1;
 }
 
 /* Ensure all cards have consistent width but adaptive height */
@@ -75,7 +79,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%) scale(1);
-  z-index: 10;
+  z-index: 15;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   border-radius: 50%;
